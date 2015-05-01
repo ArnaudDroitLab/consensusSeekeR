@@ -4,7 +4,6 @@ sharedBed : Detect shared features inside a group of experiences using BED data
 ## Authors ##
 
 [Astrid Louise Deschenes](http://ca.linkedin.com/in/astriddeschenes "Astrid Louise Deschenes"), 
-Elsa Bernatchez, 
 [Fabien Claude Lamaze](http://ca.linkedin.com/in/fabienlamaze/en "Fabien Claude Lamaze"), 
 [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau") 
 and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud "Arnaud Droit").
