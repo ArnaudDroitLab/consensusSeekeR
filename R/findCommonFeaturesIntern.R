@@ -2,46 +2,39 @@
 #' 
 #' @description TODO
 #' 
-#' @param chrName an object of \code{class} "formula" which contains a symbolic
-#'          model formula.
-#' @param padding a \code{data.frame} containing the variables in the model.
-#' @param allPeaks a \code{GRanges} indicating which column from the 
-#'          \code{data} must be added to the formula. When \code{NULL}, no
-#'          new term is added. Default : \code{NULL}.
-#' @param allNarrowPeaks a \code{GRanges}.
+#' @param narrowpeaksBEDFiles a \code{vector}
+#' @param chrList a \code{vector} 
+#' @param padding a \code{numeric} 
+#' @param minNbrExp a \code{numeric}.
+#' @param nbrThreads a \code{numeric}.
 #' 
-#' @return an object of \code{class} "commonFeatures". 
+#' @return \code{0}
 #' 
 #' @author Astrid Louise Deschenes
-#' @importFrom BiocGenerics start end
-#' @importFrom stringr str_split
-#' @importFrom IRanges IRanges
-#' @importFrom GenomicRanges GRanges
 #' @keywords internal
-findCommonFeaturesValidation <- function(peaksBEDlist, narrowpeaksBEDlist, 
-                                    chrList, padding = 500, minNbrExp = 1) {
+findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList, 
+                                         padding, minNbrExp, nbrThreads) {
     
-    if (is.vector(peaksBEDlist) && (!is.character(peaksBEDlist) || 
-                !all(sapply(peaksBEDlist, file.exists)))) {
+    if (is.vector(narrowpeaksBEDFiles) && (!is.character(narrowpeaksBEDFiles) 
+            || !all(sapply(narrowpeaksBEDFiles, file.exists)))) {
         stop("peaksBEDlist must be a vector of existing BED files")
     }
-    
-    if (is.vector(narrowpeaksBEDlist) && 
-                (!is.character(narrowpeaksBEDlist) || 
-                !all(sapply(peaksBEDlist, file.exists)))) {
-            stop("peaksBEDlist must be a vector of existing BED files")
-    }
-        
+      
     if (!isInteger(padding) || padding < 1 ) {
         stop("padding must be a non-negative integer")
     }
     
     if (!isInteger(minNbrExp) || minNbrExp < 1  || 
-            minNbrExp > length(peakBEDlist)) {
+            minNbrExp > length(narrowpeaksBEDFiles)) {
         stop(paste0("minNbrExp must be a non-negative integer inferior or ", 
                 "equal to the number of experiments."))
     }
-      
+    
+    if (!isInteger(nbrThreads) || nbrThreads < 1 ) {
+        stop("nbrThreads must be a non-negative integer")
+    }
+    
+    return(0)
 }
 
 #' @title Validate if a value is an integer
@@ -50,13 +43,13 @@ findCommonFeaturesValidation <- function(peaksBEDlist, narrowpeaksBEDlist,
 #'
 #' @param value an object to validate.
 #' 
-#' @return 
+#' @return \code{TRUE} is the parameter is a integer; otherwise \code{FALSE}
 #' 
 #' @author Astrid Louise Deschenes
 #' @keywords internal
 isInteger <- function(value) {
-    return((is.numeric(minNbrExp) || is.integer(cores)) && 
-                as.integer(cores) == cores)
+    return(is.integer(value) || (is.numeric(value) && 
+                as.integer(value) == value))
 }
 
 #' @title TODO
@@ -76,11 +69,12 @@ isInteger <- function(value) {
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges
-#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges 
+#' @importFrom GenomicRanges GRanges findOverlaps seqinfo seqnames subjectHits
 #' @keywords internal
 findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp, 
-                                    allPeaks, allNarrowPeaks) {
+                        nbrThreads, allPeaks, allNarrowPeaks) {
+    
     ## Only keep data related to the selected chromosome
     peaks <- sort(subset(allPeaks, seqnames(allPeaks) == chrName))
     narrowPeaks <- sort(subset(allNarrowPeaks, 
@@ -98,16 +92,19 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
     repeat  {
         current <- peaks[pos]
         rightBoundaryNew <- start(current)
+        seq_name <- as.character(seqnames(current))
         rightBoundary <- NULL
         set <- NULL
         setNew <- NULL
         bad <- FALSE
+        region_width <- 2 * padding
         repeat {
             set <- setNew
             rightBoundary <- rightBoundaryNew
             # Find peaks that overlaps the region
-            overlaps <- findOverlaps(query = GRanges(seqnames = c(as.character(seqnames(current))),
-                            ranges=c(IRanges(rightBoundary, rightBoundary+(2*padding)))),
+            overlaps <- findOverlaps(query = GRanges(seqnames = seq_name),
+                            ranges=c(IRanges(rightBoundary, 
+                            rightBoundary + region_width)),
                             subject = peaks)
             setNew <- peaks[subjectHits(overlaps)]
             if (!(current$name %in% setNew$name)) {

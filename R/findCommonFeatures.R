@@ -2,14 +2,19 @@
 #' 
 #' @description TODO
 #' 
-#' @param peaksBEDlist an object of \code{class} "formula" which contains a symbolic
-#'          model formula.
-#' @param narrowpeaksBEDlist a \code{data.frame} containing the variables in the model.
+#' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
+#'          use for the regions selection.
 #' @param chrList a \code{GRanges} indicating which column from the 
 #'          \code{data} must be added to the formula. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
-#' @param padding a \code{GRanges}. Default = 500.
-#' @param minNbrExp a \code{} Default = 1.
+#' @param padding a \code{numeric}. Default = 250.
+#' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
+#'          in which a peak must be present for a region to be retained. The
+#'          numeric must be a positive value inferior or equal to the number of 
+#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          Default = 1.
+#' @param nbrThreads a \code{numeric} indicating the number of threads to use
+#'          in parallel.
 #' 
 #' @return an object of \code{class} "commonFeatures". 
 #' 
@@ -18,6 +23,33 @@
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
-#' @keywords internal
-findCommonFeatures <- function(peaksBEDlist, narrowpeaksBEDlist, chrList, 
-                               padding = 500, minNbrExp = 1) {
+#' @importFrom BiocParallel bplapply MulticoreParam SerialParam
+#' @export
+findCommonFeatures <- function(narrowpeaksBEDFiles, chrList, 
+                               padding = 250, minNbrExp = 1, nbrThreads = 1) {
+    allPeaks <- GRanges()
+    allNarrowPeaks <- GRanges()
+    for (files in narrowpeaksBEDFiles) {
+        data <- readNarrowPeak(files)
+        allPeaks <- append(allPeaks, data$peak)
+        allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
+    }
+    
+    coreParam <- MulticoreParam(workers = nbrThreads)
+    if (nbrThreads == 1 || multicoreWorkers() == 1) {
+        coreParam <- SerialParam()
+    }
+    
+    results <- bplapply(levels(seqnames(allPeaks)), 
+                FUN = findCommonRegions,
+                allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
+                padding = padding, minNbrExp = minNbrExp, 
+                BPPARAM = coreParam)
+    
+    finalRegions <- GRanges()
+    for (i in 1:length(results)) {
+        finalRegions<-c(finalRegions, results[[i]][["features"]])
+    }
+    
+    return(finalRegions)
+}

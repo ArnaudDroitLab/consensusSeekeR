@@ -2,34 +2,34 @@
 #######################################################
 ## Load libraries
 #######################################################
-
-library(rtracklayer)
-library(GenomicRanges)
-library(XVector)
-library(stringr)
-library(BiocParallel)
-library(BiocGenerics)
+# 
+# library(rtracklayer)
+# library(GenomicRanges)
+# library(XVector)
+# library(stringr)
+# library(BiocParallel)
+# library(BiocGenerics)
 
 #######################################################
 ## Load data
 #######################################################
 
-narrowPeakSMC1 <- import("..//..//data//data_case_02//HI.1613.004.Index_14.A549_ctrl_SMC1_MF_ChIP1_3_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
-narrowPeakMED1 <- import("..//..//data//data_case_02//HI.1613.004.Index_18.A549_ctrl_MED1_MF_ChIP1_2_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
-narrowPeakNIPBL <- import("..//..//data//data_case_02//HI.1613.004.Index_7.A549_ctrl_NIPBL_MF_ChIP1_1_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
-peakSMC1 <- import("..//..//data//data_case_02//HI.1613.004.Index_14.A549_ctrl_SMC1_MF_ChIP1_3_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
-peakMED1 <- import("..//..//data//data_case_02//HI.1613.004.Index_18.A549_ctrl_MED1_MF_ChIP1_2_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
-peakNIPBL <- import("..//..//data//data_case_02//HI.1613.004.Index_7.A549_ctrl_NIPBL_MF_ChIP1_1_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
+# narrowPeakSMC1 <- import("..//..//data//data_case_02//HI.1613.004.Index_14.A549_ctrl_SMC1_MF_ChIP1_3_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
+# narrowPeakMED1 <- import("..//..//data//data_case_02//HI.1613.004.Index_18.A549_ctrl_MED1_MF_ChIP1_2_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
+# narrowPeakNIPBL <- import("..//..//data//data_case_02//HI.1613.004.Index_7.A549_ctrl_NIPBL_MF_ChIP1_1_rep1_R1.trim.hg19.sorted.bam_peaks.narrowPeak.net.bed",format="bed",genome="hg19")
+# peakSMC1 <- import("..//..//data//data_case_02//HI.1613.004.Index_14.A549_ctrl_SMC1_MF_ChIP1_3_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
+# peakMED1 <- import("..//..//data//data_case_02//HI.1613.004.Index_18.A549_ctrl_MED1_MF_ChIP1_2_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
+# peakNIPBL <- import("..//..//data//data_case_02//HI.1613.004.Index_7.A549_ctrl_NIPBL_MF_ChIP1_1_rep1_R1.trim.hg19.sorted.bam_summits.net.bed",format="bed",genome="hg19")
 
 
 #######################################################
 ## Group peak data together
 #######################################################
-
-allPeaks <- sort(c(peakSMC1, peakMED1, peakNIPBL))
-allNarrowPeaks <- sort(c(narrowPeakMED1, narrowPeakNIPBL, narrowPeakSMC1))
-
-rm(narrowPeakMED1, narrowPeakNIPBL, narrowPeakSMC1, peakMED1, peakNIPBL, peakSMC1)
+# 
+# allPeaks <- sort(c(peakSMC1, peakMED1, peakNIPBL))
+# allNarrowPeaks <- sort(c(narrowPeakMED1, narrowPeakNIPBL, narrowPeakSMC1))
+# 
+# rm(narrowPeakMED1, narrowPeakNIPBL, narrowPeakSMC1, peakMED1, peakNIPBL, peakSMC1)
 
 #######################################################
 ## Load data
@@ -115,21 +115,21 @@ findCommonRegions <- function(chrName, allPeaks, allNarrowPeaks) {
     return(list(regions, strangeRegions))
 }
 
-results<-bplapply(levels(seqnames(allPeaks))[1:24], FUN = findCommonRegions,
-                  allPeaks=allPeaks, allNarrowPeaks=allNarrowPeaks,
-                  BPPARAM = MulticoreParam(workers = 13))
-
-finalRegions<-GRanges()
-strangeRegions<-GRanges()
-for (i in 1:length(results)) {
-    finalRegions<-c(finalRegions, results[[i]][[1]])
-    strangeRegions<-c(strangeRegions, results[[i]][[2]])
-}
-
-finalRegions<-sort(finalRegions)
-strangeRegions <- sort(strangeRegions)
-
-save(finalRegions, file="finalRegions_CASE_02_Method_02_NEW.Rda")
-save(strangeRegions, file="strangeRegions_CASE_02_Method_02_NEW.Rda")
-export(finalRegions, file("finalRegions_CASE_02_Method_02_NEW.bed"))
-export(strangeRegions, file("strangeRegions_CASE_02_Method_02_NEW.bed"))
+# results<-bplapply(levels(seqnames(allPeaks))[1:24], FUN = findCommonRegions,
+#                   allPeaks=allPeaks, allNarrowPeaks=allNarrowPeaks,
+#                   BPPARAM = MulticoreParam(workers = 13))
+# 
+# finalRegions<-GRanges()
+# strangeRegions<-GRanges()
+# for (i in 1:length(results)) {
+#     finalRegions<-c(finalRegions, results[[i]][[1]])
+#     strangeRegions<-c(strangeRegions, results[[i]][[2]])
+# }
+# 
+# finalRegions<-sort(finalRegions)
+# strangeRegions <- sort(strangeRegions)
+# 
+# save(finalRegions, file="finalRegions_CASE_02_Method_02_NEW.Rda")
+# save(strangeRegions, file="strangeRegions_CASE_02_Method_02_NEW.Rda")
+# export(finalRegions, file("finalRegions_CASE_02_Method_02_NEW.bed"))
+# export(strangeRegions, file("strangeRegions_CASE_02_Method_02_NEW.bed"))

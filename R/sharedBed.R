@@ -5,6 +5,11 @@
 #' features. The size of the analyzed region is adjustable as well as the
 #' number of BED files in which the features are detected to be retained. 
 #' 
+#' @docType package
+#' @name sharedBed-package
+#' @aliases sharedBed-package sharedBed
+#' @author  Astrid Louise Deschenes
+#' 
 #' Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
 #' @keywords package
 NULL

@@ -20,5 +20,7 @@ Author@R: c(person("Astrid Louise", "Deschenes",
 Maintainer: Astrid Louise Deschenes
     <Astrid-Louise.Deschenes@crchudequebec.ulaval.ca>
 License: Artistic-2.0 | file LICENSE
+Depends: BiocGenerics, GenomicRanges, IRanges, stringr, BiocParallel
+Suggests: knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
