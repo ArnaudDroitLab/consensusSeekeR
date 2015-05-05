@@ -23,9 +23,9 @@
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
-#' @importFrom BiocParallel bplapply MulticoreParam SerialParam
+#' @importFrom BiocParallel bplapply MulticoreParam SerialParam multicoreWorkers
 #' @export
-findCommonFeatures <- function(narrowpeaksBEDFiles, chrList, 
+findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL", 
                                padding = 250, minNbrExp = 1, nbrThreads = 1) {
     allPeaks <- GRanges()
     allNarrowPeaks <- GRanges()
@@ -38,6 +38,17 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList,
     coreParam <- MulticoreParam(workers = nbrThreads)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
+    }
+    
+    allChr <- levels(seqnames(allPeaks))
+    if (chrList == "ALL") {
+        chrList = allChr 
+    } else {
+        chrList = subset(allChr, allChr %in% chrList)
+    }
+    
+    if (length(chrList) == 0) {
+        stop("No chromosome correspond to the given list: ", chrList)
     }
     
     results <- bplapply(levels(seqnames(allPeaks)), 

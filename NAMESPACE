@@ -3,6 +3,7 @@
 export(findCommonFeatures)
 importFrom(BiocGenerics,end)
 importFrom(BiocGenerics,start)
+importFrom(BiocParallel,MulticoreParam)
 importFrom(BiocParallel,SerialParam)
 importFrom(BiocParallel,bplapply)
 importFrom(GenomicRanges,GRanges)
