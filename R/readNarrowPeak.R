@@ -65,6 +65,10 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
         stop("Start ans end positions of peaks should all be >= 0.")
     }
     
+    if (any(levels(peaks$strand) == ".")) {
+        levels(peaks$strand)[levels(peaks$strand) == "."] <- "*"
+    }
+    
     regionResult = list();
     peakResult = list();
 #     for (chr in unique(peaks$chrom)) {
@@ -84,7 +88,15 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
         regionResult <- GRanges(seqnames = as.character(peaks$chrom), 
                             IRanges(start=(peaks$start + 1L), 
                             end=peaks$end),
-                            name = as.character(peaks$name))
+                            name = as.character(peaks$name),
+                            score = as.integer(peaks$score),
+                            signalValue = as.numeric(peaks$signalValue),
+                            strand = Rle(as.character(peaks$strand)),
+                            pValue = as.numeric(peaks$pValue),
+                            qValue = as.numeric(peaks$qValue),
+                            peak = as.integer(peaks$peak)
+                            )
+
     }
 
     if (extractPeaks) {
@@ -92,7 +104,14 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
                             IRanges(start=(peaks$start + 1L + 
                             peaks$peak), end=(peaks$start + 1L + 
                             peaks$peak)), 
-                            name = as.character(peaks$name))
+                            name = as.character(peaks$name),
+                            score = as.integer(peaks$score),
+                            signalValue = as.numeric(peaks$signalValue),
+                            strand = Rle(as.character(peaks$strand)),
+                            pValue = as.numeric(peaks$pValue),
+                            qValue = as.numeric(peaks$qValue),
+                            peak = as.integer(peaks$peak)
+                            )
     }
 
     return(list(narrowPeak = regionResult, peak = peakResult))
