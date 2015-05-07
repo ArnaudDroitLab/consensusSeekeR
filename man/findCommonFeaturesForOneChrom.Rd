@@ -4,7 +4,7 @@
 \alias{findCommonFeaturesForOneChrom}
 \title{TODO}
 \usage{
-findCommonFeaturesForOneChrom(chrName, padding, minNbrExp, nbrThreads, allPeaks,
+findCommonFeaturesForOneChrom(chrName, padding, minNbrExp, allPeaks,
   allNarrowPeaks)
 }
 \arguments{
@@ -12,6 +12,8 @@ findCommonFeaturesForOneChrom(chrName, padding, minNbrExp, nbrThreads, allPeaks,
 model formula.}
 
 \item{padding}{a \code{data.frame} containing the variables in the model.}
+
+\item{minNbrExp}{}
 
 \item{allPeaks}{a \code{GRanges} indicating which column from the
 \code{data} must be added to the formula. When \code{NULL}, no

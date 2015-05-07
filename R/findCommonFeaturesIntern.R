@@ -59,6 +59,7 @@ isInteger <- function(value) {
 #' @param chrName an object of \code{class} "formula" which contains a symbolic
 #'          model formula.
 #' @param padding a \code{data.frame} containing the variables in the model.
+#' @param minNbrExp
 #' @param allPeaks a \code{GRanges} indicating which column from the 
 #'          \code{data} must be added to the formula. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
@@ -73,7 +74,7 @@ isInteger <- function(value) {
 #' @importFrom GenomicRanges GRanges findOverlaps seqinfo seqnames subjectHits
 #' @keywords internal
 findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp, 
-                        nbrThreads, allPeaks, allNarrowPeaks) {
+                        allPeaks, allNarrowPeaks) {
     
     ## Only keep data related to the selected chromosome
     peaks <- sort(subset(allPeaks, seqnames(allPeaks) == chrName))
@@ -89,6 +90,8 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
     bad <- FALSE
     pos <- 1
     
+    print(paste("Length(peaks):", length(peaks)))
+    
     repeat  {
         current <- peaks[pos]
         rightBoundaryNew <- start(current)
@@ -102,9 +105,9 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
             set <- setNew
             rightBoundary <- rightBoundaryNew
             # Find peaks that overlaps the region
-            overlaps <- findOverlaps(query = GRanges(seqnames = seq_name),
+            overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
                             ranges=c(IRanges(rightBoundary, 
-                            rightBoundary + region_width)),
+                            rightBoundary + region_width))),
                             subject = peaks)
             setNew <- peaks[subjectHits(overlaps)]
             if (!(current$name %in% setNew$name)) {
@@ -114,8 +117,11 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                 bad <- TRUE
                 break
             }
+            print("IRanges")
+            print(IRanges(rightBoundary, 
+                          rightBoundary + region_width))
             # Use the median of the peaks to set the new right boundary
-            rightBoundaryNew <- median(start(setNew))-padding
+            rightBoundaryNew <- median(start(setNew)) - padding
             # Stop loop when the overlaping peaks are stable or when no peaks are found
             if (!is.null(set) && (length(set) == length(setNew)) && all(set == setNew)) break
         }
@@ -124,32 +130,50 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
             # Treat the next position
             pos <- pos + 1
         } else {
-            # Keep region only when peaks from more than one experience are present
+            # Keep region only when the number of different experiments present
+            # is reached
             short_names <- sapply(X = set$name, function(x) stringr::str_split(string = x, pattern = ".bam")[[1]][1])
-            if (length(unique(short_names)) > 1) {
+            if (length(unique(short_names)) > minNbrExp) {
                 # Create one final region using the narrow information for each peak present
-                minPos <- ifelse(min(BiocGenerics::start(narrowPeaks[narrowPeaks$name %in%  set$name])), rightBoundary)
-                maxPos <- rightBoundary + padding
+                minPos <- rightBoundaryNew
+                peakMedian <- rightBoundaryNew + padding
+                maxPos <- peakMedian + padding
                 for (i in unique(short_names)) {
                     peaksForOneExp <- set[short_names == i]
                     
-                    firstPeak <- peaksForOneExp[1]
-                    lastPeak <- peaksForOneExp[length(peaksForOneExp)]
-                    
-                    newMax <- BiocGenerics::end(narrowPeaks[narrowPeaks$name %in%  firstPeak$name])
+                    closessPeak <- which(abs(start(peaksForOneExp) - peakMedian)
+                                            == 
+                                    min(abs(start(peaksForOneExp)- peakMedian)))
+                
+                    firstPeak <- peaksForOneExp[closessPeak[1]]
+                    newMax <- end(narrowPeaks[narrowPeaks$name %in% 
+                                                    lastPeak$name])
                     maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
                     
-                    newMin <- BiocGenerics::start(narrowPeaks[narrowPeaks$name %in%  lastPeak$name])
+                    lastPeak <- peaksForOneExp[closessPeak[length(closessPeak)]]
+                    newMin <- start(narrowPeaks[narrowPeaks$name %in%  
+                                                firstPeak$name])
                     minPos <- ifelse(newMin < minPos, newMin, minPos)
                 }
                 
-                newRegion <- GRanges(seqnames = as.character(seqnames(set[1])), IRanges(minPos, maxPos))
+                newRegion <- GRanges(seqnames = seq_name, 
+                                        IRanges(minPos, maxPos))
                 regions <- append(regions, newRegion)
+                
                 # Update overlapping peaks
                 overlaps <- findOverlaps(query = newRegion, subject = peaks)
+                setNew <- peaks[subjectHits(overlaps)]
+                if (!(current$name %in% setNew$name)) {
+                    # The current peak is not included in the current region
+                    # The region will not be selected
+                    stop("The current treated peak should be in the selected region.\n")
+                }
+                
+                # Treat the position following last peak present in new region
+                pos<-max(subjectHits(overlaps)) + 1
+            } else {
+                pos <- pos + 1
             }
-            # Treat the position following last peak present in new region
-            pos<-max(subjectHits(overlaps))+1
         }
         # Stop loop when all peaks are treated
         if (pos >= length(peaks)) break

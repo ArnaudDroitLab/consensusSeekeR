@@ -4,8 +4,8 @@
 #' 
 #' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
 #'          use for the regions selection.
-#' @param chrList a \code{GRanges} indicating which column from the 
-#'          \code{data} must be added to the formula. When \code{NULL}, no
+#' @param chrList a \code{vector} containing the name of the chromosome to 
+#'          analyse or the name \code{"ALL"} which indica. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
 #' @param padding a \code{numeric}. Default = 250.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
@@ -42,17 +42,17 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
     
     allChr <- levels(seqnames(allPeaks))
     if (chrList == "ALL") {
-        chrList = allChr 
+        chrList <- allChr 
     } else {
-        chrList = subset(allChr, allChr %in% chrList)
+        chrList <- subset(allChr, allChr %in% chrList)
     }
     
     if (length(chrList) == 0) {
         stop("No chromosome correspond to the given list: ", chrList)
     }
     
-    results <- bplapply(levels(seqnames(allPeaks)), 
-                FUN = findCommonRegions,
+    results <- bplapply(chrList, 
+                FUN = findCommonFeaturesForOneChrom,
                 allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
                 padding = padding, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
