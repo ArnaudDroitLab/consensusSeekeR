@@ -31,6 +31,11 @@ findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList,
             || !all(sapply(narrowpeaksBEDFiles, file.exists)))) {
         stop("peaksBEDlist must be a vector of existing BED files")
     }
+    
+    if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
+        stop(paste0("chrList must be either be the value \"ALL\" or a ",
+             "vector of chromosomes names"))
+    }
       
     if (!isInteger(padding) || padding < 1 ) {
         stop("padding must be a non-negative integer")
