@@ -135,13 +135,13 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                 bad <- TRUE
                 break
             }
-            print("IRanges")
-            print(IRanges(rightBoundary, 
-                          rightBoundary + region_width))
+            
             # Use the median of the peaks to set the new right boundary
             rightBoundaryNew <- median(start(setNew)) - padding
-            # Stop loop when the overlaping peaks are stable or when no peaks are found
-            if (!is.null(set) && (length(set) == length(setNew)) && all(set == setNew)) break
+            # Stop loop when the overlaping peaks are stable or 
+            # when no peaks are found
+            if (!is.null(set) && (length(set) == length(setNew)) && 
+                    all(set == setNew)) break
         }
         
         if (bad) {
@@ -188,7 +188,7 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                 }
                 
                 # Treat the position following last peak present in new region
-                pos<-max(subjectHits(overlaps)) + 1
+                pos <- max(subjectHits(overlaps)) + 1
             } else {
                 pos <- pos + 1
             }
