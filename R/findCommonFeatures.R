@@ -4,8 +4,9 @@
 #' 
 #' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
 #'          use for the regions selection.
-#' @param chrList a \code{vector} containing the name of the chromosome to 
-#'          analyse or the name \code{"ALL"} which indica. When \code{NULL}, no
+#' @param chrList a \code{vector} containing the name of the chromosomes to 
+#'          analyze or the name \code{"ALL"} which indicate that all
+#'          chromosomes must be analyzed. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
 #' @param padding a \code{numeric}. Default = 250.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
@@ -26,9 +27,18 @@
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam multicoreWorkers
 #' @export
 findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL", 
-                               padding = 250, minNbrExp = 1, nbrThreads = 1) {
+                               padding = 250, minNbrExp = 1, 
+                               nbrThreads = 1) {
+    
+    # Parameters validation
+    findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, padding,
+                        nbrThreads)
+    
+    # Create objects that are going to contain the final extracted values
     allPeaks <- GRanges()
     allNarrowPeaks <- GRanges()
+    
+    # Extract peaks and regions from each file present in the file vector
     for (files in narrowpeaksBEDFiles) {
         data <- readNarrowPeak(files)
         allPeaks <- append(allPeaks, data$peak)

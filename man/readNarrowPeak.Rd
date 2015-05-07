@@ -2,18 +2,36 @@
 % Please edit documentation in R/readNarrowPeakIntern.R
 \name{readNarrowPeak}
 \alias{readNarrowPeak}
-\title{TODO}
+\title{Extract narrow regions and peaks from narrrowPeak file}
 \usage{
-readNarrowPeak(file_path)
+readNarrowPeak(file_path, extractRegions = TRUE, extractPeaks = TRUE)
 }
 \arguments{
-\item{file_path}{a \code{vector}}
+\item{file_path}{the name of the file.}
+
+\item{extractRegions}{a \code{logical} indicating if the narrow regions must
+be extracted. If \code{TRUE}, a \code{GRanges} containing the narrow
+regions will be returned. Default = \code{TRUE}.}
+
+\item{extractPeaks}{a \code{logical} indicating if the peaks must
+         be extracted. If \code{TRUE}, a \code{GRanges} containing the peaks
+         will be returned. Default = \code{TRUE}.}
 }
 \value{
-\code{0}
+a \code{list} containing 2 entries:
+     \itemize{
+         \item narrowPeak a {\code{GRanges}} containing
+             the narrow regions extracted from the file.
+         \item peak a {\code{GRanges}} containing
+             the peaks extracted from the file.
+     }
 }
 \description{
-TODO
+Read a narrowPeak file and extract the narrow regions and/or
+         the peaks, as specified by used. The narrowPeak file must fit the
+         UCSC specifications. See
+         \url{https://genome.ucsc.edu/FAQ/FAQformat.html#format12} for more
+         details.
 }
 \author{
 Astrid Louise Deschenes

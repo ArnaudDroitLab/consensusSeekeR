@@ -11,8 +11,9 @@ findCommonFeatures(narrowpeaksBEDFiles, chrList = "ALL", padding = 250,
 \item{narrowpeaksBEDFiles}{a \code{vector} containing the BED files to
 use for the regions selection.}
 
-\item{chrList}{a \code{vector} containing the name of the chromosome to
-analyse or the name \code{"ALL"} which indica. When \code{NULL}, no
+\item{chrList}{a \code{vector} containing the name of the chromosomes to
+analyze or the name \code{"ALL"} which indicate that all
+chromosomes must be analyzed. When \code{NULL}, no
 new term is added. Default : \code{NULL}.}
 
 \item{padding}{a \code{numeric}. Default = 250.}

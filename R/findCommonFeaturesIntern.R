@@ -1,14 +1,26 @@
-#' @title TODO
+#' @title Parameter validation for the \code{\link{findCommonFeatures}} 
+#'      function
 #' 
-#' @description TODO
+#' @description Validation of all parameters needed by the public
+#'      \code{\link{findCommonFeatures}} function.
 #' 
-#' @param narrowpeaksBEDFiles a \code{vector}
-#' @param chrList a \code{vector} 
-#' @param padding a \code{numeric} 
-#' @param minNbrExp a \code{numeric}.
-#' @param nbrThreads a \code{numeric}.
+#' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
+#'          use for the regions selection.
+#' @param chrList a \code{vector} containing the name of the chromosomes to 
+#'          analyze or the name \code{"ALL"} which indicate that all
+#'          chromosomes must be analyzed. When \code{NULL}, no
+#'          new term is added. Default : \code{NULL}.
+#' @param padding a \code{numeric}. Default = 250.
+#' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
+#'          in which a peak must be present for a region to be retained. The
+#'          numeric must be a positive value inferior or equal to the number of 
+#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          Default = 1.
+#' @param nbrThreads a \code{numeric} indicating the number of threads to use
+#'          in parallel.
 #' 
-#' @return \code{0}
+#' @return \code{0} indicating that all parameters validations have been
+#'      successful.
 #' 
 #' @author Astrid Louise Deschenes
 #' @keywords internal
@@ -39,7 +51,8 @@ findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList,
 
 #' @title Validate if a value is an integer
 #' 
-#' @description TODO
+#' @description Validate if the value passed to the function is an integer or 
+#'          not.
 #'
 #' @param value an object to validate.
 #' 
