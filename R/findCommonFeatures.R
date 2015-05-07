@@ -1,6 +1,24 @@
-#' @title TODO
+#' @title Extract regions sharing the same features in more than one experiment
 #' 
-#' @description TODO
+#' @description Find regions sharing the same features for a minimum number of
+#'          experiments using narrowPeak files. The peaks and narrow regions
+#'          are extracted from the narrowPeaks files and used to identify 
+#'          the common regions. The minimum number of experiments that must a
+#'          peak in a common regions for that region to be selected is 
+#'          specified by user, as well as the size of padding. Only the 
+#'          chromosomes specified by the user are treated. The function can be 
+#'          parallized by specifying a number of threads superior to 1. 
+#'          
+#'          When the padding is small, the detected regions are smaller than 
+#'          the one that could be obtained by doing an overlap of the narrow
+#'          regions. Even more, the parameter specifying the minimum number of 
+#'          experiments needed to retain a region add versatility to the 
+#'          function.
+#'          
+#'          The side of the padding can have a large effect on the detected
+#'          regions. It is recommanded to test more than one size and to do
+#'          some manual validation of the resulting regions before selecting
+#'          the final padding size.
 #' 
 #' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
 #'          use for the regions selection.
@@ -8,14 +26,17 @@
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
-#' @param padding a \code{numeric}. Default = 250.
+#' @param padding a \code{numeric} value indicating the size to pad at each 
+#'          side of a peak. The \code{padding} must be a positive integer. 
+#'          Default = 250.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number of 
-#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          numeric must be a positive integer inferior or equal to the number 
+#'          of files present in the \code{narrowpeaksBEDFiles} parameter.
 #'          Default = 1.
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
-#'          in parallel.
+#'          in parallel. The \code{nbrThreads} must be a positive integer. 
+#'          Default = 1.
 #' 
 #' @return an object of \code{class} "commonFeatures". 
 #' 
