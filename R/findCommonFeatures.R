@@ -45,28 +45,36 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
         allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
     }
     
+    # Select the type of object used for parallel processing
     coreParam <- MulticoreParam(workers = nbrThreads)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     }
     
+    # Extract the list of chromosomes to analyse
     allChr <- levels(seqnames(allPeaks))
     if (chrList == "ALL") {
+        # The list of chromosomes correspond to the global list
         chrList <- allChr 
     } else {
+        # The list of chromosomes correspond to the chromosomes from the
+        # specified parameter which are present in the data
         chrList <- subset(allChr, allChr %in% chrList)
     }
     
+    # At least one chromosome must be analyzed
     if (length(chrList) == 0) {
         stop("No chromosome correspond to the given list: ", chrList)
     }
     
+    # Process to regions extraction using parallel threads when available
     results <- bplapply(chrList, 
                 FUN = findCommonFeaturesForOneChrom,
                 allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
                 padding = padding, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
     
+    # Merge extracted regions
     finalRegions <- GRanges()
     for (i in 1:length(results)) {
         finalRegions<-c(finalRegions, results[[i]][["features"]])
