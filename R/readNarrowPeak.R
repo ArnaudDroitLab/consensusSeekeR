@@ -26,7 +26,7 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
-#' @keywords internal
+#' @export
 readNarrowPeak<- function(file_path, extractRegions = TRUE, 
                                 extractPeaks = TRUE) {
     # Parameters validation

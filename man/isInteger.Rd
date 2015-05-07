@@ -13,7 +13,8 @@ isInteger(value)
 \code{TRUE} is the parameter is a integer; otherwise \code{FALSE}
 }
 \description{
-TODO
+Validate if the value passed to the function is an integer or
+         not.
 }
 \author{
 Astrid Louise Deschenes

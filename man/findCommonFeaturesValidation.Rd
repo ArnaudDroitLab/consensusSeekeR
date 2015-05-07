@@ -2,27 +2,39 @@
 % Please edit documentation in R/findCommonFeaturesIntern.R
 \name{findCommonFeaturesValidation}
 \alias{findCommonFeaturesValidation}
-\title{TODO}
+\title{Parameter validation for the \code{\link{findCommonFeatures}}
+     function}
 \usage{
 findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, padding, minNbrExp,
   nbrThreads)
 }
 \arguments{
-\item{narrowpeaksBEDFiles}{a \code{vector}}
+\item{narrowpeaksBEDFiles}{a \code{vector} containing the BED files to
+use for the regions selection.}
 
-\item{chrList}{a \code{vector}}
+\item{chrList}{a \code{vector} containing the name of the chromosomes to
+analyze or the name \code{"ALL"} which indicate that all
+chromosomes must be analyzed. When \code{NULL}, no
+new term is added. Default : \code{NULL}.}
 
-\item{padding}{a \code{numeric}}
+\item{padding}{a \code{numeric}. Default = 250.}
 
-\item{minNbrExp}{a \code{numeric}.}
+\item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
+in which a peak must be present for a region to be retained. The
+numeric must be a positive value inferior or equal to the number of
+files present in the \code{narrowpeaksBEDFiles} parameter.
+Default = 1.}
 
-\item{nbrThreads}{a \code{numeric}.}
+\item{nbrThreads}{a \code{numeric} indicating the number of threads to use
+         in parallel.}
 }
 \value{
-\code{0}
+\code{0} indicating that all parameters validations have been
+     successful.
 }
 \description{
-TODO
+Validation of all parameters needed by the public
+     \code{\link{findCommonFeatures}} function.
 }
 \author{
 Astrid Louise Deschenes
