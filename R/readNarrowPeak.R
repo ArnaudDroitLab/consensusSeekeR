@@ -4,12 +4,12 @@
 #'          the peaks, as specified by used. The narrowPeak file must fit the 
 #'          UCSC specifications. See 
 #'          \url{https://genome.ucsc.edu/FAQ/FAQformat.html#format12} for more
-#'          details.
+#'          details. The file can have one or many header lines.
 #' 
 #' @param file_path the name of the file.
 #' @param extractRegions a \code{logical} indicating if the narrow regions must
-#'          be extracted. If \code{TRUE}, a \code{GRanges} containing the narrow
-#'          regions will be returned. Default = \code{TRUE}.
+#'          be extracted. If \code{TRUE}, a \code{GRanges} containing the 
+#'          narrow regions will be returned. Default = \code{TRUE}.
 #' @param extractPeaks a \code{logical} indicating if the peaks must
 #'          be extracted. If \code{TRUE}, a \code{GRanges} containing the peaks
 #'          will be returned. Default = \code{TRUE}.
@@ -46,9 +46,11 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
         stop("extractPeaks and extractRegions cannot be both FALSE")
     }
     
+    # The file can have one or many lines of comments as header
+    # Find the first line which respect the UCSC format
     data_size = 250
-    data = scan(file_path, what="character", nmax=chunk_size, 
-                 strip.white=TRUE, sep="\n", quiet=TRUE)
+    data = scan(file_path, what = "character", nmax = data_size, 
+                 strip.white = TRUE, sep = "\n", quiet = TRUE)
     
     grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
                 "(\\s+[0-9\\.]+){3}\\s+\\d+"), data)
@@ -57,24 +59,30 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
         stop("No valid chromosome detected within first ", data_size, 
              " lines of BED file \"", file_path , "\"")
     }
+    
     skip_lines = min(grepRes) - 1
     
+    # Extract info from file and load it into a table
     peaks = read.table(file_path, header = FALSE, skip = skip_lines)
     peaks = peaks[,1:10];
     names(peaks) = c("chrom","start", "end", "name", "score", "strand", 
                         "signalValue", "pValue", "qValue", "peak")
     
+    # Validate that all start and end positions are positive values
     if (any(peaks$start < 0) || any(peaks$end < 0)) {
         stop("start and end positions of peaks should all be >= 0.")
     }
     
+    # When a dot is used, it has to be changed for an asterisk
+    # to be accepted as a GRanges
     if (any(levels(peaks$strand) == ".")) {
         levels(peaks$strand)[levels(peaks$strand) == "."] <- "*"
     }
     
-    regionResult = list();
-    peakResult = list();
+    regionResult = NULL;
+    peakResult = NULL;
 
+    # Create GRanges for the narrow regions when specified
     if (extractRegions) {
         regionResult <- GRanges(seqnames = as.character(peaks$chrom), 
                             IRanges(start=(peaks$start + 1L), 
@@ -89,6 +97,7 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
                             )
     }
 
+    # Create GRanges for the peaks when specified
     if (extractPeaks) {
         peakResult <- GRanges(seqnames = as.character(peaks$chrom), 
                             IRanges(start=(peaks$start + 1L + 
