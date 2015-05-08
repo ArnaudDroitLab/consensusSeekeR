@@ -31,7 +31,7 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
                                 extractPeaks = TRUE) {
     # Parameters validation
     if (!file.exists(file_path)) {
-        stop("No such file: ", file_path)
+        stop("No such file \"", file_path, "\"")
     }
     
     if (!is.logical(extractRegions)) {
@@ -46,23 +46,26 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
         stop("extractPeaks and extractRegions cannot be both FALSE")
     }
     
-    chunk_size = 250
-    chunk = scan(file_path, what="character", nmax=chunk_size, 
+    data_size = 250
+    data = scan(file_path, what="character", nmax=chunk_size, 
                  strip.white=TRUE, sep="\n", quiet=TRUE)
-    skip_n = suppressWarnings(min(grep("^chr(\\d+|\\w+)\\s+\\d+",chunk)) - 1)
     
-    if (is.infinite(skip_n)) {
-        stop("No valid chromosomes detected within first 250 ", 
-                "lines of BED file \"", file_path , "\"")
+    grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
+                "(\\s+[0-9\\.]+){3}\\s+\\d+"), data)
+    
+    if (length(grepRes) == 0) {
+        stop("No valid chromosome detected within first ", data_size, 
+             " lines of BED file \"", file_path , "\"")
     }
+    skip_lines = min(grepRes) - 1
     
-    peaks = read.table(file_path, header=FALSE, skip=skip_n)
+    peaks = read.table(file_path, header = FALSE, skip = skip_lines)
     peaks = peaks[,1:10];
     names(peaks) = c("chrom","start", "end", "name", "score", "strand", 
                         "signalValue", "pValue", "qValue", "peak")
     
     if (any(peaks$start < 0) || any(peaks$end < 0)) {
-        stop("Start ans end positions of peaks should all be >= 0.")
+        stop("start and end positions of peaks should all be >= 0.")
     }
     
     if (any(levels(peaks$strand) == ".")) {
@@ -71,18 +74,6 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
     
     regionResult = list();
     peakResult = list();
-#     for (chr in unique(peaks$chrom)) {
-#         peaks_chrom = subset(peaks, peakschrom == chr)
-#         chromResult[[chr]] <- GRanges(seqnames = as.character(chr), 
-#                             IRanges(start=(peaks_chrom$start + 1L), 
-#                             end=peaks_chrom$end),
-#                             name = as.character(peaks_chrom$name))
-#         peakResult[[chr]] <- GRanges(seqnames = as.character(chr), 
-#                             IRanges(start=(peaks_chrom$start + 1L + 
-#                             peaks_chrom$peak), end=(peaks_chrom$start + 1L + 
-#                             peaks_chrom$peak)), 
-#                             name = as.character(peaks_chrom$name))
-#     }
 
     if (extractRegions) {
         regionResult <- GRanges(seqnames = as.character(peaks$chrom), 
@@ -96,7 +87,6 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
                             qValue = as.numeric(peaks$qValue),
                             peak = as.integer(peaks$peak)
                             )
-
     }
 
     if (extractPeaks) {
