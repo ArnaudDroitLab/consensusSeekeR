@@ -45,7 +45,8 @@
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
-#' @importFrom BiocParallel bplapply MulticoreParam SerialParam multicoreWorkers
+#' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
+#'                  multicoreWorkers
 #' @export
 findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL", 
                                padding = 250, minNbrExp = 1, 
