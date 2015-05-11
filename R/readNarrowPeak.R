@@ -9,17 +9,21 @@
 #' @param file_path the name of the file.
 #' @param extractRegions a \code{logical} indicating if the narrow regions must
 #'          be extracted. If \code{TRUE}, a \code{GRanges} containing the 
-#'          narrow regions will be returned. Default = \code{TRUE}.
+#'          narrow regions will be returned. Otherwise, \code{NULL} is 
+#'          returned. Default = \code{TRUE}.
 #' @param extractPeaks a \code{logical} indicating if the peaks must
 #'          be extracted. If \code{TRUE}, a \code{GRanges} containing the peaks
-#'          will be returned. Default = \code{TRUE}.
+#'          will be returned. Otherwise, \code{NULL} is 
+#'          returned. Default = \code{TRUE}.
 #' 
 #' @return a \code{list} containing 2 entries:
 #'      \itemize{
 #'          \item narrowPeak a {\code{GRanges}} containing 
-#'              the narrow regions extracted from the file.
+#'              the narrow regions extracted from the file. {\code{NULL}} when 
+#'              not needed by user.
 #'          \item peak a {\code{GRanges}} containing 
-#'              the peaks extracted from the file.
+#'              the peaks extracted from the file. {\code{NULL}} when not
+#'              needed by user.
 #'      }
 #' 
 #' @author Astrid Louise Deschenes
