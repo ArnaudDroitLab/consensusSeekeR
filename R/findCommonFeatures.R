@@ -54,7 +54,7 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
     
     # Parameters validation
     findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, padding,
-                        nbrThreads)
+                        minNbrExp, nbrThreads)
     
     # Create objects that are going to contain the final extracted values
     allPeaks <- GRanges()

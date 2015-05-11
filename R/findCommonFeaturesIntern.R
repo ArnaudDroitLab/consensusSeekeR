@@ -94,113 +94,118 @@ isInteger <- function(value) {
 findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp, 
                         allPeaks, allNarrowPeaks) {
     
-    ## Only keep data related to the selected chromosome
-    peaks <- sort(subset(allPeaks, seqnames(allPeaks) == chrName))
+    # Subset peaks and narrow peaks using the specified chromosome name
+    peaks <- sort(subset(allPeaks, as.character(seqnames(allPeaks)) == chrName))
     narrowPeaks <- sort(subset(allNarrowPeaks, 
-                            seqnames(allNarrowPeaks) == chrName))
+                        as.character(seqnames(allNarrowPeaks)) == chrName))
     
-    # Variables initialization
+    # Variable which will contain final resultat
     regions <- GRanges()
-    strangeRegions <- GRanges()
-    current <- NULL
-    rightBoundary <- NULL
-    namesVec <- vector()
-    bad <- FALSE
-    pos <- 1
     
-    print(paste("Length(peaks):", length(peaks)))
-    
-    repeat  {
-        current <- peaks[pos]
-        rightBoundaryNew <- start(current)
-        seq_name <- as.character(seqnames(current))
+    if (length(peaks) > 0 && length(narrowPeaks) > 0) {
+        # Variables initialization
+        current <- NULL
         rightBoundary <- NULL
-        set <- NULL
-        setNew <- NULL
+        namesVec <- vector()
         bad <- FALSE
+        pos <- 1
         region_width <- 2 * padding
-        repeat {
-            set <- setNew
-            rightBoundary <- rightBoundaryNew
-            # Find peaks that overlaps the region
-            overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
-                            ranges=c(IRanges(rightBoundary, 
-                            rightBoundary + region_width))),
-                            subject = peaks)
-            setNew <- peaks[subjectHits(overlaps)]
-            if (!(current$name %in% setNew$name)) {
-                # The current peak is not included in the current region
-                # The region will not be selected
-                #strangeRegions <- append(strangeRegions, current)
-                bad <- TRUE
-                break
-            }
-            
-            # Use the median of the peaks to set the new right boundary
-            rightBoundaryNew <- median(start(setNew)) - padding
-            # Stop loop when the overlaping peaks are stable or 
-            # when no peaks are found
-            if (!is.null(set) && (length(set) == length(setNew)) && 
-                    all(set == setNew)) break
-        }
         
-        if (bad) {
-            # Treat the next position
-            pos <- pos + 1
-        } else {
-            # Keep region only when the number of different experiments present
-            # is reached
-            short_names <- sapply(X = set$name, 
-                            function(x) stringr::str_split(string = x, 
-                                            pattern = ".bam")[[1]][1])
-            if (length(unique(short_names)) > minNbrExp) {
-                # Create one final region using the narrow information 
-                # for each peak present
-                minPos <- rightBoundaryNew
-                peakMedian <- rightBoundaryNew + padding
-                maxPos <- peakMedian + padding
-                for (i in unique(short_names)) {
-                    peaksForOneExp <- set[short_names == i]
-                    
-                    closessPeak <- which(abs(start(peaksForOneExp) - peakMedian)
-                                            == 
-                                    min(abs(start(peaksForOneExp)- peakMedian)))
-                
-                    firstPeak <- peaksForOneExp[closessPeak[1]]
-                    newMax <- end(narrowPeaks[narrowPeaks$name %in% 
-                                                    lastPeak$name])
-                    maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
-                    
-                    lastPeak <- peaksForOneExp[closessPeak[length(closessPeak)]]
-                    newMin <- start(narrowPeaks[narrowPeaks$name %in%  
-                                                firstPeak$name])
-                    minPos <- ifelse(newMin < minPos, newMin, minPos)
-                }
-                
-                newRegion <- GRanges(seqnames = seq_name, 
-                                        IRanges(minPos, maxPos))
-                regions <- append(regions, newRegion)
-                
-                # Update overlapping peaks
-                overlaps <- findOverlaps(query = newRegion, subject = peaks)
+        repeat  {
+            current <- peaks[pos]
+            rightBoundaryNew <- start(current)
+            seq_name <- as.character(seqnames(current))
+            rightBoundary <- NULL
+            set <- NULL
+            setNew <- NULL
+            noRegionFound <- FALSE
+            repeat {
+                set <- setNew
+                rightBoundary <- rightBoundaryNew
+                # Find peaks that overlaps the region
+                overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
+                                    ranges=c(IRanges(rightBoundary, 
+                                    rightBoundary + region_width))),
+                                    subject = peaks)
                 setNew <- peaks[subjectHits(overlaps)]
                 if (!(current$name %in% setNew$name)) {
                     # The current peak is not included in the current region
                     # The region will not be selected
-                    stop(paste0("The current treated peak should be in the ", 
-                                    "selected region.\n"))
+                    noRegionFound <- TRUE
+                    break
                 }
                 
-                # Treat the position following last peak present in new region
-                pos <- max(subjectHits(overlaps)) + 1
-            } else {
-                pos <- pos + 1
+                # Use the median of the peaks to set the new right boundary
+                rightBoundaryNew <- median(start(setNew)) - padding
+                # Stop loop when the overlaping peaks are stable or 
+                # when no peaks is found
+                if (!is.null(set) && (length(set) == length(setNew)) && 
+                        all(set == setNew)) break
             }
+            
+            if (noRegionFound) {
+                # Treat the next position
+                pos <- pos + 1
+            } else {
+                # Keep region only when the number of different experiments 
+                # present is reached
+                short_names <- sapply(X = set$name, 
+                                    function(x) stringr::str_split(string = x, 
+                                            pattern = ".bam")[[1]][1])
+                if (length(unique(short_names)) >= minNbrExp) {
+                    # Create one final region using the narrow information 
+                    # for each peak present
+                    minPos <- rightBoundaryNew
+                    peakMedian <- rightBoundaryNew + padding
+                    maxPos <- peakMedian + padding
+                    for (i in unique(short_names)) {
+                        peaksForOneExp <- set[short_names == i]
+                        
+                        closessPeak <- which(abs(start(peaksForOneExp) - 
+                                        peakMedian) == 
+                                        min(abs(start(peaksForOneExp) - 
+                                        peakMedian)))
+                        
+                        firstPeak <- peaksForOneExp[closessPeak[1]]
+                        lastPeak <- peaksForOneExp[closessPeak[length(closessPeak)]]
+                        
+                        newMax <- end(narrowPeaks[narrowPeaks$name %in% 
+                                                      lastPeak$name])
+                        maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
+                        
+                        newMin <- start(narrowPeaks[narrowPeaks$name %in%  
+                                                        firstPeak$name])
+                        minPos <- ifelse(newMin < minPos, newMin, minPos)
+                    }
+                    
+                    newRegion <- GRanges(seqnames = seq_name, 
+                                         IRanges(minPos, maxPos))
+                    regions <- append(regions, newRegion)
+                    
+                    # Update overlapping peaks
+                    overlaps <- findOverlaps(query = newRegion, subject = peaks)
+                    setNew <- peaks[subjectHits(overlaps)]
+                    if (!(current$name %in% setNew$name)) {
+                        # If the current peak is not included in the current 
+                        # region, the region will not be selected
+                        stop(paste0("The current treated peak should be in ", 
+                                    "the selected region.\n"))
+                    }
+                    
+                    # Treat the position following last peak present
+                    # in new region
+                    pos <- max(subjectHits(overlaps)) + 1
+                } else {
+                    pos <- pos + 1
+                }
+            }
+            print(pos)
+            # Stop loop when all peaks are treated
+            if (pos >= length(peaks)) break
         }
-        # Stop loop when all peaks are treated
-        if (pos >= length(peaks)) break
     }
+    
     result <- list(features=regions)
     class(result) <- "commonFeatures"
-    return()
+    return(result)
 }
