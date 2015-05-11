@@ -150,9 +150,12 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
         } else {
             # Keep region only when the number of different experiments present
             # is reached
-            short_names <- sapply(X = set$name, function(x) stringr::str_split(string = x, pattern = ".bam")[[1]][1])
+            short_names <- sapply(X = set$name, 
+                            function(x) stringr::str_split(string = x, 
+                                            pattern = ".bam")[[1]][1])
             if (length(unique(short_names)) > minNbrExp) {
-                # Create one final region using the narrow information for each peak present
+                # Create one final region using the narrow information 
+                # for each peak present
                 minPos <- rightBoundaryNew
                 peakMedian <- rightBoundaryNew + padding
                 maxPos <- peakMedian + padding
@@ -184,7 +187,8 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                 if (!(current$name %in% setNew$name)) {
                     # The current peak is not included in the current region
                     # The region will not be selected
-                    stop("The current treated peak should be in the selected region.\n")
+                    stop(paste0("The current treated peak should be in the ", 
+                                    "selected region.\n"))
                 }
                 
                 # Treat the position following last peak present in new region
