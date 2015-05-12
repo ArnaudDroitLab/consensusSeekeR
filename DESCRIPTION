@@ -1,11 +1,12 @@
 Package: sharedBed
 Version: 0.99.0
 Date: 2015-05-01
-Title: Detection of shared features inside a group of experiences using 
-    BED files
-Description: This package compares multiple BED files to extract common 
-    features. The size of the analyzed region is adjustable as well as the
-    number of BED files in which the features are detected to be retained.
+Title: Detection of common peak regions inside a group of experiences using 
+    narrowPeak files
+Description: This package compares multiple narrowPeak files to extract common 
+    common peak regions. The size of the analyzed region is adjustable as well
+    as the number of experiences in which a peak must be detected to keep a
+    potential region.
 Author: Astrid Louise Deschenes [cre, aut], Fabien Claude Lamaze [ctb],
     Pascal Belleau [aut], Arnaud Droit [aut]
 Author@R: c(person("Astrid Louise", "Deschenes",
