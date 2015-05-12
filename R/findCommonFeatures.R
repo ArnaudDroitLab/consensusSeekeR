@@ -26,9 +26,15 @@
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
-#' @param padding a \code{numeric} value indicating the size to pad at each 
-#'          side of a peak. The \code{padding} must be a positive integer. 
-#'          Default = 250.
+#' @param extendingSize a \code{numeric} value indicating the size of padding 
+#'          at each side of the peaks median position to create the consensus
+#'          region. The minimum size of the consensu region will be equal to
+#'          twice the value of the \code{extendingSize} parameter. The size of 
+#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#' @param includeAllPeakRegion a \code{logical} indicating if the region size,
+#'          which is set by the \code{extendingSize} parameter is extended to 
+#'          include all region of the peak closest to the peaks median 
+#'          position for each experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive integer inferior or equal to the number 
@@ -49,12 +55,13 @@
 #'                  multicoreWorkers
 #' @export
 findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL", 
-                               padding = 250, minNbrExp = 1, 
+                               extendingSize = 250, 
+                               includeAllPeakRegion = TRUE, minNbrExp = 1, 
                                nbrThreads = 1) {
     
     # Parameters validation
-    findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, padding,
-                        minNbrExp, nbrThreads)
+    findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, extendingSize,
+                                includeAllPeakRegion, minNbrExp, nbrThreads)
     
     # Create objects that are going to contain the final extracted values
     allPeaks <- GRanges()
@@ -93,7 +100,8 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
     results <- bplapply(chrList, 
                 FUN = findCommonFeaturesForOneChrom,
                 allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
-                padding = padding, minNbrExp = minNbrExp, 
+                extendingSize = extendingSize, includeAllPeakRegion =
+                includeAllPeakRegion, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
     
     # Merge extracted regions

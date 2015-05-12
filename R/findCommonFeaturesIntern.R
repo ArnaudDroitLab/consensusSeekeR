@@ -10,7 +10,15 @@
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
 #'          new term is added. Default : \code{NULL}.
-#' @param padding a \code{numeric}. Default = 250.
+#' @param extendingSize a \code{numeric} value indicating the size of padding 
+#'          at each side of the peaks median position to create the consensus
+#'          region. The minimum size of the consensu region will be equal to
+#'          twice the value of the \code{extendingSize} parameter. The size of 
+#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#' @param includeAllPeakRegion a \code{logical} indicating if the region set by
+#'          the \code{extendingSize} parameter is extended to include all
+#'          region of the peak closest to the peaks median position for each
+#'          experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive value inferior or equal to the number of 
@@ -25,7 +33,8 @@
 #' @author Astrid Louise Deschenes
 #' @keywords internal
 findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList, 
-                                         padding, minNbrExp, nbrThreads) {
+                                        extendingSize, includeAllPeakRegion, 
+                                        minNbrExp, nbrThreads) {
     
     if (is.vector(narrowpeaksBEDFiles) && (!is.character(narrowpeaksBEDFiles) 
             || !all(sapply(narrowpeaksBEDFiles, file.exists)))) {
@@ -33,12 +42,16 @@ findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList,
     }
     
     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
-        stop(paste0("chrList must be either be the value \"ALL\" or a ",
+        stop(paste0("chrList must either be the value \"ALL\" or a ",
              "vector of chromosomes names"))
     }
-      
-    if (!isInteger(padding) || padding < 1 ) {
-        stop("padding must be a non-negative integer")
+    
+    if (!isInteger(extendingSize) || extendingSize < 1 ) {
+        stop("extendingSize must be a non-negative integer")
+    }
+    
+    if (!is.logical(includeAllPeakRegion)) {
+        stop("includeAllPeakRegion must be a logical value")
     }
     
     if (!isInteger(minNbrExp) || minNbrExp < 1  || 
@@ -74,14 +87,25 @@ isInteger <- function(value) {
 #' 
 #' @description TODO
 #' 
-#' @param chrName an object of \code{class} "formula" which contains a symbolic
-#'          model formula.
-#' @param padding a \code{data.frame} containing the variables in the model.
-#' @param minNbrExp
-#' @param allPeaks a \code{GRanges} indicating which column from the 
-#'          \code{data} must be added to the formula. When \code{NULL}, no
-#'          new term is added. Default : \code{NULL}.
-#' @param allNarrowPeaks a \code{GRanges}.
+#' @param chrName the name of the chromosome to analyse.
+#' @param extendingSize a \code{numeric} value indicating the size of padding 
+#'          at each side of the peaks median position to create the consensus
+#'          region. The minimum size of the consensu region will be equal to
+#'          twice the value of the \code{extendingSize} parameter. The size of 
+#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#' @param includeAllPeakRegion a \code{logical} indicating if the region set by
+#'          the \code{extendingSize} parameter is extended to include all
+#'          region of the peak closest to the peaks median position for each
+#'          experiment.
+#' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
+#'          in which a peak must be present for a region to be retained. The
+#'          numeric must be a positive value inferior or equal to the number of 
+#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          Default = 1.
+#' @param allPeaks a \code{GRanges} containing all peaks from all experiments
+#'          sorted by position.
+#' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all 
+#'          experiments sorted by position.
 #' 
 #' @return an object of \code{class} "commonFeatures". 
 #' 
@@ -91,8 +115,8 @@ isInteger <- function(value) {
 #' @importFrom IRanges IRanges 
 #' @importFrom GenomicRanges GRanges findOverlaps seqinfo seqnames subjectHits
 #' @keywords internal
-findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp, 
-                        allPeaks, allNarrowPeaks) {
+findCommonFeaturesForOneChrom <- function(chrName, extendingSize, 
+                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks) {
     
     # Subset peaks and narrow peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks, as.character(seqnames(allPeaks)) == chrName))
@@ -109,7 +133,7 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
         namesVec <- vector()
         bad <- FALSE
         pos <- 1
-        region_width <- 2 * padding
+        region_width <- 2 * extendingSize
         
         repeat  {
             current <- peaks[pos]
@@ -136,7 +160,7 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                 }
                 
                 # Use the median of the peaks to set the new right boundary
-                rightBoundaryNew <- median(start(setNew)) - padding
+                rightBoundaryNew <- median(start(setNew)) - extendingSize
                 # Stop loop when the overlaping peaks are stable or 
                 # when no peaks is found
                 if (!is.null(set) && (length(set) == length(setNew)) && 
@@ -156,8 +180,8 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                     # Create one final region using the narrow information 
                     # for each peak present
                     minPos <- rightBoundaryNew
-                    peakMedian <- rightBoundaryNew + padding
-                    maxPos <- peakMedian + padding
+                    peakMedian <- rightBoundaryNew + extendingSize
+                    maxPos <- peakMedian + extendingSize
                     for (i in unique(short_names)) {
                         peaksForOneExp <- set[short_names == i]
                         
@@ -167,7 +191,8 @@ findCommonFeaturesForOneChrom <- function(chrName, padding, minNbrExp,
                                         peakMedian)))
                         
                         firstPeak <- peaksForOneExp[closessPeak[1]]
-                        lastPeak <- peaksForOneExp[closessPeak[length(closessPeak)]]
+                        lastPeak <- 
+                            peaksForOneExp[closessPeak[length(closessPeak)]]
                         
                         newMax <- end(narrowPeaks[narrowPeaks$name %in% 
                                                       lastPeak$name])

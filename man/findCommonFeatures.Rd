@@ -4,8 +4,9 @@
 \alias{findCommonFeatures}
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
-findCommonFeatures(narrowpeaksBEDFiles, chrList = "ALL", padding = 250,
-  minNbrExp = 1, nbrThreads = 1)
+findCommonFeatures(narrowpeaksBEDFiles, chrList = "ALL",
+  extendingSize = 250, includeAllPeakRegion = TRUE, minNbrExp = 1,
+  nbrThreads = 1)
 }
 \arguments{
 \item{narrowpeaksBEDFiles}{a \code{vector} containing the BED files to
@@ -16,9 +17,16 @@ analyze or the name \code{"ALL"} which indicate that all
 chromosomes must be analyzed. When \code{NULL}, no
 new term is added. Default : \code{NULL}.}
 
-\item{padding}{a \code{numeric} value indicating the size to pad at each
-side of a peak. The \code{padding} must be a positive integer.
-Default = 250.}
+\item{extendingSize}{a \code{numeric} value indicating the size of padding
+at each side of the peaks median position to create the consensus
+region. The minimum size of the consensu region will be equal to
+twice the value of the \code{extendingSize} parameter. The size of
+the \code{extendingSize} must be a positive integer. Default = 250.}
+
+\item{includeAllPeakRegion}{a \code{logical} indicating if the region size,
+which is set by the \code{extendingSize} parameter is extended to
+include all region of the peak closest to the peaks median
+position for each experiment.}
 
 \item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
 in which a peak must be present for a region to be retained. The

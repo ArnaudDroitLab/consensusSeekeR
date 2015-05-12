@@ -5,8 +5,8 @@
 \title{Parameter validation for the \code{\link{findCommonFeatures}}
      function}
 \usage{
-findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, padding, minNbrExp,
-  nbrThreads)
+findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, extendingSize,
+  includeAllPeakRegion, minNbrExp, nbrThreads)
 }
 \arguments{
 \item{narrowpeaksBEDFiles}{a \code{vector} containing the BED files to
@@ -17,7 +17,16 @@ analyze or the name \code{"ALL"} which indicate that all
 chromosomes must be analyzed. When \code{NULL}, no
 new term is added. Default : \code{NULL}.}
 
-\item{padding}{a \code{numeric}. Default = 250.}
+\item{extendingSize}{a \code{numeric} value indicating the size of padding
+at each side of the peaks median position to create the consensus
+region. The minimum size of the consensu region will be equal to
+twice the value of the \code{extendingSize} parameter. The size of
+the \code{extendingSize} must be a positive integer. Default = 250.}
+
+\item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
+the \code{extendingSize} parameter is extended to include all
+region of the peak closest to the peaks median position for each
+experiment.}
 
 \item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
 in which a peak must be present for a region to be retained. The

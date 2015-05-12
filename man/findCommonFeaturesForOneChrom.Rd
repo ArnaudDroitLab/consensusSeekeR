@@ -4,22 +4,34 @@
 \alias{findCommonFeaturesForOneChrom}
 \title{TODO}
 \usage{
-findCommonFeaturesForOneChrom(chrName, padding, minNbrExp, allPeaks,
-  allNarrowPeaks)
+findCommonFeaturesForOneChrom(chrName, extendingSize, includeAllPeakRegion,
+  minNbrExp, allPeaks, allNarrowPeaks)
 }
 \arguments{
-\item{chrName}{an object of \code{class} "formula" which contains a symbolic
-model formula.}
+\item{chrName}{the name of the chromosome to analyse.}
 
-\item{padding}{a \code{data.frame} containing the variables in the model.}
+\item{extendingSize}{a \code{numeric} value indicating the size of padding
+at each side of the peaks median position to create the consensus
+region. The minimum size of the consensu region will be equal to
+twice the value of the \code{extendingSize} parameter. The size of
+the \code{extendingSize} must be a positive integer. Default = 250.}
 
-\item{minNbrExp}{}
+\item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
+the \code{extendingSize} parameter is extended to include all
+region of the peak closest to the peaks median position for each
+experiment.}
 
-\item{allPeaks}{a \code{GRanges} indicating which column from the
-\code{data} must be added to the formula. When \code{NULL}, no
-new term is added. Default : \code{NULL}.}
+\item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
+in which a peak must be present for a region to be retained. The
+numeric must be a positive value inferior or equal to the number of
+files present in the \code{narrowpeaksBEDFiles} parameter.
+Default = 1.}
 
-\item{allNarrowPeaks}{a \code{GRanges}.}
+\item{allPeaks}{a \code{GRanges} containing all peaks from all experiments
+sorted by position.}
+
+\item{allNarrowPeaks}{a \code{GRanges} containing all narrow peaks from all
+         experiments sorted by position.}
 }
 \value{
 an object of \code{class} "commonFeatures".
