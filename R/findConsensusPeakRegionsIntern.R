@@ -22,7 +22,7 @@
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive value inferior or equal to the number of 
-#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
 #'          in parallel.
@@ -55,7 +55,7 @@ findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList,
     }
     
     if (!isInteger(minNbrExp) || minNbrExp < 1  || 
-            minNbrExp > length(narrowpeaksBEDFiles)) {
+            minNbrExp > length(narrowPeakFiles)) {
         stop(paste0("minNbrExp must be a non-negative integer inferior or ", 
                 "equal to the number of experiments."))
     }
@@ -100,7 +100,7 @@ isInteger <- function(value) {
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive value inferior or equal to the number of 
-#'          files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param allPeaks a \code{GRanges} containing all peaks from all experiments
 #'          sorted by position.
@@ -224,7 +224,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     pos <- pos + 1
                 }
             }
-            print(pos)
+        
             # Stop loop when all peaks are treated
             if (pos >= length(peaks)) break
         }

@@ -38,7 +38,7 @@
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive integer inferior or equal to the number 
-#'          of files present in the \code{narrowpeaksBEDFiles} parameter.
+#'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
 #'          in parallel. The \code{nbrThreads} must be a positive integer. 
