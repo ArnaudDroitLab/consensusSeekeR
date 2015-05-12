@@ -1,10 +1,10 @@
-#' @title Parameter validation for the \code{\link{findCommonFeatures}} 
+#' @title Parameter validation for the \code{\link{findConsensusPeakRegions}} 
 #'      function
 #' 
 #' @description Validation of all parameters needed by the public
-#'      \code{\link{findCommonFeatures}} function.
+#'      \code{\link{findConsensusPeakRegions}} function.
 #' 
-#' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
+#' @param narrowPeakFiles a \code{vector} containing the narrowPeak files to
 #'          use for the regions selection.
 #' @param chrList a \code{vector} containing the name of the chromosomes to 
 #'          analyze or the name \code{"ALL"} which indicate that all
@@ -32,12 +32,12 @@
 #' 
 #' @author Astrid Louise Deschenes
 #' @keywords internal
-findCommonFeaturesValidation <- function(narrowpeaksBEDFiles, chrList, 
+findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList, 
                                         extendingSize, includeAllPeakRegion, 
                                         minNbrExp, nbrThreads) {
     
-    if (is.vector(narrowpeaksBEDFiles) && (!is.character(narrowpeaksBEDFiles) 
-            || !all(sapply(narrowpeaksBEDFiles, file.exists)))) {
+    if (is.vector(narrowPeakFiles) && (!is.character(narrowPeakFiles) 
+            || !all(sapply(narrowPeakFiles, file.exists)))) {
         stop("peaksBEDlist must be a vector of existing BED files")
     }
     
@@ -115,7 +115,7 @@ isInteger <- function(value) {
 #' @importFrom IRanges IRanges 
 #' @importFrom GenomicRanges GRanges findOverlaps seqinfo seqnames subjectHits
 #' @keywords internal
-findCommonFeaturesForOneChrom <- function(chrName, extendingSize, 
+findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize, 
                 includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks) {
     
     # Subset peaks and narrow peaks using the specified chromosome name

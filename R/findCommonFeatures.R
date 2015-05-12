@@ -20,8 +20,8 @@
 #'          some manual validation of the resulting regions before selecting
 #'          the final padding size.
 #' 
-#' @param narrowpeaksBEDFiles a \code{vector} containing the BED files to
-#'          use for the regions selection.
+#' @param narrowPeakFiles a \code{vector} containing the narrowPeak files to
+#'          use.
 #' @param chrList a \code{vector} containing the name of the chromosomes to 
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
@@ -54,13 +54,13 @@
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
 #'                  multicoreWorkers
 #' @export
-findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL", 
+findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL", 
                                extendingSize = 250, 
                                includeAllPeakRegion = TRUE, minNbrExp = 1, 
                                nbrThreads = 1) {
     
     # Parameters validation
-    findCommonFeaturesValidation(narrowpeaksBEDFiles, chrList, extendingSize,
+    findConsensusPeakRegionsValidation(narrowPeakFiles, chrList, extendingSize,
                                 includeAllPeakRegion, minNbrExp, nbrThreads)
     
     # Create objects that are going to contain the final extracted values
@@ -68,7 +68,7 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
     allNarrowPeaks <- GRanges()
     
     # Extract peaks and regions from each file present in the file vector
-    for (files in narrowpeaksBEDFiles) {
+    for (files in narrowPeakFiles) {
         data <- readNarrowPeak(files)
         allPeaks <- append(allPeaks, data$peak)
         allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
@@ -98,7 +98,7 @@ findCommonFeatures <- function(narrowpeaksBEDFiles, chrList = "ALL",
     
     # Process to regions extraction using parallel threads when available
     results <- bplapply(chrList, 
-                FUN = findCommonFeaturesForOneChrom,
+                FUN = findConsensusPeakRegionsForOneChrom,
                 allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
                 extendingSize = extendingSize, includeAllPeakRegion =
                 includeAllPeakRegion, minNbrExp = minNbrExp, 
