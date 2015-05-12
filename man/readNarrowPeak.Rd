@@ -2,7 +2,7 @@
 % Please edit documentation in R/readNarrowPeak.R
 \name{readNarrowPeak}
 \alias{readNarrowPeak}
-\title{Extract narrow regions and peaks from narrrowPeak file}
+\title{Extract narrow regions and peaks from a narrrowPeak file}
 \usage{
 readNarrowPeak(file_path, extractRegions = TRUE, extractPeaks = TRUE)
 }

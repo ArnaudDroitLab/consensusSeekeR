@@ -1,4 +1,4 @@
-#' @title Extract narrow regions and peaks from narrrowPeak file
+#' @title Extract narrow regions and peaks from a narrrowPeak file
 #' 
 #' @description Read a narrowPeak file and extract the narrow regions and/or
 #'          the peaks, as specified by used. The narrowPeak file must fit the 
