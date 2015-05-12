@@ -25,3 +25,4 @@ test.readNarrowPeak_no_existing_file <- function() {
     message <- paste0("readNarrowPeak_no_existing_file() ",
         "- A not existing file did not generated the expected exception.")
     checkEquals(obs, exp, msg = message)
+}
