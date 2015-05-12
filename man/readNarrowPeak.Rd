@@ -35,7 +35,8 @@ Read a narrowPeak file and extract the narrow regions and/or
          the peaks, as specified by used. The narrowPeak file must fit the
          UCSC specifications. See
          \url{https://genome.ucsc.edu/FAQ/FAQformat.html#format12} for more
-         details. The file can have one or many header lines.
+         details. The file can have one or many header lines. However, the
+         total number of header lines must be inferior to 250 lines.
 }
 \author{
 Astrid Louise Deschenes

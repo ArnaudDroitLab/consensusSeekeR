@@ -4,7 +4,8 @@
 #'          the peaks, as specified by used. The narrowPeak file must fit the 
 #'          UCSC specifications. See 
 #'          \url{https://genome.ucsc.edu/FAQ/FAQformat.html#format12} for more
-#'          details. The file can have one or many header lines.
+#'          details. The file can have one or many header lines. However, the
+#'          total number of header lines must be inferior to 250 lines.
 #' 
 #' @param file_path the name of the file.
 #' @param extractRegions a \code{logical} indicating if the narrow regions must
@@ -61,7 +62,7 @@ readNarrowPeak<- function(file_path, extractRegions = TRUE,
     
     if (length(grepRes) == 0) {
         stop("No valid chromosome detected within first ", data_size, 
-             " lines of BED file \"", file_path , "\"")
+                " lines of BED file \"", file_path , "\"")
     }
     
     skip_lines = min(grepRes) - 1
