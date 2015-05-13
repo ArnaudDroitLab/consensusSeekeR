@@ -1,4 +1,4 @@
-sharedBed : Detect shared features inside a group of experiences using BED data
+sharedBed : Detect consensus peak regions inside a group of experiences using narrowPeak files
 =====================
 
 ## Authors ##
