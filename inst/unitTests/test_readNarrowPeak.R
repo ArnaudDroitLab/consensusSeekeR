@@ -58,10 +58,36 @@ test.readNarrowPeak_a_string_as_extractPeaks <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
+## Test the result when extractPeaks is a numerical
+test.readNarrowPeak_a_numerical_as_extractPeaks <- function() {
+    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
+                                   extractRegions = FALSE, 
+                                   extractPeaks = 0.001), 
+                    error=conditionMessage)
+    exp <- "extractPeaks must be a logical value"
+    message <- paste0("readNarrowPeak_no_existing_file() ",
+                      "- A string used as extractPeaks parameter ",
+                      "did not generated the expected exception.")
+    checkEquals(obs, exp, msg = message)
+}
+
 ## Test the result when extractRegions is a string
 test.readNarrowPeak_a_string_as_extractRegions <- function() {
     obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
                                    extractRegions = "extremeReading", 
+                                   extractPeaks = TRUE), 
+                    error=conditionMessage)
+    exp <- "extractRegions must be a logical value"
+    message <- paste0("readNarrowPeak_no_existing_file() ",
+                      "- A string used as extractRegions parameter ",
+                      "did not generated the expected exception.")
+    checkEquals(obs, exp, msg = message)
+}
+
+# Test the result when extractRegions is an numerical 
+test.readNarrowPeak_a_numerical_as_extractRegions <- function() {
+    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
+                                   extractRegions = 0.11, 
                                    extractPeaks = TRUE), 
                     error=conditionMessage)
     exp <- "extractRegions must be a logical value"
