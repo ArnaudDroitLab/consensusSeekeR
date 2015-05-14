@@ -180,27 +180,29 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     # Create one final region using the narrow information 
                     # for each peak present
                     minPos <- rightBoundaryNew
-                    peakMedian <- rightBoundaryNew + extendingSize
                     maxPos <- peakMedian + extendingSize
-                    for (i in unique(short_names)) {
-                        peaksForOneExp <- set[short_names == i]
+                    if (includeAllPeakRegion) {
+                        peakMedian <- rightBoundaryNew + extendingSize
+                        for (i in unique(short_names)) {
+                            peaksForOneExp <- set[short_names == i]
                         
-                        closessPeak <- which(abs(start(peaksForOneExp) - 
+                            closessPeak <- which(abs(start(peaksForOneExp) - 
                                         peakMedian) == 
                                         min(abs(start(peaksForOneExp) - 
                                         peakMedian)))
                         
-                        firstPeak <- peaksForOneExp[closessPeak[1]]
-                        lastPeak <- 
-                            peaksForOneExp[closessPeak[length(closessPeak)]]
+                            firstPeak <- peaksForOneExp[closessPeak[1]]
+                            lastPeak <- 
+                                peaksForOneExp[closessPeak[length(closessPeak)]]
                         
-                        newMax <- end(narrowPeaks[narrowPeaks$name %in% 
+                            newMax <- end(narrowPeaks[narrowPeaks$name %in% 
                                                       lastPeak$name])
-                        maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
+                            maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
                         
-                        newMin <- start(narrowPeaks[narrowPeaks$name %in%  
+                            newMin <- start(narrowPeaks[narrowPeaks$name %in%  
                                                         firstPeak$name])
-                        minPos <- ifelse(newMin < minPos, newMin, minPos)
+                            minPos <- ifelse(newMin < minPos, newMin, minPos)
+                        }
                     }
                     
                     newRegion <- GRanges(seqnames = seq_name, 

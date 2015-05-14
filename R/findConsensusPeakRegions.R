@@ -34,7 +34,9 @@
 #' @param includeAllPeakRegion a \code{logical} indicating if the region size,
 #'          which is set by the \code{extendingSize} parameter is extended to 
 #'          include all region of the peak closest to the peaks median 
-#'          position for each experiment.
+#'          position for each experiment. When two peaks are at equal distance
+#'          of the peaks median for one experiment, both peaks are used to
+#'          extend the final consensus region.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive integer inferior or equal to the number 
