@@ -123,7 +123,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
     narrowPeaks <- sort(subset(allNarrowPeaks, 
                         as.character(seqnames(allNarrowPeaks)) == chrName))
     
-    # Variable which will contain final resultat
+    # Variable containing final consensus peak regions
     regions <- GRanges()
     
     if (length(peaks) > 0 && length(narrowPeaks) > 0) {
@@ -135,6 +135,16 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
         pos <- 1
         region_width <- 2 * extendingSize
         
+        # All peak are tested
+        # A primary region starting at peak position and of size 
+        # 2 * extendingSize. All peaks included in the region are used to 
+        # calcule the median of the peaks. Using the median position, a new
+        # region of size 2 * extendingSize is created with the median at its
+        # center. All peaks included in the region are used to 
+        # calcule the median of the peaks. The iteration goes on as long as
+        # the set of peaks is not stable and the inital peak is not part
+        # of the region.
+        # When a region is fixed. 
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
@@ -180,33 +190,30 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     # Create one final region using the narrow information 
                     # for each peak present
                     minPos <- rightBoundaryNew
-                    maxPos <- peakMedian + extendingSize
+                    maxPos <- minPos + region_width
                     if (includeAllPeakRegion) {
                         peakMedian <- rightBoundaryNew + extendingSize
-                        for (i in unique(short_names)) {
-                            peaksForOneExp <- set[short_names == i]
+                        for (name in unique(short_names)) {
+                            peaksForOneExp <- set[short_names == name]
                         
-                            closessPeak <- which(abs(start(peaksForOneExp) - 
+                            closessPeaks <- which(abs(start(peaksForOneExp) - 
                                         peakMedian) == 
                                         min(abs(start(peaksForOneExp) - 
                                         peakMedian)))
-                        
-                            firstPeak <- peaksForOneExp[closessPeak[1]]
-                            lastPeak <- 
-                                peaksForOneExp[closessPeak[length(closessPeak)]]
-                        
-                            newMax <- end(narrowPeaks[narrowPeaks$name %in% 
-                                                      lastPeak$name])
+                            peaksForOneExp <- peaksForOneExp[closessPeaks]
+                            
+                            newMax <- max(end(narrowPeaks[narrowPeaks$name 
+                                                %in% peaksForOneExp$name]))
                             maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
                         
-                            newMin <- start(narrowPeaks[narrowPeaks$name %in%  
-                                                        firstPeak$name])
+                            newMin <- min(start(narrowPeaks[narrowPeaks$name 
+                                                %in% peaksForOneExp$name]))
                             minPos <- ifelse(newMin < minPos, newMin, minPos)
                         }
                     }
                     
                     newRegion <- GRanges(seqnames = seq_name, 
-                                         IRanges(minPos, maxPos))
+                                            IRanges(minPos, maxPos))
                     regions <- append(regions, newRegion)
                     
                     # Update overlapping peaks
