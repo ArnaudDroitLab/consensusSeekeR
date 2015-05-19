@@ -1,6 +1,12 @@
 sharedBed : Detect consensus peak regions inside a group of experiences using narrowPeak files
 =====================
 
+[![Build Status](https://travis-ci.org/adeschen/sharedBed.svg?branch=master)](https://travis-ci.org/adeschen/sharedBed)
+
+This R package compares multiple narrowPeak files to extract common peak regions. 
+The size of the analyzed region is adjustable as well
+as the number of experiences in which a peak must be detected to keep a potential region.
+
 ## Authors ##
 
 [Astrid Louise Deschenes](http://ca.linkedin.com/in/astriddeschenes "Astrid Louise Deschenes"), 
