@@ -162,7 +162,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                                     rightBoundary + region_width))),
                                     subject = peaks)
                 setNew <- peaks[subjectHits(overlaps)]
-                if (!(current$name %in% setNew$name)) {
+                if (length(setNew) == 0 || !(current$name %in% setNew$name)) {
                     # The current peak is not included in the current region
                     # The region will not be selected
                     noRegionFound <- TRUE
