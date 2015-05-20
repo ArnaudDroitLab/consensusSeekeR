@@ -84,22 +84,27 @@ findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL",
     
     # Extract the list of chromosomes to analyse
     allChr <- levels(seqnames(allPeaks))
-    if (chrList == "ALL") {
+    if (length(chrList) == 1 && chrList == "ALL") {
         # The list of chromosomes correspond to the global list
-        chrList <- allChr 
+        chrListFinal <- allChr 
     } else {
         # The list of chromosomes correspond to the chromosomes from the
         # specified parameter which are present in the data
-        chrList <- subset(allChr, allChr %in% chrList)
+        chrListFinal <- subset(allChr, allChr %in% chrList)
     }
     
     # At least one chromosome must be analyzed
-    if (length(chrList) == 0) {
-        stop("No chromosome correspond to the given list: ", chrList)
+    if (length(chrListFinal) == 0) {
+        if (length(chrList) <= 1) {
+            stop("No chromosome correspond to the given parameter: ", chrList) 
+        } else {
+            stop("No chromosome correspond to the given parameters: ", 
+                 paste0(chrList,  collapse = ", "))
+        }
     }
     
     # Process to regions extraction using parallel threads when available
-    results <- bplapply(chrList, 
+    results <- bplapply(chrListFinal, 
                 FUN = findConsensusPeakRegionsForOneChrom,
                 allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
                 extendingSize = extendingSize, includeAllPeakRegion =
