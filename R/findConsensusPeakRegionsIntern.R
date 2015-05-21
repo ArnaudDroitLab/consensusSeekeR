@@ -239,7 +239,5 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
         }
     }
     
-    result <- list(features=regions)
-    class(result) <- "commonFeatures"
-    return(result)
+    return(regions)
 }

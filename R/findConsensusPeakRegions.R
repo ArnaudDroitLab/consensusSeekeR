@@ -51,8 +51,8 @@
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges
-#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges unlist
+#' @importFrom GenomicRanges GRanges GRangesList
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
 #'                  multicoreWorkers
 #' @export
@@ -111,11 +111,8 @@ findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL",
                 includeAllPeakRegion, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
     
-    # Merge extracted regions
-    finalRegions <- GRanges()
-    for (i in 1:length(results)) {
-        finalRegions<-c(finalRegions, results[[i]][["features"]])
-    }
-    
-    return(finalRegions)
+    # Merge extracted regions to create one final GRanges object
+    final<-IRanges::unlist(GRangesList(results), recursive = TRUE, use.names = TRUE)
+
+    return(final)
 }
