@@ -70,7 +70,11 @@ findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList,
 #' @title Validate if a value is an integer
 #' 
 #' @description Validate if the value passed to the function is an integer or 
-#'          not.
+#'          not. To be considered as an integer, the value must have a length 
+#'          of 1. The type of value can be a \code{integer} or 
+#'          \code{numerical}. However, a \code{numerical} must have the same 
+#'          value once casted to a \code{integer}.  A \code{vector} of integers 
+#'          will returned \code{FALSE}/
 #'
 #' @param value an object to validate.
 #' 
@@ -79,8 +83,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList,
 #' @author Astrid Louise Deschenes
 #' @keywords internal
 isInteger <- function(value) {
-    return(is.integer(value) || (is.numeric(value) && 
-                as.integer(value) == value))
+    return((is.integer(value) && length(value) == 1) || (is.numeric(value) && 
+                as.integer(value) == value) && length(value) == 1)
 }
 
 #' @title TODO
