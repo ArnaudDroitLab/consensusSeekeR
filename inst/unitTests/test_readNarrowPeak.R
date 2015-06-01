@@ -92,7 +92,7 @@ test.readNarrowPeak_a_numerical_as_extractRegions <- function() {
                     error=conditionMessage)
     exp <- "extractRegions must be a logical value"
     message <- paste0("readNarrowPeak_no_existing_file() ",
-                      "- A string used as extractRegions parameter ",
+                      "- A numerical used as extractRegions parameter ",
                       "did not generated the expected exception.")
     checkEquals(obs, exp, msg = message)
 }
