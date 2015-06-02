@@ -1,5 +1,4 @@
-sharedBed : Detect consensus peak regions inside a group of experiences using 
-narrowPeak data
+sharedBed : Detect consensus peak regions inside a group of experiences using narrowPeak data
 =====================
 
 [![Build Status](https://travis-ci.org/adeschen/sharedBed.svg?branch=master)](https://travis-ci.org/adeschen/sharedBed)
