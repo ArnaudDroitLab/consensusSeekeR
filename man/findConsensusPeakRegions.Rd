@@ -4,13 +4,16 @@
 \alias{findConsensusPeakRegions}
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
-findConsensusPeakRegions(narrowPeakFiles, chrList = "ALL",
+findConsensusPeakRegions(narrowPeaks, peaks, chrList = "ALL",
   extendingSize = 250, includeAllPeakRegion = TRUE, minNbrExp = 1,
   nbrThreads = 1)
 }
 \arguments{
-\item{narrowPeakFiles}{a \code{vector} containing the narrowPeak files to
-use.}
+\item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
+called peaks of signal enrichment based on pooled, normalized data
+for all experiments.}
+
+\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
 \item{chrList}{a \code{vector} containing the name of the chromosomes to
 analyze or the name \code{"ALL"} which indicate that all
@@ -41,12 +44,13 @@ Default = 1.}
          Default = 1.}
 }
 \value{
-an object of \code{class} "commonFeatures".
+an object of \code{class} "consensusRanges".
 }
 \description{
 Find regions sharing the same features for a minimum number of
-         experiments using narrowPeak files. The peaks and narrow regions
-         are extracted from the narrowPeaks files and used to identify
+         experiments using called peaks of signal enrichment based on
+         pooled, normalized data (mainly coming from narrowPeak files).
+         The peaks and narrow peaks and used to identify
          the common regions. The minimum number of experiments that must a
          peak in a common regions for that region to be selected is
          specified by user, as well as the size of padding. Only the

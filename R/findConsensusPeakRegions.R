@@ -1,8 +1,9 @@
 #' @title Extract regions sharing the same features in more than one experiment
 #' 
 #' @description Find regions sharing the same features for a minimum number of
-#'          experiments using narrowPeak files. The peaks and narrow regions
-#'          are extracted from the narrowPeaks files and used to identify 
+#'          experiments using called peaks of signal enrichment based on 
+#'          pooled, normalized data (mainly coming from narrowPeak files). 
+#'          The peaks and narrow peaks and used to identify 
 #'          the common regions. The minimum number of experiments that must a
 #'          peak in a common regions for that region to be selected is 
 #'          specified by user, as well as the size of padding. Only the 
@@ -20,8 +21,10 @@
 #'          some manual validation of the resulting regions before selecting
 #'          the final padding size.
 #' 
-#' @param narrowPeakFiles a \code{vector} containing the narrowPeak files to
-#'          use.
+#' @param narrowPeaks a \code{vector} containing \code{GRanges} representing 
+#'          called peaks of signal enrichment based on pooled, normalized data 
+#'          for all experiments.
+#' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
 #' @param chrList a \code{vector} containing the name of the chromosomes to 
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
@@ -46,7 +49,7 @@
 #'          in parallel. The \code{nbrThreads} must be a positive integer. 
 #'          Default = 1.
 #' 
-#' @return an object of \code{class} "commonFeatures". 
+#' @return an object of \code{class} "consensusRanges". 
 #' 
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
@@ -56,26 +59,27 @@
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
 #'                  multicoreWorkers
 #' @export
-findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL", 
+findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL", 
                                extendingSize = 250, 
                                includeAllPeakRegion = TRUE, minNbrExp = 1, 
                                nbrThreads = 1) {
+    cl <- match.call()
     
     # Parameters validation
-    findConsensusPeakRegionsValidation(narrowPeakFiles, chrList, extendingSize,
-                                includeAllPeakRegion, minNbrExp, nbrThreads)
+    findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, 
+            extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
     
-    # Create objects that are going to contain the final extracted values
-    allPeaks <- GRanges()
-    allNarrowPeaks <- GRanges()
-    
-    # Extract peaks and regions from each file present in the file vector
-    for (files in narrowPeakFiles) {
-        data <- readNarrowPeak(files)
-        allPeaks <- append(allPeaks, data$peak)
-        allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
-    }
-    
+#     # Create objects that are going to contain the final extracted values
+#     allPeaks <- GRanges()
+#     allNarrowPeaks <- GRanges()
+#     
+#     # Extract peaks and regions from each file present in the file vector
+#     for (files in narrowPeakFiles) {
+#         data <- readNarrowPeak(files)
+#         allPeaks <- append(allPeaks, data$peak)
+#         allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
+#     }
+#     
     # Select the type of object used for parallel processing
     coreParam <- MulticoreParam(workers = nbrThreads)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
@@ -83,7 +87,7 @@ findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL",
     }
     
     # Extract the list of chromosomes to analyse
-    allChr <- levels(seqnames(allPeaks))
+    allChr <- levels(seqnames(peaks))
     if (length(chrList) == 1 && chrList == "ALL") {
         # The list of chromosomes correspond to the global list
         chrListFinal <- allChr 
@@ -106,13 +110,16 @@ findConsensusPeakRegions <- function(narrowPeakFiles, chrList = "ALL",
     # Process to regions extraction using parallel threads when available
     results <- bplapply(chrListFinal, 
                 FUN = findConsensusPeakRegionsForOneChrom,
-                allPeaks = allPeaks, allNarrowPeaks = allNarrowPeaks, 
+                allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
                 extendingSize = extendingSize, includeAllPeakRegion =
                 includeAllPeakRegion, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
-    
-    # Merge extracted regions to create one final GRanges object
-    final<-IRanges::unlist(GRangesList(results), recursive = TRUE, use.names = TRUE)
+    z <- list(call = cl,
+                    consensusRanges = IRanges::unlist((results), 
+                    recursive = TRUE, use.names = TRUE))
 
-    return(final)
+    class(z)<-"consensusRanges"
+    
+
+    return(z)
 }

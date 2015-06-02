@@ -4,8 +4,10 @@
 #' @description Validation of all parameters needed by the public
 #'      \code{\link{findConsensusPeakRegions}} function.
 #' 
-#' @param narrowPeakFiles a \code{vector} containing the narrowPeak files to
-#'          use for the regions selection.
+#' @param narrowPeaks a \code{vector} containing \code{GRanges} representing 
+#'          called peaks of signal enrichment based on pooled, normalized data 
+#'          for all experiments.
+#' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
 #' @param chrList a \code{vector} containing the name of the chromosomes to 
 #'          analyze or the name \code{"ALL"} which indicate that all
 #'          chromosomes must be analyzed. When \code{NULL}, no
@@ -32,13 +34,29 @@
 #' 
 #' @author Astrid Louise Deschenes
 #' @keywords internal
-findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList, 
-                                        extendingSize, includeAllPeakRegion, 
-                                        minNbrExp, nbrThreads) {
+findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList, 
+            extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads) {
     
-    if (is.vector(narrowPeakFiles) && (!is.character(narrowPeakFiles) 
-            || !all(sapply(narrowPeakFiles, file.exists)))) {
-        stop("peaksBEDlist must be a vector of existing BED files")
+    if (!is(narrowPeaks, "GRanges")) {
+        stop("narrowPeaks must be a GRanges object")
+    }    
+    
+    if (!is(peaks, "GRanges")) {
+        stop("peaks must be a GRanges object")
+    }
+    
+    if(length(narrowPeaks) != length(peaks)) {
+        stop("narrowPeaks and peaks must have the number of elements")
+    }
+    
+    if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
+        stop(paste0("narrowPeaks and peaks must have defined names so ", 
+            "that each narrowPeaks entry can be associated to a peaks entry"))
+    }
+    
+    if (!all(sort(narrowPeaks$name) == sort(peaks$name))) {
+        stop(paste0("All narrowPeaks entry must have an equivalent peaks ", 
+            "entry recognizable by a identical name"))
     }
     
     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
@@ -54,10 +72,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList,
         stop("includeAllPeakRegion must be a logical value")
     }
     
-    if (!isInteger(minNbrExp) || minNbrExp < 1  || 
-            minNbrExp > length(narrowPeakFiles)) {
-        stop(paste0("minNbrExp must be a non-negative integer inferior or ", 
-                "equal to the number of experiments."))
+    if (!isInteger(minNbrExp) || minNbrExp < 1) {
+        stop("minNbrExp must be a non-negative integer")
     }
     
     if (!isInteger(nbrThreads) || nbrThreads < 1 ) {
@@ -73,8 +89,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeakFiles, chrList,
 #'          not. To be considered as an integer, the value must have a length 
 #'          of 1. The type of value can be a \code{integer} or 
 #'          \code{numerical}. However, a \code{numerical} must have the same 
-#'          value once casted to a \code{integer}.  A \code{vector} of integers 
-#'          will returned \code{FALSE}/
+#'          value once casted to a \code{integer}.  A \code{vector} of 
+#'          integers will returned \code{FALSE}/
 #'
 #' @param value an object to validate.
 #' 

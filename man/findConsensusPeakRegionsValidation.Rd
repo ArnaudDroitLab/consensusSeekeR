@@ -5,12 +5,15 @@
 \title{Parameter validation for the \code{\link{findConsensusPeakRegions}}
      function}
 \usage{
-findConsensusPeakRegionsValidation(narrowPeakFiles, chrList, extendingSize,
+findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, extendingSize,
   includeAllPeakRegion, minNbrExp, nbrThreads)
 }
 \arguments{
-\item{narrowPeakFiles}{a \code{vector} containing the narrowPeak files to
-use for the regions selection.}
+\item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
+called peaks of signal enrichment based on pooled, normalized data
+for all experiments.}
+
+\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
 \item{chrList}{a \code{vector} containing the name of the chromosomes to
 analyze or the name \code{"ALL"} which indicate that all
