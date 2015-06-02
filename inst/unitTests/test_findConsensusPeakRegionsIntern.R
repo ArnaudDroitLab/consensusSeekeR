@@ -14,16 +14,7 @@ if(FALSE) {
     library( "sharedBed" )
 }
 
-
 ### }}}
-
-data(Hosa_A549_FOSL2_01_Peaks)
-data(Hosa_A549_FOSL2_01_NarrowPeaks)
-data(Hosa_A549_FOXA1_01_Peaks)
-data(Hosa_A549_FOXA1_01_NarrowPeaks)
-data(Hosa_A549_FOXA2_01_Peaks)
-data(Hosa_A549_FOXA2_01_NarrowPeaks)
-
 
 ###################################################
 ## Test the isInteger function

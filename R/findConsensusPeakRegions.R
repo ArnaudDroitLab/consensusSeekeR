@@ -85,7 +85,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     }
-    
+
     # Extract the list of chromosomes to analyse
     allChr <- levels(seqnames(peaks))
     if (length(chrList) == 1 && chrList == "ALL") {
@@ -96,7 +96,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
         # specified parameter which are present in the data
         chrListFinal <- subset(allChr, allChr %in% chrList)
     }
-    
+
     # At least one chromosome must be analyzed
     if (length(chrListFinal) == 0) {
         if (length(chrList) <= 1) {
@@ -106,7 +106,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
                  paste0(chrList,  collapse = ", "))
         }
     }
-    
+
     # Process to regions extraction using parallel threads when available
     results <- bplapply(chrListFinal, 
                 FUN = findConsensusPeakRegionsForOneChrom,
@@ -119,7 +119,6 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
                     recursive = TRUE, use.names = TRUE))
 
     class(z)<-"consensusRanges"
-    
 
     return(z)
 }

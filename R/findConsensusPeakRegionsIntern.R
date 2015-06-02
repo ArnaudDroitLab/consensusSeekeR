@@ -23,8 +23,8 @@
 #'          experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number of 
-#'          files present in the \code{narrowPeakFiles} parameter.
+#'          numeric must be a positive value inferior or equal to the number 
+#'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
 #'          in parallel.
@@ -45,8 +45,16 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
         stop("peaks must be a GRanges object")
     }
     
+    if (length(narrowPeaks) < 1) {
+        stop("narrowPeaks must be a GRanges object with at least one entry")
+    }
+    
+    if (length(peaks) < 1) {
+        stop("peaks must be a GRanges object with at least one entry")
+    }
+    
     if(length(narrowPeaks) != length(peaks)) {
-        stop("narrowPeaks and peaks must have the number of elements")
+        stop("narrowPeaks and peaks must have the same number of elements")
     }
     
     if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
@@ -58,28 +66,28 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
         stop(paste0("All narrowPeaks entry must have an equivalent peaks ", 
             "entry recognizable by a identical name"))
     }
-    
+ 
     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
         stop(paste0("chrList must either be the value \"ALL\" or a ",
-             "vector of chromosomes names"))
+            "vector of chromosomes names"))
     }
-    
+
     if (!isInteger(extendingSize) || extendingSize < 1 ) {
         stop("extendingSize must be a non-negative integer")
     }
-    
+
     if (!is.logical(includeAllPeakRegion)) {
         stop("includeAllPeakRegion must be a logical value")
     }
-    
+
     if (!isInteger(minNbrExp) || minNbrExp < 1) {
         stop("minNbrExp must be a non-negative integer")
     }
-    
+
     if (!isInteger(nbrThreads) || nbrThreads < 1 ) {
         stop("nbrThreads must be a non-negative integer")
     }
-    
+
     return(0)
 }
 
@@ -119,8 +127,8 @@ isInteger <- function(value) {
 #'          experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number of 
-#'          files present in the \code{narrowPeakFiles} parameter.
+#'          numeric must be a positive value inferior or equal to the number 
+#'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param allPeaks a \code{GRanges} containing all peaks from all experiments
 #'          sorted by position.
@@ -139,7 +147,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                 includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks) {
     
     # Subset peaks and narrow peaks using the specified chromosome name
-    peaks <- sort(subset(allPeaks, as.character(seqnames(allPeaks)) == chrName))
+    peaks <- sort(subset(allPeaks, 
+                    as.character(seqnames(allPeaks)) == chrName))
     narrowPeaks <- sort(subset(allNarrowPeaks, 
                         as.character(seqnames(allNarrowPeaks)) == chrName))
     
@@ -237,7 +246,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     regions <- append(regions, newRegion)
                     
                     # Update overlapping peaks
-                    overlaps <- findOverlaps(query = newRegion, subject = peaks)
+                    overlaps <- findOverlaps(query = newRegion, 
+                                                subject = peaks)
                     setNew <- peaks[subjectHits(overlaps)]
                     if (!(current$name %in% setNew$name)) {
                         # If the current peak is not included in the current 
