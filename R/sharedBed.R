@@ -14,3 +14,24 @@
 #' Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
 #' @keywords package
 NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOSL2_01_NarrowPeaks
+#' @docType data
+#' @format A \code{GRanges} 
+#' @keywords datasets
+NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOSL2_01_Peaks
+#' @docType data
+#' @format A \code{GRanges}
+#' @usage data(Hosa_A549_FOSL2_01_Peaks)
+#' @keywords datasets
+NULL
