@@ -35,3 +35,69 @@ NULL
 #' @usage data(Hosa_A549_FOSL2_01_Peaks)
 #' @keywords datasets
 NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOSL2_01_NarrowPeaks_partial
+#' @docType data
+#' @format A \code{GRanges} 
+#' @keywords datasets
+NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOSL2_01_Peaks_partial
+#' @docType data
+#' @format A \code{GRanges}
+#' @usage data(Hosa_A549_FOSL2_01_Peaks_partial)
+#' @keywords datasets
+NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOXA1_01_NarrowPeaks
+#' @docType data
+#' @format A \code{GRanges} 
+#' @usage data(Hosa_A549_FOXA1_01_NarrowPeaks)
+#' @keywords datasets
+NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOXA1_01_Peaks
+#' @docType data
+#' @format A \code{GRanges}
+#' @usage data(Hosa_A549_FOXA1_01_Peaks)
+#' @keywords datasets
+NULL
+
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOXA1_01_NarrowPeaks_partial
+#' @docType data
+#' @format A \code{GRanges} 
+#' @usage data(Hosa_A549_FOXA1_01_NarrowPeaks_partial)
+#' @keywords datasets
+NULL
+
+#' TODO Data Set
+#'
+#' TODO
+#' 
+#' @name Hosa_A549_FOXA1_01_Peaks_partial
+#' @docType data
+#' @format A \code{GRanges}
+#' @usage data(Hosa_A549_FOXA1_01_Peaks_partial)
+#' @keywords datasets
+NULL
