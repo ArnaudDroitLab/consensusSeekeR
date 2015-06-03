@@ -115,7 +115,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
                 includeAllPeakRegion, minNbrExp = minNbrExp, 
                 BPPARAM = coreParam)
     z <- list(call = cl,
-                    consensusRanges = IRanges::unlist((results), 
+                    consensusRanges = IRanges::unlist(GRangesList((results)), 
                     recursive = TRUE, use.names = TRUE))
 
     class(z)<-"consensusRanges"
