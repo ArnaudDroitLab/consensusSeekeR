@@ -149,3 +149,86 @@ test.findConsensusPeakRegions_with_diff_names_GRanges <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
+## Test the result when chrList is a numerical
+test.findConsensusPeakRegions_with_numerical_chrList <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], chrList = 444),
+            error = conditionMessage)
+    exp <- paste0("chrList must either be the value \"ALL\" or a ",
+                  "vector of chromosomes names")
+    message <- paste0("findConsensusPeakRegions_with_strange_chrList",
+                      " - Numerical as chrList did not generated ", 
+                      "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when chrList is strange string
+test.findConsensusPeakRegions_with_strange_chrList <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], chrList = "ALLO"),
+            error = conditionMessage)
+    exp <- "No chromosome correspond to the given parameter: ALLO"
+    message <- paste0("findConsensusPeakRegions_with_strange_chrList",
+                " - Strange string as chrList did not generated ", 
+                "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when chrList is a list with not corresponding name
+test.findConsensusPeakRegions_with_list_strange_name_as_chrList <- function() {
+    testList <- c("ALLO", "BYE")
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], chrList = testList),
+            error = conditionMessage)
+    exp <- paste0("No chromosome correspond to the given parameters: ", 
+                  paste0(testList,  collapse = ", "))
+    message <- paste0("findConsensusPeakRegions_with_list_strange_name_as",
+            "_chrList - List of strange string as chrList did not generated ", 
+            "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when zero as extendingSize
+test.findConsensusPeakRegions_with_zero_as_extendingSize <- function() {
+    testList <- c("ALLO", "BYE")
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], extendingSize = 0),
+            error = conditionMessage)
+    exp <- "extendingSize must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_with_zero_as_extendingSize",
+                      " - Xero as extendingSize did not generated ", 
+                      "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+    
+## Test the result when negative as extendingSize
+test.findConsensusPeakRegions_with_negative_as_extendingSize <- function() {
+    testList <- c("ALLO", "BYE")
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], extendingSize = -90),
+            error = conditionMessage)
+    exp <- "extendingSize must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_with_negative_as_extendingSize",
+                    " - Negative as extendingSize did not generated ", 
+                    "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when string as extendingSize
+test.findConsensusPeakRegions_with_string_as_extendingSize <- function() {
+    testList <- c("ALLO", "BYE")
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], extendingSize = "444"),
+            error = conditionMessage)
+    exp <- "extendingSize must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_with_string_as_extendingSize",
+                      " - String as extendingSize did not generated ", 
+                      "expected error.")
+    checkEquals(obs, exp, msg = message)
+}
