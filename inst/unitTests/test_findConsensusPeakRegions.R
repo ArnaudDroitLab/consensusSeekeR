@@ -232,3 +232,147 @@ test.findConsensusPeakRegions_with_string_as_extendingSize <- function() {
                       "expected error.")
     checkEquals(obs, exp, msg = message)
 }
+
+## Test the result when string as includeAllPeakRegion
+test.findConsensusPeakRegions_string_as_includeAllPeakRegion <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+            includeAllPeakRegion = "444"), error = conditionMessage)
+    exp <- "includeAllPeakRegion must be a logical value"
+    message <- paste0("findConsensusPeakRegions_string_as_includeAllPeakRegion",
+                " - String as includeAllPeakRegion did ", 
+                "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when numerical as includeAllPeakRegion
+test.findConsensusPeakRegions_numerical_as_includeAllPeakRegion <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                includeAllPeakRegion = 333), error = conditionMessage)
+    exp <- "includeAllPeakRegion must be a logical value"
+    message <- paste0("findConsensusPeakRegions_numerical_as_",
+                      "includeAllPeakRegion - Numerical as ", 
+                      "includeAllPeakRegion did not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when string as minNbrExp
+test.findConsensusPeakRegions_string_as_minNbrExp <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                minNbrExp = "444"), error = conditionMessage)
+    exp <- "minNbrExp must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_string_as_minNbrExp",
+                      " - String as minNbrExp did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when zero as minNbrExp
+test.findConsensusPeakRegions_zero_as_minNbrExp <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                minNbrExp = 0), error = conditionMessage)
+    exp <- "minNbrExp must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_zero_as_minNbrExp",
+                      " - Zero as minNbrExp did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when negative as minNbrExp
+test.findConsensusPeakRegions_negative_as_minNbrExp <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                                    Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                                    peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                                    minNbrExp = -1), error = conditionMessage)
+    exp <- "minNbrExp must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_negative_as_minNbrExp",
+                      " - Negative as minNbrExp did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when numerical as minNbrExp
+test.findConsensusPeakRegions_numerical_as_minNbrExp <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                                    Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                                    peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                                    minNbrExp = 9.3), error = conditionMessage)
+    exp <- "minNbrExp must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_numerical_as_minNbrExp",
+                      " - Numerical as minNbrExp did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when list of integers as minNbrExp
+test.findConsensusPeakRegions_list_of_integers_as_minNbrExp <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                               Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                               peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                               minNbrExp= c(9L, 3L)), error = conditionMessage)
+    exp <- "minNbrExp must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_list_of_integers_as_minNbrExp",
+                      " - List of integers as minNbrExp did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+
+## Test the result when zero as nbrThreads
+test.findConsensusPeakRegions_zero_as_nbrThreads<- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                                    Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                                    peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                                    nbrThreads = 0), error = conditionMessage)
+    exp <- "nbrThreads must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_zero_as_nbrThreads",
+                      " - Zero as nbrThreads did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when negative as nbrThreads
+test.findConsensusPeakRegions_negative_as_nbrThreads <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                                    Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                                    peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                                    nbrThreads = -1), error = conditionMessage)
+    exp <- "nbrThreads must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_negative_as_nbrThreads",
+                      " - Negative as nbrThreads did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when numerical as nbrThreads
+test.findConsensusPeakRegions_numerical_as_nbrThreads <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                                Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                                peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                                nbrThreads = 9.3), error = conditionMessage)
+    exp <- "nbrThreads must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_numerical_as_nbrThreads",
+                      " - Numerical as nbrThreads did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when list of integers as nbrThreads
+test.findConsensusPeakRegions_list_of_integers_as_nbrThreads <- function() {
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                            Hosa_A549_FOSL2_01_NarrowPeaks[1:2], 
+                            peaks = Hosa_A549_FOSL2_01_Peaks[1:2], 
+                            nbrThreads= c(9L, 3L)), error = conditionMessage)
+    exp <- "nbrThreads must be a non-negative integer"
+    message <- paste0("findConsensusPeakRegions_list_of_integers_as_nbrThreads",
+                      " - List of integers as nbrThreads did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
