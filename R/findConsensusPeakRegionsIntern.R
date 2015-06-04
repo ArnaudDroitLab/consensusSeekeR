@@ -58,13 +58,23 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
     }
     
     if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
-        stop(paste0("narrowPeaks and peaks must have defined names so ", 
-            "that each narrowPeaks entry can be associated to a peaks entry"))
+        stop(paste0("narrowPeaks and peaks must have defined metadata names ", 
+            "so that each narrowPeaks entry can be associated to ", 
+            "a peaks entry"))
     }
     
-    if (!all(sort(narrowPeaks$name) == sort(peaks$name))) {
+    if(is.null(narrowPeaks$name) || is.null(peaks$name) || 
+        is.null(names(narrowPeaks)) || is.null(names(peaks))) {
+        stop(paste0("narrowPeaks and peaks must have defined metadata names ", 
+                    "so that each narrowPeaks entry can be associated to ", 
+                    "a peaks entry"))
+    }
+    
+    if (!all(sort(narrowPeaks$name) == sort(peaks$name)) || 
+        !all(sort(names(narrowPeaks)) == sort(names(peaks)))) {
         stop(paste0("All narrowPeaks entry must have an equivalent peaks ", 
-            "entry recognizable by a identical name"))
+            "entry recognizable by both an identical metadata name and an ", 
+            "identical row name"))
     }
  
     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
@@ -82,6 +92,13 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 
     if (!isInteger(minNbrExp) || minNbrExp < 1) {
         stop("minNbrExp must be a non-negative integer")
+    }
+    
+    if (minNbrExp > length(unique(names(narrowPeaks)))) {
+        stop(paste0("minNbrExp must be inferior or equal to the number ", 
+            "of experiments presents in narrowPeaks and peaks. The number of",
+            "experiments is known by the number of differents row names ",
+            "in narrowPeaks and peaks."))
     }
 
     if (!isInteger(nbrThreads) || nbrThreads < 1 ) {
@@ -215,15 +232,15 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                 short_names <- sapply(X = set$name, 
                                     function(x) stringr::str_split(string = x, 
                                             pattern = ".bam")[[1]][1])
-                if (length(unique(short_names)) >= minNbrExp) {
+                if (length(unique(names(set))) >= minNbrExp) {
                     # Create one final region using the narrow information 
                     # for each peak present
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
                     if (includeAllPeakRegion) {
                         peakMedian <- rightBoundaryNew + extendingSize
-                        for (name in unique(short_names)) {
-                            peaksForOneExp <- set[short_names == name]
+                        for (name in unique(names(set))) {
+                            peaksForOneExp <- set[names(set) == name]
                         
                             closessPeaks <- which(abs(start(peaksForOneExp) - 
                                         peakMedian) == 
