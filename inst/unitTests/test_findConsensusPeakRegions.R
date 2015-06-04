@@ -241,6 +241,21 @@ test.findConsensusPeakRegions_with_list_strange_name_as_chrList <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
+## Test the result when chrList with a missing length
+test.findConsensusPeakRegions_with_missing_length_in_chrList <- function() {
+    chrList <- Seqinfo(paste0("chr", c(1,2)), c(NA, 135534747), NA)
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
+                    Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
+                    peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
+                    chrList = chrList),
+                    error = conditionMessage)
+    exp <- paste0("At least one chromosome length is missing in chrList")
+    message <- paste0(" findConsensusPeakRegions_with_missing_length_",
+                      "in_chrList - Absent chromosome in chrList did ", 
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
 ## Test the result when chrList with a non existing chromosome
 test.findConsensusPeakRegions_with_absent_chr_as_chrList <- function() {
     chrList <- Seqinfo(paste0("chr", c(1,40)), c(249250621, 135534747), NA)

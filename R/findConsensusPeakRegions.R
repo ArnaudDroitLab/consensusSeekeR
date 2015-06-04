@@ -69,43 +69,11 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList,
     findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, 
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
     
-#     # Create objects that are going to contain the final extracted values
-#     allPeaks <- GRanges()
-#     allNarrowPeaks <- GRanges()
-#     
-#     # Extract peaks and regions from each file present in the file vector
-#     for (files in narrowPeakFiles) {
-#         data <- readNarrowPeak(files)
-#         allPeaks <- append(allPeaks, data$peak)
-#         allNarrowPeaks <- append(allNarrowPeaks, data$narrowPeak)
-#     }
-#     
     # Select the type of object used for parallel processing
     coreParam <- MulticoreParam(workers = nbrThreads)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     }
-
-#     # Extract the list of chromosomes to analyze
-#     allChr <- levels(seqnames(peaks))
-#     if (length(chrList) == 1 && chrList == "ALL") {
-#         # The list of chromosomes correspond to the global list
-#         chrListFinal <- allChr 
-#     } else {
-#         # The list of chromosomes correspond to the chromosomes from the
-#         # specified parameter which are present in the data
-#         chrListFinal <- subset(allChr, allChr %in% chrList)
-#     }
-# 
-#     # At least one chromosome must be analyzed
-#     if (length(chrListFinal) == 0) {
-#         if (length(chrList) <= 1) {
-#             stop("No chromosome correspond to the given parameter: ", chrList) 
-#         } else {
-#             stop("No chromosome correspond to the given parameters: ", 
-#                  paste0(chrList,  collapse = ", "))
-#         }
-#     }
 
     chrListFinal <- names(chrList)
 

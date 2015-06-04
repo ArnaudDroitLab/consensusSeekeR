@@ -77,20 +77,19 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             "identical row name"))
     }
  
-#     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
-#         stop(paste0("chrList must either be the value \"ALL\" or a ",
-#             "vector of chromosomes names"))
-#     }
-#     
     if (!is(chrList, "Seqinfo")) {
         stop("chrList must be a Seqinfo object")
     }
 
     if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
         not_present <- names(chrList)[!(names(chrList) 
-                                                %in% names(seqinfo(peaks)))]
+                                            %in% names(seqinfo(peaks)))]
         stop(paste0("At least one chromosome name present in chrList is not ",
              "present in peak : ", paste0(not_present,  collapse = ", ")))
+    }
+
+    if (any(is.na(seqlengths(chrList)))) {
+        stop("At least one chromosome length is missing in chrList")
     }
 
     if (!isInteger(extendingSize) || extendingSize < 1 ) {
@@ -240,9 +239,6 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
             } else {
                 # Keep region only when the number of different experiments 
                 # present is reached
-                short_names <- sapply(X = set$name, 
-                                    function(x) stringr::str_split(string = x, 
-                                            pattern = ".bam")[[1]][1])
                 if (length(unique(names(set))) >= minNbrExp) {
                     # Create one final region using the narrow information 
                     # for each peak present
