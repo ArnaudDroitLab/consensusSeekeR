@@ -15,8 +15,7 @@ for all experiments.}
 \item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
-chromosomes to analyze which indicate that all
-chromosomes must be analyzed.}
+chromosomes to analyze.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
 at each side of the peaks median position to create the consensus

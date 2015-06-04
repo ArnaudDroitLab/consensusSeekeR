@@ -32,7 +32,7 @@
 #'      successful.
 #' 
 #' @author Astrid Louise Deschenes
-#' @importFrom GenomeInfoDb Seqinfo seqinfo
+#' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList, 
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads) {
@@ -161,6 +161,8 @@ isInteger <- function(value) {
 #'          sorted by position.
 #' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all 
 #'          experiments sorted by position.
+#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#'          chromosomes to analyze.
 #' 
 #' @return an object of \code{class} "commonFeatures". 
 #' 
@@ -168,16 +170,20 @@ isInteger <- function(value) {
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges 
-#' @importFrom GenomicRanges GRanges findOverlaps seqinfo seqnames subjectHits
+#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
+#' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize, 
-                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks) {
+                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks, 
+                chrList) {
     
     # Subset peaks and narrow peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks, 
                     as.character(seqnames(allPeaks)) == chrName))
     narrowPeaks <- sort(subset(allNarrowPeaks, 
                         as.character(seqnames(allNarrowPeaks)) == chrName))
+    
+    chrInfo <- chrList[chrName]
     
     # Variable containing final consensus peak regions
     regions <- GRanges()
@@ -264,6 +270,16 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                             minPos <- ifelse(newMin < minPos, newMin, minPos)
                         }
                     }
+                    # Validate that minimum position is not negative
+#                     if (minPos < 1) {
+#                         minPos <- 1
+#                     }
+#                     if (maxPos > seqlengths(chrInfo)) {
+#                         maxPos <- seqlengths(chrInfo)
+#                     }
+                    
+                    # Validate that maximum position is not superior
+                    # to chromosome size
                     
                     newRegion <- GRanges(seqnames = seq_name, 
                                             IRanges(minPos, maxPos))

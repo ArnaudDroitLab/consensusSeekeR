@@ -5,7 +5,7 @@
 \title{TODO}
 \usage{
 findConsensusPeakRegionsForOneChrom(chrName, extendingSize,
-  includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks)
+  includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks, chrList)
 }
 \arguments{
 \item{chrName}{the name of the chromosome to analyse.}
@@ -31,7 +31,10 @@ Default = 1.}
 sorted by position.}
 
 \item{allNarrowPeaks}{a \code{GRanges} containing all narrow peaks from all
-         experiments sorted by position.}
+experiments sorted by position.}
+
+\item{chrList}{a \code{Seqinfo} containing the name and the length of the
+         chromosomes to analyze.}
 }
 \value{
 an object of \code{class} "commonFeatures".

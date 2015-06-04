@@ -26,8 +26,7 @@
 #'          for all experiments.
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
 #' @param chrList a \code{Seqinfo} containing the name and the length of the 
-#'          chromosomes to analyze which indicate that all
-#'          chromosomes must be analyzed.
+#'          chromosomes to analyze.
 #' @param extendingSize a \code{numeric} value indicating the size of padding 
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
@@ -74,15 +73,13 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList,
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     }
-
-    chrListFinal <- names(chrList)
-
+    
     # Process to regions extraction using parallel threads when available
-    results <- bplapply(chrListFinal, 
+    results <- bplapply(names(chrList), 
                 FUN = findConsensusPeakRegionsForOneChrom,
                 allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
                 extendingSize = extendingSize, includeAllPeakRegion =
-                includeAllPeakRegion, minNbrExp = minNbrExp, 
+                includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrList,
                 BPPARAM = coreParam)
     z <- list(call = cl,
                     consensusRanges = IRanges::unlist(GRangesList((results)), 
