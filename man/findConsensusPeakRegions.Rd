@@ -4,9 +4,8 @@
 \alias{findConsensusPeakRegions}
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
-findConsensusPeakRegions(narrowPeaks, peaks, chrList = "ALL",
-  extendingSize = 250, includeAllPeakRegion = TRUE, minNbrExp = 1,
-  nbrThreads = 1)
+findConsensusPeakRegions(narrowPeaks, peaks, chrList, extendingSize = 250,
+  includeAllPeakRegion = TRUE, minNbrExp = 1, nbrThreads = 1)
 }
 \arguments{
 \item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
@@ -15,10 +14,9 @@ for all experiments.}
 
 \item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
-\item{chrList}{a \code{vector} containing the name of the chromosomes to
-analyze or the name \code{"ALL"} which indicate that all
-chromosomes must be analyzed. When \code{NULL}, no
-new term is added. Default : \code{NULL}.}
+\item{chrList}{a \code{Seqinfo} containing the name and the length of the
+chromosomes to analyze which indicate that all
+chromosomes must be analyzed.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
 at each side of the peaks median position to create the consensus

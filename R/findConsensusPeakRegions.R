@@ -25,10 +25,9 @@
 #'          called peaks of signal enrichment based on pooled, normalized data 
 #'          for all experiments.
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
-#' @param chrList a \code{vector} containing the name of the chromosomes to 
-#'          analyze or the name \code{"ALL"} which indicate that all
-#'          chromosomes must be analyzed. When \code{NULL}, no
-#'          new term is added. Default : \code{NULL}.
+#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#'          chromosomes to analyze which indicate that all
+#'          chromosomes must be analyzed.
 #' @param extendingSize a \code{numeric} value indicating the size of padding 
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
@@ -58,8 +57,9 @@
 #' @importFrom GenomicRanges GRanges GRangesList
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
 #'                  multicoreWorkers
+#' @importFrom GenomeInfoDb Seqinfo seqinfo
 #' @export
-findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL", 
+findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList, 
                                extendingSize = 250, 
                                includeAllPeakRegion = TRUE, minNbrExp = 1, 
                                nbrThreads = 1) {
@@ -86,26 +86,28 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList = "ALL",
         coreParam <- SerialParam()
     }
 
-    # Extract the list of chromosomes to analyse
-    allChr <- levels(seqnames(peaks))
-    if (length(chrList) == 1 && chrList == "ALL") {
-        # The list of chromosomes correspond to the global list
-        chrListFinal <- allChr 
-    } else {
-        # The list of chromosomes correspond to the chromosomes from the
-        # specified parameter which are present in the data
-        chrListFinal <- subset(allChr, allChr %in% chrList)
-    }
+#     # Extract the list of chromosomes to analyze
+#     allChr <- levels(seqnames(peaks))
+#     if (length(chrList) == 1 && chrList == "ALL") {
+#         # The list of chromosomes correspond to the global list
+#         chrListFinal <- allChr 
+#     } else {
+#         # The list of chromosomes correspond to the chromosomes from the
+#         # specified parameter which are present in the data
+#         chrListFinal <- subset(allChr, allChr %in% chrList)
+#     }
+# 
+#     # At least one chromosome must be analyzed
+#     if (length(chrListFinal) == 0) {
+#         if (length(chrList) <= 1) {
+#             stop("No chromosome correspond to the given parameter: ", chrList) 
+#         } else {
+#             stop("No chromosome correspond to the given parameters: ", 
+#                  paste0(chrList,  collapse = ", "))
+#         }
+#     }
 
-    # At least one chromosome must be analyzed
-    if (length(chrListFinal) == 0) {
-        if (length(chrList) <= 1) {
-            stop("No chromosome correspond to the given parameter: ", chrList) 
-        } else {
-            stop("No chromosome correspond to the given parameters: ", 
-                 paste0(chrList,  collapse = ", "))
-        }
-    }
+    chrListFinal <- names(chrList)
 
     # Process to regions extraction using parallel threads when available
     results <- bplapply(chrListFinal, 

@@ -8,10 +8,9 @@
 #'          called peaks of signal enrichment based on pooled, normalized data 
 #'          for all experiments.
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
-#' @param chrList a \code{vector} containing the name of the chromosomes to 
-#'          analyze or the name \code{"ALL"} which indicate that all
-#'          chromosomes must be analyzed. When \code{NULL}, no
-#'          new term is added. Default : \code{NULL}.
+#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#'          chromosomes to analyze which indicate that all
+#'          chromosomes must be analyzed.
 #' @param extendingSize a \code{numeric} value indicating the size of padding 
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
@@ -33,6 +32,7 @@
 #'      successful.
 #' 
 #' @author Astrid Louise Deschenes
+#' @importFrom GenomeInfoDb Seqinfo seqinfo
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList, 
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads) {
@@ -77,9 +77,20 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             "identical row name"))
     }
  
-    if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
-        stop(paste0("chrList must either be the value \"ALL\" or a ",
-            "vector of chromosomes names"))
+#     if (chrList != "ALL" && !(is.vector(chrList) && is.character(chrList))) {
+#         stop(paste0("chrList must either be the value \"ALL\" or a ",
+#             "vector of chromosomes names"))
+#     }
+#     
+    if (!is(chrList, "Seqinfo")) {
+        stop("chrList must be a Seqinfo object")
+    }
+
+    if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
+        not_present <- names(chrList)[!(names(chrList) 
+                                                %in% names(seqinfo(peaks)))]
+        stop(paste0("At least one chromosome name present in chrList is not ",
+             "present in peak : ", paste0(not_present,  collapse = ", ")))
     }
 
     if (!isInteger(extendingSize) || extendingSize < 1 ) {
