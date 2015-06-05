@@ -188,9 +188,10 @@ test.findConsensusPeakRegions_peaks_with_no_row_name_GRanges <- function() {
 ## Test the result when two GRanges with different names are passed as
 ## parameters
 test.findConsensusPeakRegions_with_diff_names_GRanges <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[3:5], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[2:4]), 
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[2:4]), chrInfo = seqinfo, 
             error = conditionMessage)
     exp <- paste0("All narrowPeaks entry must have an equivalent peaks ", 
         "entry recognizable by both an identical metadata name and an ", 
@@ -205,7 +206,7 @@ test.findConsensusPeakRegions_with_diff_names_GRanges <- function() {
 test.findConsensusPeakRegions_with_numerical_chrList <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = 444),
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = 444),
             error = conditionMessage)
     exp <- paste0("chrList must be a Seqinfo object")
     message <- paste0(" findConsensusPeakRegions_with_strange_chrList",
@@ -218,7 +219,7 @@ test.findConsensusPeakRegions_with_numerical_chrList <- function() {
 test.findConsensusPeakRegions_with_strange_chrList <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = "ALLO"),
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = "ALLO"),
             error = conditionMessage)
     exp <- "chrList must be a Seqinfo object"
     message <- paste0("findConsensusPeakRegions_with_strange_chrList",
@@ -232,7 +233,7 @@ test.findConsensusPeakRegions_with_list_strange_name_as_chrList <- function() {
     testList <- c("ALLO", "BYE")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = testList),
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = testList),
             error = conditionMessage)
     exp <- "chrList must be a Seqinfo object"
     message <- paste0("findConsensusPeakRegions_with_list_strange_name_as",
@@ -247,7 +248,7 @@ test.findConsensusPeakRegions_with_missing_length_in_chrList <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                     Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                     peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                    chrList = chrList),
+                    chrInfo = chrList),
                     error = conditionMessage)
     exp <- paste0("At least one chromosome length is missing in chrList")
     message <- paste0(" findConsensusPeakRegions_with_missing_length_",
@@ -262,7 +263,7 @@ test.findConsensusPeakRegions_with_absent_chr_as_chrList <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                         Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                         peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                        chrList = chrList),
+                        chrInfo = chrList),
                         error = conditionMessage)
     exp <- paste0("At least one chromosome name present in chrList is ",
             "not present in peak : chr40")
@@ -279,7 +280,7 @@ test.findConsensusPeakRegions_with_two_absent_chr_as_chrList <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                         Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                         peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                        chrList = chrList), error = conditionMessage)
+                        chrInfo = chrList), error = conditionMessage)
     exp <- paste0("At least one chromosome name present in chrList is ",
                   "not present in peak : chr32, chr40")
     message <- paste0(" findConsensusPeakRegions_with_two_absent_chr_as",
@@ -293,7 +294,7 @@ test.findConsensusPeakRegions_with_zero_as_extendingSize <- function() {
     chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = chrList,
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = chrList,
             extendingSize = 0),
             error = conditionMessage)
     exp <- "extendingSize must be a non-negative integer"
@@ -308,7 +309,7 @@ test.findConsensusPeakRegions_with_negative_as_extendingSize <- function() {
     testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = testList, 
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = testList, 
             extendingSize = -90),
             error = conditionMessage)
     exp <- "extendingSize must be a non-negative integer"
@@ -323,7 +324,7 @@ test.findConsensusPeakRegions_with_string_as_extendingSize <- function() {
     testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrList = testList,
+            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], chrInfo = testList,
             extendingSize = "444"), error = conditionMessage)
     exp <- "extendingSize must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_with_string_as_extendingSize",
@@ -336,7 +337,7 @@ test.findConsensusPeakRegions_with_string_as_extendingSize <- function() {
 test.findConsensusPeakRegions_string_as_includeAllPeakRegion <- function() {
     testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
-            Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], chrList = testList,
+            Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], chrInfo = testList,
             peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
             includeAllPeakRegion = "444"), error = conditionMessage)
     exp <- "includeAllPeakRegion must be a logical value"
@@ -353,7 +354,7 @@ test.findConsensusPeakRegions_numerical_as_includeAllPeakRegion <- function() {
             c(Hosa_A549_FOSL2_01_NarrowPeaks_partial, 
             Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
             peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
-            Hosa_A549_FOXA1_01_Peaks_partial), chrList = testList,
+            Hosa_A549_FOXA1_01_Peaks_partial), chrInfo = testList,
             includeAllPeakRegion=333), error = conditionMessage)
     exp <- "includeAllPeakRegion must be a logical value"
     message <- paste0("findConsensusPeakRegions_numerical_as_",
@@ -368,7 +369,7 @@ test.findConsensusPeakRegions_string_as_minNbrExp <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                chrList = testList,
+                chrInfo = testList,
                 minNbrExp = "444"), error = conditionMessage)
     exp <- "minNbrExp must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_string_as_minNbrExp",
@@ -383,7 +384,7 @@ test.findConsensusPeakRegions_zero_as_minNbrExp <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2],  
-                chrList = testList, 
+                chrInfo = testList, 
                 minNbrExp = 0), error = conditionMessage)
     exp <- "minNbrExp must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_zero_as_minNbrExp",
@@ -398,12 +399,12 @@ test.findConsensusPeakRegions_negative_as_minNbrExp <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                                chrList = testList,
+                                chrInfo = testList,
                                 minNbrExp = -1), error = conditionMessage)
     exp <- "minNbrExp must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_negative_as_minNbrExp",
-                      " - Negative as minNbrExp did ", 
-                      "not generated expected error.")
+                    " - Negative as minNbrExp did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -413,12 +414,12 @@ test.findConsensusPeakRegions_numerical_as_minNbrExp <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2],
-                                chrList = testList,
+                                chrInfo = testList,
                                 minNbrExp = 9.3), error = conditionMessage)
     exp <- "minNbrExp must be a non-negative integer"
-    message <- paste0("findConsensusPeakRegions_numerical_as_minNbrExp",
-                      " - Numerical as minNbrExp did ", 
-                      "not generated expected error.")
+    message <- paste0(" findConsensusPeakRegions_numerical_as_minNbrExp",
+                    " - Numerical as minNbrExp did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -426,14 +427,14 @@ test.findConsensusPeakRegions_numerical_as_minNbrExp <- function() {
 test.findConsensusPeakRegions_list_of_integers_as_minNbrExp <- function() {
     testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
-                              Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
-                              peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2],
-                              chrList = testList,
-                              minNbrExp= c(9L, 3L)), error = conditionMessage)
+                            Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
+                            peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2],
+                            chrInfo = testList,
+                            minNbrExp= c(9L, 3L)), error = conditionMessage)
     exp <- "minNbrExp must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_list_of_integers_as_minNbrExp",
-                      " - List of integers as minNbrExp did ", 
-                      "not generated expected error.")
+                    " - List of integers as minNbrExp did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -444,12 +445,12 @@ test.findConsensusPeakRegions_zero_as_nbrThreads<- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                                chrList = testList,
+                                chrInfo = testList,
                                 nbrThreads = 0), error = conditionMessage)
     exp <- "nbrThreads must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_zero_as_nbrThreads",
-                      " - Zero as nbrThreads did ", 
-                      "not generated expected error.")
+                    " - Zero as nbrThreads did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -459,12 +460,12 @@ test.findConsensusPeakRegions_negative_as_nbrThreads <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                                chrList = testList,
+                                chrInfo = testList,
                                 nbrThreads = -1), error = conditionMessage)
     exp <- "nbrThreads must be a non-negative integer"
     message <- paste0(" findConsensusPeakRegions_negative_as_nbrThreads",
-                      " - Negative as nbrThreads did ", 
-                      "not generated expected error.")
+                    " - Negative as nbrThreads did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -474,12 +475,12 @@ test.findConsensusPeakRegions_numerical_as_nbrThreads <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                                 Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                                 peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                                chrList = testList, 
+                                chrInfo = testList, 
                                 nbrThreads = 9.3), error = conditionMessage)
     exp <- "nbrThreads must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_numerical_as_nbrThreads",
-                      " - Numerical as nbrThreads did ", 
-                      "not generated expected error.")
+                    " - Numerical as nbrThreads did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -489,12 +490,12 @@ test.findConsensusPeakRegions_list_of_integers_as_nbrThreads <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                             Hosa_A549_FOSL2_01_NarrowPeaks_partial[1:2], 
                             peaks = Hosa_A549_FOSL2_01_Peaks_partial[1:2], 
-                            chrList = testList, 
+                            chrInfo = testList, 
                             nbrThreads= c(9L, 3L)), error = conditionMessage)
     exp <- "nbrThreads must be a non-negative integer"
     message <- paste0("findConsensusPeakRegions_list_of_integers_as_nbrThreads",
-                      " - List of integers as nbrThreads did ", 
-                      "not generated expected error.")
+                    " - List of integers as nbrThreads did ", 
+                    "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -508,9 +509,9 @@ test.findConsensusPeakRegions_for_one_chromosome_one_experiment <- function() {
     seqinfo <- Seqinfo(paste0("chr", 1), NA, NA, NA)
     exp <- GRanges(seqnames = Rle(c("chr1"), c(1)),
                   ranges = IRanges(start = c(249119914, 249120334, 249123074, 
-                                             249132040, 249133011, 249152098, 
-                                             249152823, 249153205, 249157198, 
-                                             249167214, 249167809, 249199968), 
+                                            249132040, 249133011, 249152098, 
+                                            249152823, 249153205, 249157198, 
+                                            249167214, 249167809, 249199968), 
                                    end = c(249120424, 249121174, 249123574, 
                                            249132673, 249133517, 249152644, 
                                            249153397, 249153705, 249157698, 
@@ -521,10 +522,10 @@ test.findConsensusPeakRegions_for_one_chromosome_one_experiment <- function() {
                 c(Hosa_A549_FOSL2_01_NarrowPeaks_partial, 
                 Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
                 peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
-                Hosa_A549_FOXA1_01_Peaks_partial), chrList = testList)
+                Hosa_A549_FOXA1_01_Peaks_partial), chrInfo = testList)
     message <- paste0(" findConsensusPeakRegions_for_one_chromosome_one",
-                      "_experiment - When only one chromosome and one ", 
-                      "experiment did not generated expected results.")
+                    "_experiment - When only one chromosome and one ", 
+                    "experiment did not generated expected results.")
     checkEquals(obs$consensusRanges, exp, msg = message)
 }
 
@@ -551,7 +552,7 @@ test.findConsensusPeakRegions_when_ALL <- function() {
                     c(Hosa_A549_FOSL2_01_NarrowPeaks_partial, 
                     Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
                     peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
-                    Hosa_A549_FOXA1_01_Peaks_partial), chrList = chrList)
+                    Hosa_A549_FOXA1_01_Peaks_partial), chrInfo = chrList)
     message <- paste0("findConsensusPeakRegions_for_one_chromosome ",
                       " - When \"ALL\" as chrList did", 
                       "not generated expected results.")
@@ -579,7 +580,7 @@ test.findConsensusPeakRegions_when_ALL_with_minNbrExp_two <- function() {
                             Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
                             peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
                             Hosa_A549_FOXA1_01_Peaks_partial), 
-                            chrList = chrList, minNbrExp = 2)
+                            chrInfo = chrList, minNbrExp = 2)
     message <- paste0("findConsensusPeakRegions_when_ALL_with_minNbrExp_two",
                       " - When \"ALL\" as chrList and two as minNbrExp did", 
                       "not generated expected results.")
@@ -607,7 +608,7 @@ test.findConsensusPeakRegions_ALL_with_minNbrExp_two_no_expending <- function() 
                             Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
                             peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
                             Hosa_A549_FOXA1_01_Peaks_partial), 
-                            chrList = chrList,
+                            chrInfo = chrList,
                             minNbrExp = 2, includeAllPeakRegion = FALSE)
     message <- paste0("findConsensusPeakRegions_ALL_with_minNbrExp_two_no_",
                       "expending - When two as minNbrExp ",
@@ -631,7 +632,7 @@ test.findConsensusPeakRegions_ALL_with_size_50_minNbrExp_two_no_expending <- fun
                             Hosa_A549_FOXA1_01_NarrowPeaks_partial), 
                             peaks = c(Hosa_A549_FOSL2_01_Peaks_partial, 
                             Hosa_A549_FOXA1_01_Peaks_partial), 
-                            chrList = chrList,
+                            chrInfo = chrList,
                             minNbrExp = 2, extendingSize = 50,
                             includeAllPeakRegion = FALSE)
     message <- paste0("findConsensusPeakRegions_ALL_with_size_50_minNbrExp_",

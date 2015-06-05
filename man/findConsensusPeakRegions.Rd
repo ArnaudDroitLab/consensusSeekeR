@@ -4,7 +4,7 @@
 \alias{findConsensusPeakRegions}
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
-findConsensusPeakRegions(narrowPeaks, peaks, chrList, extendingSize = 250,
+findConsensusPeakRegions(narrowPeaks, peaks, chrInfo, extendingSize = 250,
   includeAllPeakRegion = TRUE, minNbrExp = 1, nbrThreads = 1)
 }
 \arguments{
@@ -14,7 +14,7 @@ for all experiments.}
 
 \item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
-\item{chrList}{a \code{Seqinfo} containing the name and the length of the
+\item{chrInfo}{a \code{Seqinfo} containing the name and the length of the
 chromosomes to analyze.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding

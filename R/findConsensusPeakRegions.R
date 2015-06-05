@@ -25,7 +25,7 @@
 #'          called peaks of signal enrichment based on pooled, normalized data 
 #'          for all experiments.
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
-#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#' @param chrInfo a \code{Seqinfo} containing the name and the length of the 
 #'          chromosomes to analyze.
 #' @param extendingSize a \code{numeric} value indicating the size of padding 
 #'          at each side of the peaks median position to create the consensus
@@ -58,14 +58,14 @@
 #'                  multicoreWorkers
 #' @importFrom GenomeInfoDb Seqinfo seqinfo
 #' @export
-findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList, 
+findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo, 
                                extendingSize = 250, 
                                includeAllPeakRegion = TRUE, minNbrExp = 1, 
                                nbrThreads = 1) {
     cl <- match.call()
     
     # Parameters validation
-    findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, 
+    findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrInfo, 
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
     
     # Select the type of object used for parallel processing
@@ -75,11 +75,11 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrList,
     }
     
     # Process to regions extraction using parallel threads when available
-    results <- bplapply(names(chrList), 
+    results <- bplapply(names(chrInfo), 
                 FUN = findConsensusPeakRegionsForOneChrom,
                 allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
                 extendingSize = extendingSize, includeAllPeakRegion =
-                includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrList,
+                includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrInfo,
                 BPPARAM = coreParam)
     z <- list(call = cl,
                     consensusRanges = IRanges::unlist(GRangesList((results)), 
