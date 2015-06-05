@@ -53,10 +53,10 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges unlist
-#' @importFrom GenomicRanges GRanges GRangesList
+#' @importFrom GenomicRanges GRanges GRangesList .__T__split:base
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam 
-#'                  multicoreWorkers
-#' @importFrom GenomeInfoDb Seqinfo seqinfo
+#'                  multicoreWorkers bpmapply
+#' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo, 
                                extendingSize = 250, 
@@ -75,15 +75,39 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     }
     
     # Process to regions extraction using parallel threads when available
-    results <- bplapply(names(chrInfo), 
-                FUN = findConsensusPeakRegionsForOneChrom,
-                allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
-                extendingSize = extendingSize, includeAllPeakRegion =
-                includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrInfo,
-                BPPARAM = coreParam)
+#     results <- bplapply(names(chrInfo), 
+#                 FUN = findConsensusPeakRegionsForOneChrom,
+#                 allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
+#                 extendingSize = extendingSize, includeAllPeakRegion =
+#                 includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrInfo,
+#                 BPPARAM = coreParam)
+    
+    narrowPeaksSplit <- GenomicRanges::split(narrowPeaks, seqnames(narrowPeaks))
+    peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
+    rm(peaks)
+    rm(narrowPeaks)
+    selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in% 
+                                                    seqnames(chrInfo)]
+    selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in% 
+                                                 seqnames(chrInfo)]
+    rm(narrowPeaksSplit)
+    rm(peaksSplit)
+    
+    results2 <- bpmapply(findConsensusPeakRegionsForOneChrom,
+                        chrName = seqnames(chrInfo),
+                        allPeaks = selectedPeaksSplit, 
+                        allNarrowPeaks = selectedNarrowPeaksSplit, 
+                        MoreArgs = c(extendingSize = extendingSize, 
+                        includeAllPeakRegion =
+                        includeAllPeakRegion, minNbrExp = minNbrExp,
+                        chrList = chrInfo),
+                        BPPARAM = coreParam)
+    
+                             
     z <- list(call = cl,
-                    consensusRanges = IRanges::unlist(GRangesList((results)), 
-                    recursive = TRUE, use.names = TRUE))
+                    consensusRanges = IRanges::unlist(GRangesList((results2)), 
+                    recursive = TRUE, use.names = FALSE))
+
 
     class(z)<-"consensusRanges"
 

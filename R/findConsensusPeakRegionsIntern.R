@@ -176,7 +176,7 @@ isInteger <- function(value) {
 findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize, 
                 includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks, 
                 chrList) {
-    
+
     # Subset peaks and narrow peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks, 
                     as.character(seqnames(allPeaks)) == chrName))
