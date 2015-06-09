@@ -102,7 +102,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     z <- list(call = cl,
                     consensusRanges = IRanges::unlist(GRangesList((results2)), 
                     recursive = TRUE, use.names = FALSE))
-
+    
     class(z)<-"consensusRanges"
 
     return(z)
