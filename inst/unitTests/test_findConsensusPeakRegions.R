@@ -644,8 +644,8 @@ test.findConsensusPeakRegions_ALL_with_size_50_minNbrExp_two_no_expending <- fun
     checkEquals(obs$consensusRanges, exp, msg = message)
 }
 
-## TODO
-test.findConsensusPeakRegions_ALL_with_one_as_left_bondary <- function() {
+## Test that left boundary inferior to zero is set to zero
+test.findConsensusPeakRegions_ALL_with_one_as_left_boundary <- function() {
     seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
     exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
                    ranges = IRanges(start = c(10, 40), end = c(10, 40)), 
@@ -685,6 +685,54 @@ test.findConsensusPeakRegions_ALL_with_one_as_left_bondary <- function() {
                    seqinfo = seqinfo)
     message <- paste0("findConsensusPeakRegions_ALL_with_one_as_left_bondary",
                       " - When left boubdary zero or negative, the boundary ", 
+                      "is not modified to generate expected results.")
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
+
+## Test that right boundary superior to chromosome length is set 
+## to chromosome length
+test.findConsensusPeakRegions_ALL_with_superior_right_boundary <- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
+    exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249250617, 135534737), 
+                                        end = c(249250617, 135534737)), 
+                        name=c("peak1", "peak2"), 
+                        seqinfo = seqinfo)
+    names(exp1Peak)<-rep("exp1", 2)
+    exp1NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(249250614, 135534717),
+                                               end = c(249250619, 135534737)), 
+                              name=c("peak1", "peak2"), 
+                              seqinfo = seqinfo)
+    names(exp1NarrowPeak)<-rep("exp1", 2)
+    exp2Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249250619, 135534740),
+                                         end = c(249250619, 135534740)), 
+                        name=c("peak1", "peak2"), 
+                        seqinfo = seqinfo)
+    names(exp2Peak)<-rep("exp2", 2)
+    exp2NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(249250600, 135534710),
+                                               end = c(249250620, 135534746)), 
+                              name=c("peak1", "peak2"), 
+                              seqinfo = seqinfo)
+    names(exp2NarrowPeak)<-rep("exp2", 2)
+    chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- findConsensusPeakRegions(narrowPeaks = 
+                                        c(exp1NarrowPeak, 
+                                          exp2NarrowPeak), 
+                                    peaks = c(exp1Peak, 
+                                                exp2Peak), 
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 100,
+                                    includeAllPeakRegion = FALSE)
+    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                   ranges = IRanges(start = c(249250518, 135534638),
+                                    end = c(249250621, 135534747)), 
+                   seqinfo = seqinfo)
+    message <- paste0("findConsensusPeakRegions_ALL_with_one_as_left_bondary",
+                      " - When right boubdary superior to chromosome length ", 
+                      "the boundary ", 
                       "is not modified to generate expected results.")
     checkEquals(obs$consensusRanges, exp, msg = message)
 }

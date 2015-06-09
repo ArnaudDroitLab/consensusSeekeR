@@ -273,9 +273,11 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                         minPos <- 1
                     }
                     
-#                     if (maxPos > seqlengths(chrInfo)) {
-#                         maxPos <- seqlengths(chrInfo)
-#                     }
+                    # Validate that maximum position is superior to chromosome
+                    # length
+                    if (maxPos > seqlengths(chrInfo)) {
+                        maxPos <- seqlengths(chrInfo)
+                    }
                     
                     # Validate that maximum position is not superior
                     # to chromosome size
