@@ -9,7 +9,10 @@
 #' @docType package
 #' @name consensusSeekeR-package
 #' @aliases consensusSeekeR-package consensusSeekeR
-#' @author  Astrid Louise Deschenes
+#' @author  Astrid Louise Deschenes,
+#'  Fabien Claude Lamaze,
+#'  Pascal Belleau and 
+#'  Arnaud Droit
 #' 
 #' Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
 #' @keywords package

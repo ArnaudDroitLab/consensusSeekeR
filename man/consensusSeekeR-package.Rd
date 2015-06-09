@@ -13,7 +13,10 @@ as well as the number of narrowPeak files in which a peak must be detected
 in the potential region to mark the region as a consensus peak region.
 }
 \author{
-Astrid Louise Deschenes
+Astrid Louise Deschenes,
+ Fabien Claude Lamaze,
+ Pascal Belleau and
+ Arnaud Droit
 
 Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
 }

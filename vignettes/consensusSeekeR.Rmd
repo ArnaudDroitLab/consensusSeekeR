@@ -1,0 +1,20 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions inside a group of experiences using narrowPeak files }
+-->
+
+Detection of consensus peak regions inside a group of experiences using narrowPeak data
+====================================================================
+Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit.
+
+## Introduction
+
+
+## Loading the consensusSeekeR package
+
+```{r loadingPackage} 
+suppressMessages(library(consensusSeekeR))
+```
+
+
+This package and the underlying consensusSeekeR code are distributed under the Artistic license 2.0. You are free to use and redistribute this software. 
