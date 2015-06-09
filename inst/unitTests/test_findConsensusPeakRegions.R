@@ -114,7 +114,7 @@ test.findConsensusPeakRegions_narrowPeaks_with_no_name_GRanges <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = gr, 
                     peaks = Hosa_A549_FOSL2_01_Peaks_partial[2:3]), 
                     error = conditionMessage)
-    exp <- paste0("narrowPeaks and peaks must have defined metadata names so ", 
+    exp <- paste0("narrowPeaks and peaks must have defined metadata name so ", 
                   "that each narrowPeaks entry can be associated to a ", 
                   "peaks entry")
     message <- paste0("findConsensusPeakRegions_peaks_with_no_name_GRanges",
@@ -135,9 +135,9 @@ test.findConsensusPeakRegions_narrowPeaks_with_no_row_name_GRanges <- function()
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = gr, 
             peaks = Hosa_A549_FOSL2_01_Peaks_partial[2:3]), 
             error = conditionMessage)
-    exp <- paste0("narrowPeaks and peaks must have defined metadata names ", 
-                  "so that each narrowPeaks entry can be associated to a ", 
-                  "peaks entry")
+    exp <- paste0("narrowPeaks and peaks must have defined row names ", 
+                  "so that each entry can be associated to an ", 
+                  "experiment")
     message <- paste0(" findConsensusPeakRegions_narrowPeaks_with_no_row_name_GRanges",
                       " - A GRanges without row name used as narrowPeaks ", 
                       "parameter did not generated expected error.")
@@ -155,7 +155,7 @@ test.findConsensusPeakRegions_peaks_with_no_name_GRanges <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                     Hosa_A549_FOSL2_01_Peaks_partial[2:3], 
                     peaks = gr), error = conditionMessage)
-    exp <- paste0("narrowPeaks and peaks must have defined metadata names ", 
+    exp <- paste0("narrowPeaks and peaks must have defined metadata name ", 
             "so that each narrowPeaks entry can be associated to ", 
             "a peaks entry")
     message <- paste0(" findConsensusPeakRegions_peaks_with_no_name_GRanges",
@@ -176,9 +176,9 @@ test.findConsensusPeakRegions_peaks_with_no_row_name_GRanges <- function() {
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 
                             Hosa_A549_FOSL2_01_Peaks_partial[2:3], 
                             peaks = gr), error = conditionMessage)
-    exp <- paste0("narrowPeaks and peaks must have defined metadata names ", 
-                  "so that each narrowPeaks entry can be associated to ", 
-                  "a peaks entry")
+    exp <- paste0("narrowPeaks and peaks must have defined row names ", 
+                  "so that each entry can be associated to ", 
+                  "an experiment")
     message <- paste0(" findConsensusPeakRegions_peaks_with_no_row_name_",
                       "GRanges - A GRanges without names used as peaks ", 
                       "parameter did not generated expected error.")
@@ -641,5 +641,50 @@ test.findConsensusPeakRegions_ALL_with_size_50_minNbrExp_two_no_expending <- fun
                       "not generated expected results.")
     checkEquals(end(obs$consensusRanges)-start(obs$consensusRanges), 
                 rep(100L, 6), msg = message)
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
+
+## TODO
+test.findConsensusPeakRegions_ALL_with_one_as_left_bondary <- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
+    exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                   ranges = IRanges(start = c(10, 40), end = c(10, 40)), 
+                   name=c("peak1", "peak2"), 
+                   seqinfo = seqinfo)
+    names(exp1Peak)<-rep("exp1", 2)
+    exp1NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(2, 34),
+                                         end = c(33, 54)), 
+                        name=c("peak1", "peak2"), 
+                        seqinfo = seqinfo)
+    names(exp1NarrowPeak)<-rep("exp1", 2)
+    exp2Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                    ranges = IRanges(start = c(15, 35),
+                                     end = c(15, 35)), 
+                    name=c("peak1", "peak2"), 
+                    seqinfo = seqinfo)
+    names(exp2Peak)<-rep("exp2", 2)
+    exp2NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(11, 32),
+                                         end = c(19, 55)), 
+                        name=c("peak1", "peak2"), 
+                        seqinfo = seqinfo)
+    names(exp2NarrowPeak)<-rep("exp2", 2)
+    chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- findConsensusPeakRegions(narrowPeaks = 
+                                        c(exp1NarrowPeak, 
+                                          exp2NarrowPeak), 
+                                    peaks = c(exp1Peak, 
+                                              exp2Peak), 
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 100,
+                                    includeAllPeakRegion = FALSE)
+    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                   ranges = IRanges(start = c(1, 1),
+                                    end = c(112, 137)), 
+                   seqinfo = seqinfo)
+    message <- paste0("findConsensusPeakRegions_ALL_with_one_as_left_bondary",
+                      " - When left boubdary zero or negative, the boundary ", 
+                      "is not modified to generate expected results.")
     checkEquals(obs$consensusRanges, exp, msg = message)
 }

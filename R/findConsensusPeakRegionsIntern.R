@@ -58,16 +58,14 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
     }
     
     if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
-        stop(paste0("narrowPeaks and peaks must have defined metadata names ", 
+        stop(paste0("narrowPeaks and peaks must have defined metadata name ", 
             "so that each narrowPeaks entry can be associated to ", 
             "a peaks entry"))
     }
     
-    if(is.null(narrowPeaks$name) || is.null(peaks$name) || 
-        is.null(names(narrowPeaks)) || is.null(names(peaks))) {
-        stop(paste0("narrowPeaks and peaks must have defined metadata names ", 
-                    "so that each narrowPeaks entry can be associated to ", 
-                    "a peaks entry"))
+    if(is.null(names(narrowPeaks)) || is.null(names(peaks))) {
+        stop(paste0("narrowPeaks and peaks must have defined row names ", 
+                    "so that each entry can be associated to an experiment"))
     }
     
     if (!all(sort(narrowPeaks$name) == sort(peaks$name)) || 
@@ -271,9 +269,10 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                         }
                     }
                     # Validate that minimum position is not negative
-#                     if (minPos < 1) {
-#                         minPos <- 1
-#                     }
+                    if (minPos < 1) {
+                        minPos <- 1
+                    }
+                    
 #                     if (maxPos > seqlengths(chrInfo)) {
 #                         maxPos <- seqlengths(chrInfo)
 #                     }
