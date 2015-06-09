@@ -74,25 +74,20 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
         coreParam <- SerialParam()
     }
     
-    # Process to regions extraction using parallel threads when available
-#     results <- bplapply(names(chrInfo), 
-#                 FUN = findConsensusPeakRegionsForOneChrom,
-#                 allPeaks = peaks, allNarrowPeaks = narrowPeaks, 
-#                 extendingSize = extendingSize, includeAllPeakRegion =
-#                 includeAllPeakRegion, minNbrExp = minNbrExp, chrList = chrInfo,
-#                 BPPARAM = coreParam)
-    
-    narrowPeaksSplit <- GenomicRanges::split(narrowPeaks, seqnames(narrowPeaks))
+    # Preparing data
+    narrowPeaksSplit <- GenomicRanges::split(narrowPeaks, 
+                                                seqnames(narrowPeaks))
     peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
     rm(peaks)
     rm(narrowPeaks)
     selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in% 
-                                                    seqnames(chrInfo)]
+                                                seqnames(chrInfo)]
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in% 
-                                                 seqnames(chrInfo)]
+                                                seqnames(chrInfo)]
     rm(narrowPeaksSplit)
     rm(peaksSplit)
     
+    # Running each chromosome on a separate thread
     results2 <- bpmapply(findConsensusPeakRegionsForOneChrom,
                         chrName = seqnames(chrInfo),
                         allPeaks = selectedPeaksSplit, 
@@ -103,11 +98,10 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                         chrList = chrInfo),
                         BPPARAM = coreParam)
     
-                             
+    # Creating result list
     z <- list(call = cl,
                     consensusRanges = IRanges::unlist(GRangesList((results2)), 
                     recursive = TRUE, use.names = FALSE))
-
 
     class(z)<-"consensusRanges"
 
