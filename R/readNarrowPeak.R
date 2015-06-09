@@ -31,6 +31,7 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
+#' @importFrom S4Vectors Rle
 #' @export
 readNarrowPeak<- function(file_path, extractRegions = TRUE, 
                                 extractPeaks = TRUE) {
