@@ -28,8 +28,8 @@ Imports: GenomeInfoDb,
 Suggests: knitr,
     RUnit
 License: Artistic-2.0 | file LICENSE
-URL: https://github.com/adeschen/sharedBed
-BugReports: https://github.com/adeschen/sharedBed/issues
+URL: https://github.com/adeschen/consensusSeekeR
+BugReports: https://github.com/adeschen/consensusSeekeR/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
 Maintainer: Astrid Louise Deschenes
