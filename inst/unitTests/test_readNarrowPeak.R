@@ -11,13 +11,13 @@
 
 if(FALSE) {
     library( "RUnit" )
-    library( "sharedBed" )
+    library( "consensusSeekeR" )
 }
 
 ### }}}
 
-file_FOSL2_Rep01 <- dir(system.file("extdata", package = "sharedBed"), 
-            pattern = "Hosa_A549_FOSL2_ENCSR000BQO_ENCFF000MZT_peaks_part_chr1_and_chr12.narrowPeak$",
+file_FOSL2_Rep01 <- dir(system.file("extdata", package = "consensusSeekeR"), 
+            pattern = "Hosa_A549_FOSL2_ENCSR000BQO_MZT_peaks_part_chr1_and_12.narrowPeak$",
             full.names=TRUE)
 
 

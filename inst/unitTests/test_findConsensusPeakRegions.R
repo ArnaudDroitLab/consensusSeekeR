@@ -11,7 +11,7 @@
 
 if(FALSE) {
     library( "RUnit" )
-    library( "sharedBed" )
+    library( "consensusSeekeR" )
 }
 
 ### }}}

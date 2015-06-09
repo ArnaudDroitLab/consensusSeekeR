@@ -1,4 +1,4 @@
-Package: sharedBed
+Package: consensusSeekeR
 Version: 0.99.0
 Date: 2015-05-01
 Title: Detection of consensus peak regions inside a group of experiences 
@@ -22,9 +22,9 @@ Depends: R (>= 2.10),
     BiocGenerics, 
     GenomicRanges, 
     IRanges, 
-    stringr, 
-    BiocParallel,
-    GenomeInfoDb
+    BiocParallel
+Imports: GenomeInfoDb,
+    stringr
 Suggests: knitr,
     RUnit
 License: Artistic-2.0 | file LICENSE

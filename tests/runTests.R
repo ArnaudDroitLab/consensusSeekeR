@@ -1,2 +1,2 @@
 ## Run all tests presnt in the package
-BiocGenerics:::testPackage("sharedBed")
+BiocGenerics:::testPackage("consensusSeekeR")
