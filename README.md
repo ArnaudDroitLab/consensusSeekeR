@@ -1,7 +1,7 @@
 consensusSeekeR : Detect consensus peak regions inside a group of experiences using narrowPeak data
 =====================
 
-[![Build Status](https://travis-ci.org/adeschen/sharedBed.svg?branch=master)](https://travis-ci.org/adeschen/sharedBed)
+[![Build Status](https://travis-ci.org/adeschen/consensusSeekeR.svg?branch=master)](https://travis-ci.org/adeschen/consensusSeekeR)
 
 This R package compares multiple narrowPeak data from different experiments to extract common peak 
 regions. 
