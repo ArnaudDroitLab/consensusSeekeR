@@ -1,27 +1,27 @@
 Package: consensusSeekeR
 Version: 0.99.0
 Date: 2015-05-01
-Title: Detection of consensus peak regions inside a group of experiences 
+Title: Detection of consensus peak regions inside a group of experiences
     using narrowPeak files
-Description: This package compares multiple narrowPeak files to extract common 
+Description: This package compares multiple narrowPeak files to extract common
     peak regions. The size of the analyzed region is adjustable as well
     as the number of experiences in which a peak must be detected to keep a
     potential region.
 Author: Astrid Louise Deschenes [cre, aut], Fabien Claude Lamaze [ctb],
     Pascal Belleau [aut], Arnaud Droit [aut]
 Author@R: c(person("Astrid Louise", "Deschenes",
-    email="Astrid-Louise.Deschenes@crchudequebec.ulaval.ca", 
-    role=c("cre","aut")), 
-    person("Fabien Claude", "Lamaze", 
+    email="Astrid-Louise.Deschenes@crchudequebec.ulaval.ca",
+    role=c("cre","aut")),
+    person("Fabien Claude", "Lamaze",
     email="fabien.lamaze.1@ulaval.ca", role=c("ctb")),
     person("Pascal", "Belleau",
     email="pascal.belleau@crchuq.ulaval.ca", role=c("aut")),
-    person("Arnaud", "Droit", 
+    person("Arnaud", "Droit",
     email="arnaud.droit@crchuq.ulaval.ca", role=c("aut")))
-Depends: R (>= 2.10),
-    BiocGenerics, 
-    GenomicRanges, 
-    IRanges, 
+Depends: R (>= 3.2),
+    BiocGenerics,
+    GenomicRanges,
+    IRanges,
     BiocParallel
 Imports: GenomeInfoDb,
     stringr,
@@ -33,5 +33,6 @@ URL: https://github.com/adeschen/consensusSeekeR
 BugReports: https://github.com/adeschen/consensusSeekeR/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
+biocViews: BiologicalQuestion, ChIPSeq, Genetics, MultipleComparison
 Maintainer: Astrid Louise Deschenes
     <Astrid-Louise.Deschenes@crchudequebec.ulaval.ca>
