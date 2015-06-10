@@ -8,51 +8,83 @@ findConsensusPeakRegions(narrowPeaks, peaks, chrInfo, extendingSize = 250,
   includeAllPeakRegion = TRUE, minNbrExp = 1, nbrThreads = 1)
 }
 \arguments{
-\item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
-called peaks of signal enrichment based on pooled, normalized data
-for all experiments.}
+\item{narrowPeaks}{a \code{GRanges} containing
+called peak regions of signal enrichment based on pooled,
+normalized data
+for all analyzed experiments. All \code{GRanges} entries must
+have a metadata field called "name" which identifies the region to
+the called peak. All \code{GRanges} entries must also
+have a row name which identifies the experiment of origin. Each
+\code{peaks} entry must have
+an associated \code{narrowPeaks} entry. A \code{GRanges} entry is
+associated to a \code{narrowPeaks} entry by having a identical
+metadata "name" field and a identical row name.}
 
-\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
+\item{peaks}{a \code{GRanges} containing
+called peaks of signal enrichment based on pooled,
+normalized data
+for all analyzed experiments. All \code{GRanges} entries must
+have a metadata field called "name" which identifies the called
+peak. All \code{GRanges} entries must
+have a row name which identifies the experiment of origin. Each
+\code{peaks} entry must have
+an associated \code{narrowPeaks} entry. A \code{GRanges} entry is
+associated to a \code{narrowPeaks} entry by having a identical
+metadata "name" field and a identical row name.}
 
 \item{chrInfo}{a \code{Seqinfo} containing the name and the length of the
-chromosomes to analyze.}
+chromosomes to analyze. Only the chomosomes contained in this
+\code{Seqinfo} will be analyzed.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
-at each side of the peaks median position to create the consensus
-region. The minimum size of the consensu region will be equal to
+on both sides of the position of the peaks median to create the
+consensus region. The minimum size of the consensus region is
+equal to
 twice the value of the \code{extendingSize} parameter. The size of
 the \code{extendingSize} must be a positive integer. Default = 250.}
 
 \item{includeAllPeakRegion}{a \code{logical} indicating if the region size,
 which is set by the \code{extendingSize} parameter is extended to
-include all region of the peak closest to the peaks median
-position for each experiment. When two peaks are at equal distance
-of the peaks median for one experiment, both peaks are used to
-extend the final consensus region.}
+include the entire narrow peak region of the peak closest to the
+position of the peaks median
+for each experiment. When two peaks are at equidistance
+of the peaks median for a specific experiment, both peaks are
+used to extend the final consensus region.}
 
-\item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
-in which a peak must be present for a region to be retained. The
+\item{minNbrExp}{a \code{numeric} or a \code{integer} indicating the
+minimum number of experiments
+in which at least one peak must be present for a potential
+consensus region. The
 numeric must be a positive integer inferior or equal to the number
-of files present in the \code{narrowPeakFiles} parameter.
+of experiments present in the \code{narrowPeaks} and \code{peaks}
+parameters.
 Default = 1.}
 
-\item{nbrThreads}{a \code{numeric} indicating the number of threads to use
+\item{nbrThreads}{a \code{numeric} or a \code{integer} indicating the
+         number of threads to use
          in parallel. The \code{nbrThreads} must be a positive integer.
          Default = 1.}
 }
 \value{
-an object of \code{class} "consensusRanges".
+an object of \code{class} "consensusRanges" containing :
+     \itemize{
+         \item \code{call} the matched call
+         \item \code{consensusRanges} a \code{GRanges} containing the
+                     consensus regions.
+     }
 }
 \description{
 Find regions sharing the same features for a minimum number of
          experiments using called peaks of signal enrichment based on
          pooled, normalized data (mainly coming from narrowPeak files).
-         The peaks and narrow peaks and used to identify
-         the common regions. The minimum number of experiments that must a
-         peak in a common regions for that region to be selected is
-         specified by user, as well as the size of padding. Only the
+         The peaks and narrow peaks are used to identify
+         the consensus regions. The minimum number of experiments that must
+         have at least on peak in a region so that it is retained as a
+         consensus region is specified by user, as well as the size of
+         mining regions. Only the
          chromosomes specified by the user are treated. The function can be
          parallized by specifying a number of threads superior to 1.
+         However, Windows does not support multicore  evaluation.
 
          When the padding is small, the detected regions are smaller than
          the one that could be obtained by doing an overlap of the narrow
@@ -60,10 +92,11 @@ Find regions sharing the same features for a minimum number of
          experiments needed to retain a region add versatility to the
          function.
 
-         The side of the padding can have a large effect on the detected
+         Beware that the side of the padding can have a large effect on
+         the detected consensus
          regions. It is recommanded to test more than one size and to do
-         some manual validation of the resulting regions before selecting
-         the final padding size.
+         some manual validation of the resulting consensus regions before
+         selecting the final padding size.
 }
 \author{
 Astrid Louise Deschenes

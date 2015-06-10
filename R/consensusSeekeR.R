@@ -18,17 +18,37 @@
 #' @keywords package
 NULL
 
-#' TODO Data Set
+#' Regions of sites with the greatest evidence of transcription factor binding
+#' for the FOSL2 transcription factor (for demonstration purpose)
 #'
-#' TODO
+#' Regions of sites with the greatest evidence of transcription factor binding
+#' for the
+#' FOSL2 transcription factor (DCC accession: ENCFF000MZT), calculated
+#' using the MACS peak caller (Zhang et al., 2008),
+#' for regions chr1:249120200-249250621 and chr10:1-370100
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#' This dataset is associated to the
 #'
 #' @name Hosa_A549_FOSL2_01_NarrowPeaks
 #' @docType data
-#' @format A \code{GRanges}
+#' @format A \code{GRanges} containing a metadata field called "name"
+#'      which identified the peak associated to the narrow peak region.
+#'      Each \code{GRanges} entry has a
+#'      different peak name.
+#' @usage data(Hosa_A549_FOSL2_01_NarrowPeaks)
+#' @seealso
+#'  \itemize{
+#'    \item \code{\link{Hosa_A549_FOSL2_01_Peaks}} { the associate peaks
+#'                  dataset}
+#'    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#'}
 #' @keywords datasets
 NULL
 
-#' TODO Data Set
+#' Sites with the greatest evidence of transcription factor binding for the
+#' FOSL2 transcription factor (for demonstration purpose)
 #'
 #' Sites with the greatest evidence of transcription factor binding for the
 #' FOSL2 transcription factor (DCC accession: ENCFF000MZT), calculated
@@ -39,8 +59,24 @@ NULL
 #'
 #' @name Hosa_A549_FOSL2_01_Peaks
 #' @docType data
-#' @format A \code{GRanges}
+#' @format A \code{GRanges} containing a metadata field called "name"
+#'      which identified the peak. Each \code{GRanges} entry has a
+#'      different peak name.
 #' @usage data(Hosa_A549_FOSL2_01_Peaks)
+#' @seealso
+#'  \itemize{
+#'    \item \code{\link{Hosa_A549_FOSL2_01_NarrowPeaks}} { the associate
+#'                  narrow peaks dataset}
+#'    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @references
+#'  \itemize{
+#'  \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
+#'  DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#'  \item Zhang Y, Liu T, Meyer CA, Eeckhoute J, Johnson DS, Bernstein BE, et
+#'  al. Model-based analysis of ChIP-Seq (MACS). Genome  Biol. 2008, 9(9):R137.
+#'  }
 #' @keywords datasets
 NULL
 
