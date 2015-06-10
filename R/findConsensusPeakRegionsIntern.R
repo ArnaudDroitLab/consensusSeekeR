@@ -1,20 +1,20 @@
-#' @title Parameter validation for the \code{\link{findConsensusPeakRegions}} 
+#' @title Parameter validation for the \code{\link{findConsensusPeakRegions}}
 #'      function
-#' 
+#'
 #' @description Validation of all parameters needed by the public
 #'      \code{\link{findConsensusPeakRegions}} function.
-#' 
-#' @param narrowPeaks a \code{vector} containing \code{GRanges} representing 
-#'          called peaks of signal enrichment based on pooled, normalized data 
+#'
+#' @param narrowPeaks a \code{vector} containing \code{GRanges} representing
+#'          called peaks of signal enrichment based on pooled, normalized data
 #'          for all experiments.
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
-#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#' @param chrList a \code{Seqinfo} containing the name and the length of the
 #'          chromosomes to analyze which indicate that all
 #'          chromosomes must be analyzed.
-#' @param extendingSize a \code{numeric} value indicating the size of padding 
+#' @param extendingSize a \code{numeric} value indicating the size of padding
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
-#'          twice the value of the \code{extendingSize} parameter. The size of 
+#'          twice the value of the \code{extendingSize} parameter. The size of
 #'          the \code{extendingSize} must be a positive integer. Default = 250.
 #' @param includeAllPeakRegion a \code{logical} indicating if the region set by
 #'          the \code{extendingSize} parameter is extended to include all
@@ -22,68 +22,74 @@
 #'          experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number 
+#'          numeric must be a positive value inferior or equal to the number
 #'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
 #'          in parallel.
-#' 
+#'
 #' @return \code{0} indicating that all parameters validations have been
 #'      successful.
-#' 
+#'
 #' @author Astrid Louise Deschenes
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
-findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList, 
+findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads) {
-    
+
     if (!is(narrowPeaks, "GRanges")) {
         stop("narrowPeaks must be a GRanges object")
-    }    
-    
+    }
+
     if (!is(peaks, "GRanges")) {
         stop("peaks must be a GRanges object")
     }
-    
+
     if (length(narrowPeaks) < 1) {
         stop("narrowPeaks must be a GRanges object with at least one entry")
     }
-    
+
     if (length(peaks) < 1) {
         stop("peaks must be a GRanges object with at least one entry")
     }
-    
+
     if(length(narrowPeaks) != length(peaks)) {
         stop("narrowPeaks and peaks must have the same number of elements")
     }
-    
+
     if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
-        stop(paste0("narrowPeaks and peaks must have defined metadata name ", 
-            "so that each narrowPeaks entry can be associated to ", 
+        stop(paste0("narrowPeaks and peaks must have defined metadata name ",
+            "so that each narrowPeaks entry can be associated to ",
             "a peaks entry"))
     }
-    
+
     if(is.null(names(narrowPeaks)) || is.null(names(peaks))) {
-        stop(paste0("narrowPeaks and peaks must have defined row names ", 
+        stop(paste0("narrowPeaks and peaks must have defined row names ",
                     "so that each entry can be associated to an experiment"))
     }
-    
-    if (!all(sort(narrowPeaks$name) == sort(peaks$name)) || 
+
+    if (!all(sort(narrowPeaks$name) == sort(peaks$name)) ||
         !all(sort(names(narrowPeaks)) == sort(names(peaks)))) {
-        stop(paste0("All narrowPeaks entry must have an equivalent peaks ", 
-            "entry recognizable by both an identical metadata name and an ", 
+        stop(paste0("All narrowPeaks entry must have an equivalent peaks ",
+            "entry recognizable by both an identical metadata name and an ",
             "identical row name"))
     }
- 
+
     if (!is(chrList, "Seqinfo")) {
         stop("chrList must be a Seqinfo object")
     }
 
     if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
-        not_present <- names(chrList)[!(names(chrList) 
+        not_present <- names(chrList)[!(names(chrList)
                                             %in% names(seqinfo(peaks)))]
-        stop(paste0("At least one chromosome name present in chrList is not ",
-             "present in peak : ", paste0(not_present,  collapse = ", ")))
+        if (length(not_present) < length(names(chrList))) {
+            warning(paste0("At least one chromosome name present in chrList ",
+                "is not present in peak : ", paste0(not_present,
+                collapse = ", ")))
+        } else {
+            stop("None of chromosome names present in chrList ",
+                 "is not present in peak")
+        }
     }
 
     if (any(is.na(seqlengths(chrList)))) {
@@ -101,9 +107,9 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
     if (!isInteger(minNbrExp) || minNbrExp < 1) {
         stop("minNbrExp must be a non-negative integer")
     }
-    
+
     if (minNbrExp > length(unique(names(narrowPeaks)))) {
-        stop(paste0("minNbrExp must be inferior or equal to the number ", 
+        stop(paste0("minNbrExp must be inferior or equal to the number ",
             "of experiments presents in narrowPeaks and peaks. The number of",
             "experiments is known by the number of differents row names ",
             "in narrowPeaks and peaks."))
@@ -117,34 +123,34 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 }
 
 #' @title Validate if a value is an integer
-#' 
-#' @description Validate if the value passed to the function is an integer or 
-#'          not. To be considered as an integer, the value must have a length 
-#'          of 1. The type of value can be a \code{integer} or 
-#'          \code{numerical}. However, a \code{numerical} must have the same 
-#'          value once casted to a \code{integer}.  A \code{vector} of 
+#'
+#' @description Validate if the value passed to the function is an integer or
+#'          not. To be considered as an integer, the value must have a length
+#'          of 1. The type of value can be a \code{integer} or
+#'          \code{numerical}. However, a \code{numerical} must have the same
+#'          value once casted to a \code{integer}.  A \code{vector} of
 #'          integers will returned \code{FALSE}.
 #'
 #' @param value an object to validate.
-#' 
+#'
 #' @return \code{TRUE} is the parameter is a integer; otherwise \code{FALSE}
-#' 
+#'
 #' @author Astrid Louise Deschenes
 #' @keywords internal
 isInteger <- function(value) {
-    return((is.integer(value) && length(value) == 1) || (is.numeric(value) && 
+    return((is.integer(value) && length(value) == 1) || (is.numeric(value) &&
                 as.integer(value) == value) && length(value) == 1)
 }
 
 #' @title TODO
-#' 
+#'
 #' @description TODO
-#' 
+#'
 #' @param chrName the name of the chromosome to analyse.
-#' @param extendingSize a \code{numeric} value indicating the size of padding 
+#' @param extendingSize a \code{numeric} value indicating the size of padding
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
-#'          twice the value of the \code{extendingSize} parameter. The size of 
+#'          twice the value of the \code{extendingSize} parameter. The size of
 #'          the \code{extendingSize} must be a positive integer. Default = 250.
 #' @param includeAllPeakRegion a \code{logical} indicating if the region set by
 #'          the \code{extendingSize} parameter is extended to include all
@@ -152,40 +158,40 @@ isInteger <- function(value) {
 #'          experiment.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number 
+#'          numeric must be a positive value inferior or equal to the number
 #'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
 #' @param allPeaks a \code{GRanges} containing all peaks from all experiments
 #'          sorted by position.
-#' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all 
+#' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all
 #'          experiments sorted by position.
-#' @param chrList a \code{Seqinfo} containing the name and the length of the 
+#' @param chrList a \code{Seqinfo} containing the name and the length of the
 #'          chromosomes to analyze.
-#' 
-#' @return an object of \code{class} "commonFeatures". 
-#' 
+#'
+#' @return an object of \code{class} "commonFeatures".
+#'
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges 
+#' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
-findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize, 
-                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks, 
+findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
+                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks,
                 chrList) {
 
     # Subset peaks and narrow peaks using the specified chromosome name
-    peaks <- sort(subset(allPeaks, 
+    peaks <- sort(subset(allPeaks,
                     as.character(seqnames(allPeaks)) == chrName))
-    narrowPeaks <- sort(subset(allNarrowPeaks, 
+    narrowPeaks <- sort(subset(allNarrowPeaks,
                         as.character(seqnames(allNarrowPeaks)) == chrName))
-    
+
     chrInfo <- chrList[chrName]
-    
+
     # Variable containing final consensus peak regions
     regions <- GRanges()
-    
+
     if (length(peaks) > 0 && length(narrowPeaks) > 0) {
         # Variables initialization
         current <- NULL
@@ -194,17 +200,17 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
         bad <- FALSE
         pos <- 1
         region_width <- 2 * extendingSize
-        
+
         # All peak are tested
-        # A primary region starting at peak position and of size 
-        # 2 * extendingSize. All peaks included in the region are used to 
+        # A primary region starting at peak position and of size
+        # 2 * extendingSize. All peaks included in the region are used to
         # calcule the median of the peaks. Using the median position, a new
         # region of size 2 * extendingSize is created with the median at its
-        # center. All peaks included in the region are used to 
+        # center. All peaks included in the region are used to
         # calcule the median of the peaks. The iteration goes on as long as
         # the set of peaks is not stable and the inital peak is not part
         # of the region.
-        # When a region is fixed. 
+        # When a region is fixed.
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
@@ -218,7 +224,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                 rightBoundary <- rightBoundaryNew
                 # Find peaks that overlaps the region
                 overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
-                                    ranges=c(IRanges(rightBoundary, 
+                                    ranges=c(IRanges(rightBoundary,
                                     rightBoundary + region_width))),
                                     subject = peaks)
                 setNew <- peaks[subjectHits(overlaps)]
@@ -228,23 +234,23 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     noRegionFound <- TRUE
                     break
                 }
-                
+
                 # Use the median of the peaks to set the new right boundary
                 rightBoundaryNew <- median(start(setNew)) - extendingSize
-                # Stop loop when the overlaping peaks are stable or 
+                # Stop loop when the overlaping peaks are stable or
                 # when no peaks is found
-                if (!is.null(set) && (length(set) == length(setNew)) && 
+                if (!is.null(set) && (length(set) == length(setNew)) &&
                         all(set == setNew)) break
             }
-            
+
             if (noRegionFound) {
                 # Treat the next position
                 pos <- pos + 1
             } else {
-                # Keep region only when the number of different experiments 
+                # Keep region only when the number of different experiments
                 # present is reached
                 if (length(unique(names(set))) >= minNbrExp) {
-                    # Create one final region using the narrow information 
+                    # Create one final region using the narrow information
                     # for each peak present
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
@@ -252,18 +258,18 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                         peakMedian <- rightBoundaryNew + extendingSize
                         for (name in unique(names(set))) {
                             peaksForOneExp <- set[names(set) == name]
-                        
-                            closessPeaks <- which(abs(start(peaksForOneExp) - 
-                                        peakMedian) == 
-                                        min(abs(start(peaksForOneExp) - 
+
+                            closessPeaks <- which(abs(start(peaksForOneExp) -
+                                        peakMedian) ==
+                                        min(abs(start(peaksForOneExp) -
                                         peakMedian)))
                             peaksForOneExp <- peaksForOneExp[closessPeaks]
-                            
-                            newMax <- max(end(narrowPeaks[narrowPeaks$name 
+
+                            newMax <- max(end(narrowPeaks[narrowPeaks$name
                                                 %in% peaksForOneExp$name]))
                             maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
-                        
-                            newMin <- min(start(narrowPeaks[narrowPeaks$name 
+
+                            newMin <- min(start(narrowPeaks[narrowPeaks$name
                                                 %in% peaksForOneExp$name]))
                             minPos <- ifelse(newMin < minPos, newMin, minPos)
                         }
@@ -272,31 +278,31 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     if (minPos < 1) {
                         minPos <- 1
                     }
-                    
+
                     # Validate that maximum position is superior to chromosome
                     # length
                     if (maxPos > seqlengths(chrInfo)) {
                         maxPos <- seqlengths(chrInfo)
                     }
-                    
+
                     # Validate that maximum position is not superior
                     # to chromosome size
-                    
-                    newRegion <- GRanges(seqnames = seq_name, 
+
+                    newRegion <- GRanges(seqnames = seq_name,
                                             IRanges(minPos, maxPos))
                     regions <- append(regions, newRegion)
-                    
+
                     # Update overlapping peaks
-                    overlaps <- findOverlaps(query = newRegion, 
+                    overlaps <- findOverlaps(query = newRegion,
                                                 subject = peaks)
                     setNew <- peaks[subjectHits(overlaps)]
                     if (!(current$name %in% setNew$name)) {
-                        # If the current peak is not included in the current 
+                        # If the current peak is not included in the current
                         # region, the region will not be selected
-                        stop(paste0("The current treated peak should be in ", 
+                        stop(paste0("The current treated peak should be in ",
                                     "the selected region.\n"))
                     }
-                    
+
                     # Treat the position following last peak present
                     # in new region
                     pos <- max(subjectHits(overlaps)) + 1
@@ -304,11 +310,11 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
                     pos <- pos + 1
                 }
             }
-        
+
             # Stop loop when all peaks are treated
             if (pos >= length(peaks)) break
         }
     }
-    
+
     return(regions)
 }
