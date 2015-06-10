@@ -9,7 +9,12 @@
 data(Hosa_A549_FOSL2_01_Peaks)
 }
 \description{
-TODO
+Sites with the greatest evidence of transcription factor binding for the
+FOSL2 transcription factor (DCC accession: ENCFF000MZT), calculated
+using the MACS peak caller (Zhang et al., 2008),
+for regions chr1:249120200-249250621 and chr10:1-370100
+from
+the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 }
 \keyword{datasets}
 

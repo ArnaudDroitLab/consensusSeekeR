@@ -11,5 +11,13 @@ data(Hosa_A549_FOXA1_01_NarrowPeaks_partial)
 \description{
 TODO
 }
+\references{
+\itemize{
+ \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of DNA
+ elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+ \item Zhang Y, Liu T, Meyer CA, Eeckhoute J, Johnson DS, Bernstein BE, et al.
+ Model-based analysis of ChIP-Seq (MACS). Genome  Biol. 2008, 9(9):R137.
+ }
+}
 \keyword{datasets}
 
