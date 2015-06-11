@@ -298,8 +298,8 @@ test.findConsensusPeakRegions_with_all_absent_chr_as_chrList <- function() {
                         chrInfo = chrList), error = conditionMessage)
     exp <- paste0("None of chromosome names present in chrList is ",
                     "not present in peak")
-    message <- paste0(" findConsensusPeakRegions_with_two_absent_chr_as",
-                      "_chrList - Absent chromosomes in chrList did ",
+    message <- paste0(" findConsensusPeakRegions_with_all_absent_chr_as",
+                      "_chrList - All absent chromosomes in chrList did ",
                       "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }

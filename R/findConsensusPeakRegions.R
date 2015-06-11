@@ -123,7 +123,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Running each chromosome on a separate thread
     results2 <- bpmapply(findConsensusPeakRegionsForOneChrom,
-                        chrName = seqnames(chrInfo),
+                        chrName = names(selectedPeaksSplit),
                         allPeaks = selectedPeaksSplit,
                         allNarrowPeaks = selectedNarrowPeaksSplit,
                         MoreArgs = c(extendingSize = extendingSize,
