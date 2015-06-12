@@ -147,6 +147,10 @@ isInteger <- function(value) {
 #' @description TODO
 #'
 #' @param chrName the name of the chromosome to analyse.
+#' @param allPeaks a \code{GRanges} containing all peaks from all experiments
+#'          sorted by position.
+#' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all
+#'          experiments sorted by position.
 #' @param extendingSize a \code{numeric} value indicating the size of padding
 #'          at each side of the peaks median position to create the consensus
 #'          region. The minimum size of the consensu region will be equal to
@@ -161,10 +165,6 @@ isInteger <- function(value) {
 #'          numeric must be a positive value inferior or equal to the number
 #'          of files present in the \code{narrowPeakFiles} parameter.
 #'          Default = 1.
-#' @param allPeaks a \code{GRanges} containing all peaks from all experiments
-#'          sorted by position.
-#' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all
-#'          experiments sorted by position.
 #' @param chrList a \code{Seqinfo} containing the name and the length of the
 #'          chromosomes to analyze.
 #'
@@ -177,9 +177,9 @@ isInteger <- function(value) {
 #' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
-findConsensusPeakRegionsForOneChrom <- function(chrName, extendingSize,
-                includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks,
-                chrList) {
+findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
+                allNarrowPeaks, extendingSize, includeAllPeakRegion,
+                minNbrExp, chrList) {
 
     # Subset peaks and narrow peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks,

@@ -103,9 +103,11 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
 
     # Select the type of object used for parallel processing
-    coreParam <- MulticoreParam(workers = nbrThreads)
+    nbrThreads <- as.integer(nbrThreads)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
+    } else {
+        coreParam <- MulticoreParam(workers = nbrThreads)
     }
 
     # Preparing data
@@ -127,9 +129,8 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                         allPeaks = selectedPeaksSplit,
                         allNarrowPeaks = selectedNarrowPeaksSplit,
                         MoreArgs = c(extendingSize = extendingSize,
-                        includeAllPeakRegion =
-                        includeAllPeakRegion, minNbrExp = minNbrExp,
-                        chrList = chrInfo),
+                        includeAllPeakRegion = includeAllPeakRegion,
+                        minNbrExp = minNbrExp, chrList = chrInfo),
                         BPPARAM = coreParam)
 
     # Creating result list
