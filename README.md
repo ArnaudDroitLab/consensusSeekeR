@@ -5,8 +5,8 @@ consensusSeekeR : Detect consensus peak regions inside a group of experiences us
 
 This R package compares multiple narrowPeak data from different experiments to extract common peak regions. 
 The size of the analyzed region is adjustable, as well
-as the number of experiences in which a peak must be detected to keep a 
-potential region. If needed, the consensus regions can be extended to cover the entire regions of all enclosed peaks.
+as the number of experiences in which a peak must be present to tag a 
+potential region as a consensus region. If needed, the consensus regions can be extended to cover the entire regions of enclosed peaks.
 
 ## Authors ##
 
