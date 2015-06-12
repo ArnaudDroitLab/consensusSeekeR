@@ -93,14 +93,17 @@
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                extendingSize = 250,
-                               includeAllPeakRegion = TRUE, minNbrExp = 1,
-                               nbrThreads = 1) {
+                               includeAllPeakRegion = TRUE, minNbrExp = 1L,
+                               nbrThreads = 1L) {
     # Get call information
     cl <- match.call()
 
     # Parameters validation
     findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrInfo,
             extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
+
+    # Change minNbrExp to integer
+    minNbrExp = as.integer(minNbrExp)
 
     # Select the type of object used for parallel processing
     nbrThreads <- as.integer(nbrThreads)
@@ -113,18 +116,20 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     # Preparing data
     narrowPeaksSplit <- GenomicRanges::split(narrowPeaks,
                                                 seqnames(narrowPeaks))
-    peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
-    rm(peaks)
     rm(narrowPeaks)
     selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in%
-                                                seqnames(chrInfo)]
+                                                     seqnames(chrInfo)]
+    rm(narrowPeaksSplit)
+
+
+    peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
+    rm(peaks)
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in%
                                                 seqnames(chrInfo)]
-    rm(narrowPeaksSplit)
     rm(peaksSplit)
 
     # Running each chromosome on a separate thread
-    results2 <- bpmapply(findConsensusPeakRegionsForOneChrom,
+    results <- bpmapply(findConsensusPeakRegionsForOneChrom,
                         chrName = names(selectedPeaksSplit),
                         allPeaks = selectedPeaksSplit,
                         allNarrowPeaks = selectedNarrowPeaksSplit,
@@ -135,7 +140,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Creating result list
     z <- list(call = cl,
-                    consensusRanges = IRanges::unlist(GRangesList((results2)),
+                    consensusRanges = IRanges::unlist(GRangesList((results)),
                     recursive = TRUE, use.names = FALSE))
 
     class(z)<-"consensusRanges"
