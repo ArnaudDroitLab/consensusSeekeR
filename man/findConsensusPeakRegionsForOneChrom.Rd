@@ -4,11 +4,17 @@
 \alias{findConsensusPeakRegionsForOneChrom}
 \title{TODO}
 \usage{
-findConsensusPeakRegionsForOneChrom(chrName, extendingSize,
-  includeAllPeakRegion, minNbrExp, allPeaks, allNarrowPeaks, chrList)
+findConsensusPeakRegionsForOneChrom(chrName, allPeaks, allNarrowPeaks,
+  extendingSize, includeAllPeakRegion, minNbrExp, chrList)
 }
 \arguments{
 \item{chrName}{the name of the chromosome to analyse.}
+
+\item{allPeaks}{a \code{GRanges} containing all peaks from all experiments
+sorted by position.}
+
+\item{allNarrowPeaks}{a \code{GRanges} containing all narrow peaks from all
+experiments sorted by position.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
 at each side of the peaks median position to create the consensus
@@ -26,12 +32,6 @@ in which a peak must be present for a region to be retained. The
 numeric must be a positive value inferior or equal to the number
 of files present in the \code{narrowPeakFiles} parameter.
 Default = 1.}
-
-\item{allPeaks}{a \code{GRanges} containing all peaks from all experiments
-sorted by position.}
-
-\item{allNarrowPeaks}{a \code{GRanges} containing all narrow peaks from all
-experiments sorted by position.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
          chromosomes to analyze.}

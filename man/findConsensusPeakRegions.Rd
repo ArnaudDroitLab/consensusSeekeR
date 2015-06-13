@@ -5,7 +5,7 @@
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
 findConsensusPeakRegions(narrowPeaks, peaks, chrInfo, extendingSize = 250,
-  includeAllPeakRegion = TRUE, minNbrExp = 1, nbrThreads = 1)
+  includeAllPeakRegion = TRUE, minNbrExp = 1L, nbrThreads = 1L)
 }
 \arguments{
 \item{narrowPeaks}{a \code{GRanges} containing
