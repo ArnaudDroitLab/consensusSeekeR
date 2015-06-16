@@ -7,10 +7,10 @@
 \title{consensusSeekeR: Detection of consensus peak regions inside a group of
 experiments using narrowPeak files}
 \description{
-This package compares multiple narrowPeak files to extract common
-consensus peak regions. The size of the analyzed region is adjustable
-as well as the number of narrowPeak files in which a peak must be detected
-in the potential region to mark the region as a consensus peak region.
+This package compares narrowPeak data from multiple experiments to extract
+common consensus peak regions. The size of the analyzed region is adjustable
+as well as the number of experiments in which a peak must be detected
+to mark a potential region as a consensus peak region.
 }
 \author{
 Astrid Louise Deschenes,
@@ -19,6 +19,14 @@ Astrid Louise Deschenes,
  Arnaud Droit
 
 Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
+}
+\seealso{
+\itemize{
+   \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
+                 from a narrowPeak file.}
+   \item \code{\link{findConsensusPeakRegions}} { for extracting regions
+                 sharing the same features in more than one experiment. }
+   }
 }
 \keyword{package}
 

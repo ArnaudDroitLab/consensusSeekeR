@@ -33,7 +33,7 @@
 #' @importFrom GenomicRanges GRanges
 #' @importFrom S4Vectors Rle
 #' @export
-readNarrowPeak<- function(file_path, extractRegions = TRUE,
+readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
                                 extractPeaks = TRUE) {
     # Parameters validation
     if (!file.exists(file_path)) {

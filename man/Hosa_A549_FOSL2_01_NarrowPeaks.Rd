@@ -25,7 +25,7 @@ This dataset is associated to the
 \seealso{
 \itemize{
    \item \code{\link{Hosa_A549_FOSL2_01_Peaks}} { the associate peaks
-                 dataset}
+                 dataset.}
    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
                  sharing the same features in more than one experiment.}
 }

@@ -16,15 +16,15 @@ if(FALSE) {
 
 ### }}}
 
-file_FOSL2_Rep01 <- dir(system.file("extdata", package = "consensusSeekeR"), 
-            pattern = "Hosa_A549_FOSL2_ENCSR000BQO_MZT_peaks_part_chr1_and_12.narrowPeak$",
-            full.names=TRUE)
+file_FOSL2_Rep01 <- dir(system.file("extdata", package = "consensusSeekeR"),
+    pattern = "Hosa_A549_FOSL2_ENCSR000BQO_MZT_peaks_part_chr1_and_12.narrowPeak$",
+    full.names=TRUE)
 
 
 ## Test the result when the file doesn't exist
 test.readNarrowPeak_no_existing_file <- function() {
     file <- "TiiTooTiiToo.narrowPeak"
-    obs <- tryCatch(readNarrowPeak(file_path = file), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file),
                     error=conditionMessage)
     exp <- paste0("No such file \"", file, "\"")
     message <- paste0("readNarrowPeak_no_existing_file() ",
@@ -35,8 +35,8 @@ test.readNarrowPeak_no_existing_file <- function() {
 ## Test the result when extractPeaks and extractRegions parameters
 ## are both FALSE
 test.readNarrowPeak_both_parameters_FALSE <- function() {
-    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
-                    extractRegions = FALSE, extractPeaks = FALSE), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file_FOSL2_Rep01,
+                    extractRegions = FALSE, extractPeaks = FALSE),
                     error=conditionMessage)
     exp <- "extractPeaks and extractRegions cannot be both FALSE"
     message <- paste0("readNarrowPeak_no_existing_file() ",
@@ -47,9 +47,9 @@ test.readNarrowPeak_both_parameters_FALSE <- function() {
 
 ## Test the result when extractPeaks is a string
 test.readNarrowPeak_a_string_as_extractPeaks <- function() {
-    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
-                                    extractRegions = FALSE, 
-                                    extractPeaks = "extremeYoga"), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file_FOSL2_Rep01,
+                                    extractRegions = FALSE,
+                                    extractPeaks = "extremeYoga"),
                                     error=conditionMessage)
     exp <- "extractPeaks must be a logical value"
     message <- paste0("readNarrowPeak_no_existing_file() ",
@@ -60,9 +60,9 @@ test.readNarrowPeak_a_string_as_extractPeaks <- function() {
 
 ## Test the result when extractPeaks is a numerical
 test.readNarrowPeak_a_numerical_as_extractPeaks <- function() {
-    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
-                                   extractRegions = FALSE, 
-                                   extractPeaks = 0.001), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file_FOSL2_Rep01,
+                                   extractRegions = FALSE,
+                                   extractPeaks = 0.001),
                     error=conditionMessage)
     exp <- "extractPeaks must be a logical value"
     message <- paste0("readNarrowPeak_no_existing_file() ",
@@ -73,9 +73,9 @@ test.readNarrowPeak_a_numerical_as_extractPeaks <- function() {
 
 ## Test the result when extractRegions is a string
 test.readNarrowPeak_a_string_as_extractRegions <- function() {
-    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
-                                   extractRegions = "extremeReading", 
-                                   extractPeaks = TRUE), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file_FOSL2_Rep01,
+                                   extractRegions = "extremeReading",
+                                   extractPeaks = TRUE),
                     error=conditionMessage)
     exp <- "extractRegions must be a logical value"
     message <- paste0("readNarrowPeak_no_existing_file() ",
@@ -84,11 +84,11 @@ test.readNarrowPeak_a_string_as_extractRegions <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
-# Test the result when extractRegions is an numerical 
+# Test the result when extractRegions is an numerical
 test.readNarrowPeak_a_numerical_as_extractRegions <- function() {
-    obs <- tryCatch(readNarrowPeak(file_path = file_FOSL2_Rep01, 
-                                   extractRegions = 0.11, 
-                                   extractPeaks = TRUE), 
+    obs <- tryCatch(readNarrowPeakFile(file_path = file_FOSL2_Rep01,
+                                   extractRegions = 0.11,
+                                   extractPeaks = TRUE),
                     error=conditionMessage)
     exp <- "extractRegions must be a logical value"
     message <- paste0("readNarrowPeak_no_existing_file() ",
