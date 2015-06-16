@@ -1,7 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions 
-inside a group of experiences using narrowPeak files }
+%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions inside a group of experiences using narrowPeak files }
 -->
 
 <center> <h1>Detection of consensus regions inside a group of experiences 
