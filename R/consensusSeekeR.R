@@ -14,7 +14,8 @@
 #'  Pascal Belleau and
 #'  Arnaud Droit
 #'
-#' Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
+#' Maintainer:
+#' Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
 #' @seealso
 #'  \itemize{
 #'    \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
@@ -36,8 +37,11 @@ NULL
 #'
 #' @name A549_FOSL2_01_NarrowPeaks_partial
 #' @docType data
+#' @aliases A549_FOSL2_01_NarrowPeaks_partial
 #' @format A \code{GRanges} containing one entry per genomic regions. Each row
 #'  of \code{GRanges} has a name which represent the name of the experiment.
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#'  ENCFF002CFN)
 #' @references
 #'  \itemize{
 #'  \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
@@ -184,6 +188,7 @@ NULL
 #'                  sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
+#' @examples
 #' ## Loading datasets
 #' data(A549_FOSL2_01_NarrowPeaks_partial)
 #' data(A549_FOSL2_01_Peaks_partial)
@@ -249,4 +254,42 @@ NULL
 #'                  sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
+#' @examples
+#' ## Loading datasets
+#' data(A549_FOSL2_01_NarrowPeaks_partial)
+#' data(A549_FOSL2_01_Peaks_partial)
+#' data(A549_FOXA1_01_NarrowPeaks_partial)
+#' data(A549_FOXA1_01_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_FOXA1_01_Peaks_partial) <- rep("FOXA1_01",
+#'                              length(A549_FOXA1_01_Peaks_partial))
+#' names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1_01",
+#'                              length(A549_FOXA1_01_NarrowPeaks_partial))
+#' names(A549_FOSL2_01_Peaks_partial) <-rep("FOSL2_01",
+#'                              length(A549_FOSL2_01_Peaks_partial))
+#' names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
+#'                              length(A549_FOSL2_01_NarrowPeaks_partial))
+#'
+#' ## Calculating consensus regions for both chromosomes 1 and 10
+#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for each
+#' ## experiment).
+#' ## A peak from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1", "chr10"), c(249250621, 135534747), NA)
+#' findConsensusPeakRegions(
+#'      narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
+#'                      A549_FOSL2_01_NarrowPeaks_partial),
+#'      peaks = c(A549_FOXA1_01_Peaks_partial,
+#'                  A549_FOSL2_01_Peaks_partial),
+#'      chrInfo = chrList,
+#'      extendingSize = 50,
+#'      includeAllPeakRegion = TRUE,
+#'      minNbrExp = 2,
+#'      nbrThreads = 1)
+#'
 NULL

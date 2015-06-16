@@ -17,6 +17,42 @@ for regions chr1:249120200-249250621 and chr10:1-370100
 from
 the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 }
+\examples{
+## Loading datasets
+data(A549_FOSL2_01_NarrowPeaks_partial)
+data(A549_FOSL2_01_Peaks_partial)
+data(A549_FOXA1_01_NarrowPeaks_partial)
+data(A549_FOXA1_01_Peaks_partial)
+
+## Assigning experiment name to each row of the dataset.
+## NarrowPeak and Peak datasets from the same experiment must
+## have identical names.
+names(A549_FOXA1_01_Peaks_partial) <- rep("FOXA1_01",
+                             length(A549_FOXA1_01_Peaks_partial))
+names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1_01",
+                             length(A549_FOXA1_01_NarrowPeaks_partial))
+names(A549_FOSL2_01_Peaks_partial) <-rep("FOSL2_01",
+                             length(A549_FOSL2_01_Peaks_partial))
+names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
+                             length(A549_FOSL2_01_NarrowPeaks_partial))
+
+## Calculating consensus regions for both chromosomes 1 and 10
+## with a defaut region size of 300 bp (2 * extendingSize)
+## which is not extended to include all genomic regions.
+## A peak from both experiments must be present in a region to
+## be retained as a consensus region.
+chrList <- Seqinfo(c("chr1", "chr10"), c(249250621, 135534747), NA)
+findConsensusPeakRegions(
+     narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
+                     A549_FOSL2_01_NarrowPeaks_partial),
+     peaks = c(A549_FOXA1_01_Peaks_partial,
+                 A549_FOSL2_01_Peaks_partial),
+     chrInfo = chrList,
+     extendingSize = 150,
+     includeAllPeakRegion = FALSE,
+     minNbrExp = 2,
+     nbrThreads = 1)
+}
 \references{
 \itemize{
  \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
@@ -31,100 +67,5 @@ the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
                  sharing the same features in more than one experiment.}
 }
 }
-\keyword{"chr10"),}
-\keyword{##}
-\keyword{(2}
-\keyword{*}
-\keyword{1}
-\keyword{1)}
-\keyword{10}
-\keyword{135534747),}
-\keyword{150,}
-\keyword{2,}
-\keyword{300}
-\keyword{<-}
-\keyword{<-rep("FOSL2_01",}
-\keyword{=}
-\keyword{A}
-\keyword{A549_FOSL2_01_NarrowPeaks_partial),}
-\keyword{A549_FOSL2_01_Peaks_partial),}
-\keyword{Assigning}
-\keyword{Calculating}
-\keyword{FALSE,}
-\keyword{Loading}
-\keyword{NA)}
-\keyword{NarrowPeak}
-\keyword{Peak}
-\keyword{Seqinfo(c("chr1",}
-\keyword{a}
-\keyword{all}
-\keyword{and}
-\keyword{as}
-\keyword{be}
-\keyword{both}
-\keyword{bp}
-\keyword{c(249250621,}
-\keyword{c(A549_FOXA1_01_NarrowPeaks_partial,}
-\keyword{c(A549_FOXA1_01_Peaks_partial,}
-\keyword{chrInfo}
-\keyword{chrList}
-\keyword{chrList,}
-\keyword{chromosomes}
-\keyword{consensus}
-\keyword{data(A549_FOSL2_01_NarrowPeaks_partial)}
-\keyword{data(A549_FOSL2_01_Peaks_partial)}
-\keyword{data(A549_FOXA1_01_NarrowPeaks_partial)}
-\keyword{data(A549_FOXA1_01_Peaks_partial)}
-\keyword{dataset.}
 \keyword{datasets}
-\keyword{defaut}
-\keyword{each}
-\keyword{experiment}
-\keyword{experiments}
-\keyword{extended}
-\keyword{extendingSize}
-\keyword{extendingSize)}
-\keyword{findConsensusPeakRegions(}
-\keyword{for}
-\keyword{from}
-\keyword{genomic}
-\keyword{have}
-\keyword{identical}
-\keyword{in}
-\keyword{include}
-\keyword{includeAllPeakRegion}
-\keyword{is}
-\keyword{length(A549_FOSL2_01_NarrowPeaks_partial))}
-\keyword{length(A549_FOSL2_01_Peaks_partial))}
-\keyword{length(A549_FOXA1_01_NarrowPeaks_partial))}
-\keyword{length(A549_FOXA1_01_Peaks_partial))}
-\keyword{minNbrExp}
-\keyword{must}
-\keyword{name}
-\keyword{names(A549_FOSL2_01_NarrowPeaks_partial)}
-\keyword{names(A549_FOSL2_01_Peaks_partial)}
-\keyword{names(A549_FOXA1_01_NarrowPeaks_partial)}
-\keyword{names(A549_FOXA1_01_Peaks_partial)}
-\keyword{names.}
-\keyword{narrowPeaks}
-\keyword{nbrThreads}
-\keyword{not}
-\keyword{of}
-\keyword{peak}
-\keyword{peaks}
-\keyword{present}
-\keyword{region}
-\keyword{region.}
-\keyword{regions}
-\keyword{regions.}
-\keyword{rep("FOSL2_01",}
-\keyword{rep("FOXA1_01",}
-\keyword{retained}
-\keyword{row}
-\keyword{same}
-\keyword{size}
-\keyword{the}
-\keyword{to}
-\keyword{which}
-\keyword{with}
 

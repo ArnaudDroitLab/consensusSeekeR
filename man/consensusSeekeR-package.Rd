@@ -18,7 +18,8 @@ Astrid Louise Deschenes,
  Pascal Belleau and
  Arnaud Droit
 
-Maintainer: Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
+Maintainer:
+Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
 }
 \seealso{
 \itemize{
