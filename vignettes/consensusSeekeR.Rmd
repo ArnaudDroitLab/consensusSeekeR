@@ -1,11 +1,18 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions inside a group of experiences using narrowPeak files }
+%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions 
+inside a group of experiences using narrowPeak files }
 -->
 
-Detection of consensus peak regions inside a group of experiences using narrowPeak data
-====================================================================
-Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit.
+<center> <h1>Detection of consensus regions inside a group of experiences 
+using narrowPeak data</h1> </center>
+
+<center>Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau 
+and Arnaud Droit.</center>
+</br>
+<center>This package and the underlying consensusSeekeR code are distributed 
+under the Artistic license 2.0.</center> 
+<center>You are free to use and redistribute this software.</center>
 
 ## Introduction
 
@@ -16,5 +23,21 @@ Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit.
 suppressMessages(library(consensusSeekeR))
 ```
 
+## Inputs
 
-This package and the underlying consensusSeekeR code are distributed under the Artistic license 2.0. You are free to use and redistribute this software. 
+ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
+DNA sequencing to identify the binding sites of DNA-associated proteins. 
+Sequences are aligned on a reference and bindind sites are dectected by using
+software specialized in transcript factor binding sites identification, such 
+MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011).
+
+
+## References
+
+Feng X., Grossman R., Stein L. PeakRanger:A cloud-enabled peak caller for 
+ChIP-seq data. BMC Bioinformatics 2011, 12(1):139.
+
+
+Zhang Y., Liu T., Meyer, C.A., Eeckhoute J. Johnson D.S., Bernstein, B.E., 
+Nusbaum C., Myer R.M., Brown M., Li W. Model-based Analysis of 
+ChIP-Seq (MACS). Genome Biol (2008) vol. 9 (9) pp. R137.
