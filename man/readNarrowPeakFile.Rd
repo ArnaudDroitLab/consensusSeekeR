@@ -21,14 +21,14 @@ returned. Default = \code{TRUE}.}
 }
 \value{
 a \code{list} containing 2 entries:
-     \itemize{
-         \item narrowPeak a {\code{GRanges}} containing
-             the narrow regions extracted from the file. {\code{NULL}} when
-             not needed by user.
-         \item peak a {\code{GRanges}} containing
-             the peaks extracted from the file. {\code{NULL}} when not
-             needed by user.
-     }
+ \itemize{
+     \item narrowPeak a {\code{GRanges}} containing
+         the narrow regions extracted from the file. {\code{NULL}} when
+         not needed by user.
+     \item peak a {\code{GRanges}} containing
+         the peaks extracted from the file. {\code{NULL}} when not
+         needed by user.
+ }
 }
 \description{
 Read a narrowPeak file and extract the narrow regions and/or

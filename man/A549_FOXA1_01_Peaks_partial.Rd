@@ -3,19 +3,34 @@
 \docType{data}
 \name{A549_FOXA1_01_Peaks_partial}
 \alias{A549_FOXA1_01_Peaks_partial}
-\title{TODO Data Set}
-\format{A \code{GRanges}}
+\title{Sites with the greatest evidence of transcription factor binding
+for the FOXA1 transcription factor (for demonstration purpose)}
+\format{A \code{GRanges} containing one entry per site
+. Each row
+ of \code{GRanges} has a name which represent the name of the experiment.}
 \usage{
 data(A549_FOXA1_01_Peaks_partial)
 }
 \description{
-TODO Data Set
+Sites representing the greatest evidence of enrichment for
+the FOXA1 transcription factor (DCC accession: TODO)
+for regions chr1:249120200-249250621 and chr10:1-370100
+from
+the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 }
 \references{
 \itemize{
  \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
  DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
  }
+}
+\seealso{
+\itemize{
+   \item \code{\link{A549_FOXA1_01_NarrowPeaks_partial}} { the associate
+                 genomic regions dataset.}
+   \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+                 sharing the same features in more than one experiment.}
+}
 }
 \keyword{datasets}
 

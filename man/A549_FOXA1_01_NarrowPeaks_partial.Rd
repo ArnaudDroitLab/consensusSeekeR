@@ -3,13 +3,19 @@
 \docType{data}
 \name{A549_FOXA1_01_NarrowPeaks_partial}
 \alias{A549_FOXA1_01_NarrowPeaks_partial}
-\title{TODO Data Set}
-\format{A \code{GRanges}}
+\title{Genomic regions with the greatest evidence of transcription factor binding
+for the FOXA1 transcription factor (for demonstration purpose)}
+\format{A \code{GRanges} containing one entry per genomic regions. Each row
+ of \code{GRanges} has a name which represent the name of the experiment.}
 \usage{
 data(A549_FOXA1_01_NarrowPeaks_partial)
 }
 \description{
-TODO
+Genomic regions representing the greatest evidence of enrichment for
+the FOXA1 transcription factor (DCC accession: TODO)
+for regions chr1:249120200-249250621 and chr10:1-370100
+from
+the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 }
 \references{
 \itemize{
@@ -17,5 +23,108 @@ TODO
  DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
  }
 }
+\seealso{
+\itemize{
+   \item \code{\link{A549_FOXA1_01_Peaks_partial}} { the associate
+                 sites dataset.}
+   \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+                 sharing the same features in more than one experiment.}
+}
+}
+\keyword{"chr10"),}
+\keyword{##}
+\keyword{(2}
+\keyword{*}
+\keyword{1}
+\keyword{1)}
+\keyword{10}
+\keyword{135534747),}
+\keyword{150,}
+\keyword{2,}
+\keyword{300}
+\keyword{<-}
+\keyword{<-rep("FOSL2_01",}
+\keyword{=}
+\keyword{A}
+\keyword{A549_FOSL2_01_NarrowPeaks_partial),}
+\keyword{A549_FOSL2_01_Peaks_partial),}
+\keyword{Assigning}
+\keyword{Calculating}
+\keyword{FALSE,}
+\keyword{Loading}
+\keyword{NA)}
+\keyword{NarrowPeak}
+\keyword{Peak}
+\keyword{Seqinfo(c("chr1",}
+\keyword{a}
+\keyword{all}
+\keyword{and}
+\keyword{as}
+\keyword{be}
+\keyword{both}
+\keyword{bp}
+\keyword{c(249250621,}
+\keyword{c(A549_FOXA1_01_NarrowPeaks_partial,}
+\keyword{c(A549_FOXA1_01_Peaks_partial,}
+\keyword{chrInfo}
+\keyword{chrList}
+\keyword{chrList,}
+\keyword{chromosomes}
+\keyword{consensus}
+\keyword{data(A549_FOSL2_01_NarrowPeaks_partial)}
+\keyword{data(A549_FOSL2_01_Peaks_partial)}
+\keyword{data(A549_FOXA1_01_NarrowPeaks_partial)}
+\keyword{data(A549_FOXA1_01_Peaks_partial)}
+\keyword{dataset.}
 \keyword{datasets}
+\keyword{defaut}
+\keyword{each}
+\keyword{experiment}
+\keyword{experiments}
+\keyword{extended}
+\keyword{extendingSize}
+\keyword{extendingSize)}
+\keyword{findConsensusPeakRegions(}
+\keyword{for}
+\keyword{from}
+\keyword{genomic}
+\keyword{have}
+\keyword{identical}
+\keyword{in}
+\keyword{include}
+\keyword{includeAllPeakRegion}
+\keyword{is}
+\keyword{length(A549_FOSL2_01_NarrowPeaks_partial))}
+\keyword{length(A549_FOSL2_01_Peaks_partial))}
+\keyword{length(A549_FOXA1_01_NarrowPeaks_partial))}
+\keyword{length(A549_FOXA1_01_Peaks_partial))}
+\keyword{minNbrExp}
+\keyword{must}
+\keyword{name}
+\keyword{names(A549_FOSL2_01_NarrowPeaks_partial)}
+\keyword{names(A549_FOSL2_01_Peaks_partial)}
+\keyword{names(A549_FOXA1_01_NarrowPeaks_partial)}
+\keyword{names(A549_FOXA1_01_Peaks_partial)}
+\keyword{names.}
+\keyword{narrowPeaks}
+\keyword{nbrThreads}
+\keyword{not}
+\keyword{of}
+\keyword{peak}
+\keyword{peaks}
+\keyword{present}
+\keyword{region}
+\keyword{region.}
+\keyword{regions}
+\keyword{regions.}
+\keyword{rep("FOSL2_01",}
+\keyword{rep("FOXA1_01",}
+\keyword{retained}
+\keyword{row}
+\keyword{same}
+\keyword{size}
+\keyword{the}
+\keyword{to}
+\keyword{which}
+\keyword{with}
 

@@ -92,9 +92,9 @@
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
-                               extendingSize = 250,
-                               includeAllPeakRegion = TRUE, minNbrExp = 1L,
-                               nbrThreads = 1L) {
+                                extendingSize = 250,
+                                includeAllPeakRegion = TRUE, minNbrExp = 1L,
+                                nbrThreads = 1L) {
     # Get call information
     cl <- match.call()
 
@@ -115,17 +115,18 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Preparing data
     narrowPeaksSplit <- GenomicRanges::split(narrowPeaks,
-                                                seqnames(narrowPeaks))
+                                                    seqnames(narrowPeaks))
     rm(narrowPeaks)
-    selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in%
-                                                     seqnames(chrInfo)]
-    rm(narrowPeaksSplit)
 
+    selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in%
+                                                    seqnames(chrInfo)]
+    rm(narrowPeaksSplit)
 
     peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
     rm(peaks)
+
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in%
-                                                seqnames(chrInfo)]
+                                                    seqnames(chrInfo)]
     rm(peaksSplit)
 
     # Running each chromosome on a separate thread
@@ -140,8 +141,9 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Creating result list
     z <- list(call = cl,
-                    consensusRanges = IRanges::unlist(GRangesList((results)),
-                    recursive = TRUE, use.names = FALSE))
+                consensusRanges = IRanges::unlist(GRangesList((results)),
+                recursive = TRUE,
+                use.names = FALSE))
 
     class(z)<-"consensusRanges"
 

@@ -183,7 +183,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
     # Subset peaks and narrow peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks,
-                    as.character(seqnames(allPeaks)) == chrName))
+                        as.character(seqnames(allPeaks)) == chrName))
     narrowPeaks <- sort(subset(allNarrowPeaks,
                         as.character(seqnames(allNarrowPeaks)) == chrName))
 
