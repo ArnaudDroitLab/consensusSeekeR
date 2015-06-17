@@ -31,6 +31,23 @@ Sequences are aligned on a reference and bindind sites are dectected by using
 software specialized in transcript factor binding sites identification, such 
 MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011).
 
+## Using consensusSeekeR on ChIP-Seq data
+
+### ChIP-Seq replicates 
+
+The Encyclopedia of DNA Elements (ENCODE) Consortium is an international 
+collaboration of research groups funded by the National Human Genome Research 
+Institute. The [ENCODE website](https://www.encodeproject.org) hold data that is 
+freely available for download and analysis.
+
+First, the `consensusSeekeR` package must be loaded.
+
+```{r libraryLoad}
+suppressMessages(library(consensusSeekeR))
+```
+
+### ChIP-Seq multiple experiments
+
 
 ## References
 
