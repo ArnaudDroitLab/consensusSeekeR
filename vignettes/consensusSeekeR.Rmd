@@ -30,8 +30,9 @@ Sequences are aligned on a reference and binding sites are dectected by using
 software specialized in transcript factor binding sites identification, such 
 MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011).
 
+## Effect of the extendingSize parameter
 
-## Effect of the extendingSize 
+
 
 ## Using consensusSeekeR on ChIP-Seq samples
 
@@ -58,13 +59,14 @@ The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
-sur la méthode pour obtenir narrowPeak).
+sur la méthode pour obtenir narrowPeak). To simplify this demo, only 
+
 
 ### ChIP-Seq samples from multiple experiments
 
 The `consensusSeekeR` package can also be used to identify consensus regions 
 for two or more ChIP-Seq samples from multiple experiments. While the 
-consensus regions are being found by using the peak positions, .
+consensus regions are being found by using the peak positions, the .
 
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
