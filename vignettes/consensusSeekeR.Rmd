@@ -15,6 +15,10 @@ under the Artistic license 2.0.</center>
 
 ## Introduction
 
+Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
+(ChIP-seq) has changed our ability to interrogate whole genome protein-DNA 
+interactions.
+
 
 ## Loading the consensusSeekeR package
 
@@ -31,6 +35,10 @@ software specialized in transcript factor binding sites identification, such
 MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011).
 
 ## Effect of the extendingSize parameter
+
+The value of the `extendingSize` parameter can affect the final number of 
+consensus regions. While small `extendingSize` value can miss some regions, 
+large `extendingSize` value can gather consensus regions.
 
 
 
@@ -59,7 +67,7 @@ The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
-sur la méthode pour obtenir narrowPeak). To simplify this demo, only 
+sur la methode pour obtenir narrowPeak). To simplify this demo, only 
 
 
 ### ChIP-Seq samples from multiple experiments
@@ -72,7 +80,7 @@ The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
-sur la méthode pour obtenir narrowPeak).
+sur la methode pour obtenir narrowPeak).
 
 ## References
 
