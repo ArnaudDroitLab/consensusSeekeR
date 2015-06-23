@@ -16,7 +16,12 @@ under the Artistic license 2.0.</center>
 
 ## Introduction
 
-
+Chromatin immunoprecipitation 
+followed by high-throughput DNA sequencing
+(ChIP-seq) is now a leading approach for mapping genomic location of histone 
+modifications and transcription-factor binding in living cells. Consortium, 
+such as [ENCODE](www.) have developed and are constantly upgrading a set of 
+standards and guidelines for ChIP experiments.However, it 
 ## Loading the consensusSeekeR package
 
 ```{r loadingPackage} 
@@ -26,10 +31,12 @@ suppressMessages(library(consensusSeekeR))
 ## Inputs
 
 ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
-DNA sequencing to identify the binding sites of DNA-associated proteins. 
-Sequences are aligned on a reference and bindind sites are dectected by using
+DNA sequencing to identify the binding sites of DNA-associated proteins. The
+obtained sequence reads are first mapped to the reference genome of the 
+organism used in the experiments. Bindind sites are them dectected by using
 software specialized in transcript factor binding sites identification, such 
-MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011).
+MACS (Zhang et al., 2008) and PeakRanger (Feng, Grossman et Stein, 2011). Peak
+position is defined as a single base pair.
 
 ## Using consensusSeekeR on ChIP-Seq data
 
