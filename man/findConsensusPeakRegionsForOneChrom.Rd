@@ -5,7 +5,8 @@
 \title{TODO}
 \usage{
 findConsensusPeakRegionsForOneChrom(chrName, allPeaks, allNarrowPeaks,
-  extendingSize, includeAllPeakRegion, minNbrExp, chrList)
+  extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion, minNbrExp,
+  chrList)
 }
 \arguments{
 \item{chrName}{the name of the chromosome to analyse.}
@@ -24,8 +25,14 @@ the \code{extendingSize} must be a positive integer. Default = 250.}
 
 \item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
 the \code{extendingSize} parameter is extended to include all
-region of the peak closest to the peaks median position for each
-experiment.}
+narrow peak regions. Only the narrow peaks regions of the peaks
+included in the unextended region are used during the extension
+process. It is possible that has a side effect, adding peaks are
+being included in the extended region.}
+
+\item{shrinkToFitPeakRegion}{a \code{logical} indicating if the region set
+by the \code{extendingSize} parameter is shrinked to fit the narrow
+peak regions.}
 
 \item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
 in which a peak must be present for a region to be retained. The

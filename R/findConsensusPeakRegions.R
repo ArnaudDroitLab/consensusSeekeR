@@ -52,32 +52,33 @@
 #' @param extendingSize a \code{numeric} value indicating the size of padding
 #'          on both sides of the position of the peaks median to create the
 #'          consensus region. The minimum size of the consensus region is
-#'          equal to
-#'          twice the value of the \code{extendingSize} parameter. The size of
-#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#'          equal to twice the value of the \code{extendingSize} parameter.
+#'          The size of the \code{extendingSize} must be a positive integer.
+#'          Default = 250.
 #' @param includeAllPeakRegion a \code{logical} indicating if the region size,
-#'          which is set by the \code{extendingSize} parameter is extended to
-#'          include the entire narrow peak region of the peak closest to the
-#'          position of the peaks median
-#'          for each experiment. When two peaks are at equidistance
-#'          of the peaks median for a specific experiment, both peaks are
-#'          used to extend the final consensus region.
+#' which is set by the \code{extendingSize} parameter is extended to include
+#' the entire narrow peak regions of all peaks included in the unextended
+#' consensus region. The narrow peak regions of the peaks added because of the
+#' extension are not considered for the extension. Default: \code{FALSE}.
+#'
+#' @param shrinkToFitPeakRegion a \code{logical} indicating if the region size,
+#' which is set by the \code{extendingSize} parameter is shrinked to
+#' fit the narrow peak regions of the peaks when all those regions
+#' are smaller than the consensus region. Default: \code{FALSE}.
+#'
 #' @param minNbrExp a \code{numeric} or a \code{integer} indicating the
-#'          minimum number of experiments
-#'          in which at least one peak must be present for a potential
-#'          consensus region. The
-#'          numeric must be a positive integer inferior or equal to the number
-#'          of experiments present in the \code{narrowPeaks} and \code{peaks}
-#'          parameters.
-#'          Default = 1.
+#' minimum number of experiments in which at least one peak must be present
+#' for a potential consensus region. The numeric must be a positive integer
+#' inferior or equal to the number of experiments present in the
+#' \code{narrowPeaks} and \code{peaks} parameters. Default = 1.
+#'
 #' @param nbrThreads a \code{numeric} or a \code{integer} indicating the
-#'          number of threads to use
-#'          in parallel. The \code{nbrThreads} must be a positive integer.
-#'          Default = 1.
+#' number of threads to use in parallel. The \code{nbrThreads} must be a
+#' positive integer. Default = 1.
 #'
 #' @return an object of \code{class} "consensusRanges" containing :
 #'      \itemize{
-#'          \item \code{call} the matched call
+#'          \item \code{call} the matched call.
 #'          \item \code{consensusRanges} a \code{GRanges} containing the
 #'                      consensus regions.
 #'      }
@@ -88,12 +89,14 @@
 #' @importFrom IRanges IRanges unlist
 #' @importFrom GenomicRanges GRanges GRangesList .__T__split:base
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam
-#'                  multicoreWorkers bpmapply
+#' multicoreWorkers bpmapply
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                 extendingSize = 250,
-                                includeAllPeakRegion = TRUE, minNbrExp = 1L,
+                                includeAllPeakRegion = FALSE,
+                                shrinkToFitPeakRegion = FALSE,
+                                minNbrExp = 1L,
                                 nbrThreads = 1L) {
     # Get call information
     cl <- match.call()
@@ -136,6 +139,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                         allNarrowPeaks = selectedNarrowPeaksSplit,
                         MoreArgs = c(extendingSize = extendingSize,
                         includeAllPeakRegion = includeAllPeakRegion,
+                        shrinkToFitPeakRegion = shrinkToFitPeakRegion,
                         minNbrExp = minNbrExp, chrList = chrInfo),
                         BPPARAM = coreParam)
 

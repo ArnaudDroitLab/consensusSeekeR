@@ -158,8 +158,13 @@ isInteger <- function(value) {
 #'          the \code{extendingSize} must be a positive integer. Default = 250.
 #' @param includeAllPeakRegion a \code{logical} indicating if the region set by
 #'          the \code{extendingSize} parameter is extended to include all
-#'          region of the peak closest to the peaks median position for each
-#'          experiment.
+#'          narrow peak regions. Only the narrow peaks regions of the peaks
+#'          included in the unextended region are used during the extension
+#'          process. It is possible that has a side effect, adding peaks are
+#'          being included in the extended region.
+#' @param shrinkToFitPeakRegion a \code{logical} indicating if the region set
+#'          by the \code{extendingSize} parameter is shrinked to fit the narrow
+#'          peak regions.
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #'          in which a peak must be present for a region to be retained. The
 #'          numeric must be a positive value inferior or equal to the number
@@ -179,6 +184,7 @@ isInteger <- function(value) {
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                 allNarrowPeaks, extendingSize, includeAllPeakRegion,
+                shrinkToFitPeakRegion,
                 minNbrExp, chrList) {
 
     # Subset peaks and narrow peaks using the specified chromosome name
@@ -201,7 +207,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         pos <- 1
         region_width <- 2 * extendingSize
 
-        # All peak are tested
+        # All peak are tested.
         # A primary region starting at peak position and of size
         # 2 * extendingSize. All peaks included in the region are used to
         # calcule the median of the peaks. Using the median position, a new
@@ -210,7 +216,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         # calcule the median of the peaks. The iteration goes on as long as
         # the set of peaks is not stable and the inital peak is not part
         # of the region.
-        # When a region is fixed.
+        # When a region is fixed, TODO.
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
@@ -254,40 +260,36 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     # for each peak present
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
+
+                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name
+                                %in% set$name]
+
+                    minLeft <- min(start(narrowPeaksSet))
+                    maxRight <- max(end(narrowPeaksSet))
+
                     if (includeAllPeakRegion) {
-                        peakMedian <- rightBoundaryNew + extendingSize
-                        for (name in unique(names(set))) {
-                            peaksForOneExp <- set[names(set) == name]
-
-                            closessPeaks <- which(abs(start(peaksForOneExp) -
-                                        peakMedian) ==
-                                        min(abs(start(peaksForOneExp) -
-                                        peakMedian)))
-                            peaksForOneExp <- peaksForOneExp[closessPeaks]
-
-                            newMax <- max(end(narrowPeaks[narrowPeaks$name
-                                                %in% peaksForOneExp$name]))
-                            maxPos <- ifelse(newMax > maxPos, newMax, maxPos)
-
-                            newMin <- min(start(narrowPeaks[narrowPeaks$name
-                                                %in% peaksForOneExp$name]))
-                            minPos <- ifelse(newMin < minPos, newMin, minPos)
-                        }
+                        minPos <- ifelse(minLeft < minPos, minLeft, minPos)
+                        maxPos <- ifelse(maxRight > maxPos, maxRight, maxPos)
                     }
+
+                    if (shrinkToFitPeakRegion) {
+                        minPos <- ifelse(minLeft > minPos, minLeft, minPos)
+                        maxPos <- ifelse(maxRight < maxPos, maxRight, maxPos)
+                    }
+
                     # Validate that minimum position is not negative
                     if (minPos < 1) {
                         minPos <- 1
                     }
 
-                    # Validate that maximum position is superior to chromosome
-                    # length
+                    # Validate that maximum position is not
+                    # superior to chromosome length
                     if (maxPos > seqlengths(chrInfo)) {
                         maxPos <- seqlengths(chrInfo)
                     }
 
                     # Validate that maximum position is not superior
                     # to chromosome size
-
                     newRegion <- GRanges(seqnames = seq_name,
                                             IRanges(minPos, maxPos))
                     regions <- append(regions, newRegion)
