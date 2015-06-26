@@ -1,60 +1,59 @@
 #' @title Extract regions sharing the same features in more than one experiment
 #'
 #' @description Find regions sharing the same features for a minimum number of
-#'          experiments using called peaks of signal enrichment based on
-#'          pooled, normalized data (mainly coming from narrowPeak files).
-#'          The peaks and narrow peaks are used to identify
-#'          the consensus regions. The minimum number of experiments that must
-#'          have at least on peak in a region so that it is retained as a
-#'          consensus region is specified by user, as well as the size of
-#'          mining regions. Only the
-#'          chromosomes specified by the user are treated. The function can be
-#'          parallized by specifying a number of threads superior to 1.
-#'          However, Windows does not support multicore  evaluation.
+#' experiments using called peaks of signal enrichment based on
+#' pooled, normalized data (mainly coming from narrowPeak files).
+#' The peaks and narrow peaks are used to identify
+#' the consensus regions. The minimum number of experiments that must
+#' have at least on peak in a region so that it is retained as a
+#' consensus region is specified by user, as well as the size of
+#' mining regions. Only the chromosomes specified by the user are treated.
+#' The function can be parallized by specifying a number of threads superior
+#' to 1. However, Windows does not support multicore  evaluation.
 #'
-#'          When the padding is small, the detected regions are smaller than
-#'          the one that could be obtained by doing an overlap of the narrow
-#'          regions. Even more, the parameter specifying the minimum number of
-#'          experiments needed to retain a region add versatility to the
-#'          function.
+#' When the padding is small, the detected regions are smaller than
+#' the one that could be obtained by doing an overlap of the narrow
+#' regions. Even more, the parameter specifying the minimum number of
+#' experiments needed to retain a region add versatility to the
+#' function.
 #'
-#'          Beware that the side of the padding can have a large effect on
-#'          the detected consensus
-#'          regions. It is recommanded to test more than one size and to do
-#'          some manual validation of the resulting consensus regions before
-#'          selecting the final padding size.
+#' Beware that the side of the padding can have a large effect on
+#' the detected consensus
+#' regions. It is recommanded to test more than one size and to do
+#' some manual validation of the resulting consensus regions before
+#' selecting the final padding size.
 #'
 #' @param narrowPeaks a \code{GRanges} containing
-#'          called peak regions of signal enrichment based on pooled,
-#'          normalized data
-#'          for all analyzed experiments. All \code{GRanges} entries must
-#'          have a metadata field called "name" which identifies the region to
-#'          the called peak. All \code{GRanges} entries must also
-#'          have a row name which identifies the experiment of origin. Each
-#'          \code{peaks} entry must have
-#'          an associated \code{narrowPeaks} entry. A \code{GRanges} entry is
-#'          associated to a \code{narrowPeaks} entry by having a identical
-#'          metadata "name" field and a identical row name.
-#' @param peaks a \code{GRanges} containing
-#'          called peaks of signal enrichment based on pooled,
-#'          normalized data
-#'          for all analyzed experiments. All \code{GRanges} entries must
-#'          have a metadata field called "name" which identifies the called
-#'          peak. All \code{GRanges} entries must
-#'          have a row name which identifies the experiment of origin. Each
-#'          \code{peaks} entry must have
-#'          an associated \code{narrowPeaks} entry. A \code{GRanges} entry is
-#'          associated to a \code{narrowPeaks} entry by having a identical
-#'          metadata "name" field and a identical row name.
+#' called peak regions of signal enrichment based on pooled, normalized data
+#' for all analyzed experiments. All \code{GRanges} entries must
+#' have a metadata field called "name" which identifies the region to
+#' the called peak. All \code{GRanges} entries must also
+#' have a row name which identifies the experiment of origin. Each
+#' \code{peaks} entry must have an associated \code{narrowPeaks} entry.
+#' A \code{GRanges} entry is associated to a \code{narrowPeaks} entry by
+#' having a identical metadata "name" field and a identical row name.
+#'
+#' @param peaks a \code{GRanges} containing called peaks of signal
+#' enrichment based on pooled, normalized data
+#' for all analyzed experiments. All \code{GRanges} entries must
+#' have a metadata field called "name" which identifies the called
+#' peak. All \code{GRanges} entries must
+#' have a row name which identifies the experiment of origin. Each
+#' \code{peaks} entry must have an associated \code{narrowPeaks} entry. A
+#' \code{GRanges} entry is associated to a \code{narrowPeaks} entry by having
+#' a identical metadata "name" field and a identical row name.
+#'
 #' @param chrInfo a \code{Seqinfo} containing the name and the length of the
-#'          chromosomes to analyze. Only the chomosomes contained in this
-#'          \code{Seqinfo} will be analyzed.
+#' chromosomes to analyze. Only the chomosomes contained in this
+#' \code{Seqinfo} will be analyzed.
+#'
 #' @param extendingSize a \code{numeric} value indicating the size of padding
-#'          on both sides of the position of the peaks median to create the
-#'          consensus region. The minimum size of the consensus region is
-#'          equal to twice the value of the \code{extendingSize} parameter.
-#'          The size of the \code{extendingSize} must be a positive integer.
-#'          Default = 250.
+#' on both sides of the position of the peaks median to create the
+#' consensus region. The minimum size of the consensus region is
+#' equal to twice the value of the \code{extendingSize} parameter.
+#' The size of the \code{extendingSize} must be a positive integer.
+#' Default = 250.
+#'
 #' @param includeAllPeakRegion a \code{logical} indicating if the region size,
 #' which is set by the \code{extendingSize} parameter is extended to include
 #' the entire narrow peak regions of all peaks included in the unextended
@@ -80,7 +79,7 @@
 #'      \itemize{
 #'          \item \code{call} the matched call.
 #'          \item \code{consensusRanges} a \code{GRanges} containing the
-#'                      consensus regions.
+#' consensus regions.
 #'      }
 #'
 #' @author Astrid Louise Deschenes
