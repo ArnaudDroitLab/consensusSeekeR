@@ -14,11 +14,11 @@ isInteger(value)
 }
 \description{
 Validate if the value passed to the function is an integer or
-         not. To be considered as an integer, the value must have a length
-         of 1. The type of value can be a \code{integer} or
-         \code{numerical}. However, a \code{numerical} must have the same
-         value once casted to a \code{integer}.  A \code{vector} of
-         integers will returned \code{FALSE}.
+not. To be considered as an integer, the value must have a length
+of 1. The type of value can be a \code{integer} or \code{numerical}.
+However, a \code{numerical} must have the same value
+once casted to a \code{integer}.  A \code{vector} of
+integers will returned \code{FALSE}.
 }
 \author{
 Astrid Louise Deschenes

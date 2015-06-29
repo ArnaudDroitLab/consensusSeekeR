@@ -63,11 +63,11 @@ positive integer. Default = 1.}
 }
 \value{
 an object of \code{class} "consensusRanges" containing :
-     \itemize{
-         \item \code{call} the matched call.
-         \item \code{consensusRanges} a \code{GRanges} containing the
+\itemize{
+\item \code{call} the matched call.
+\item \code{consensusRanges} a \code{GRanges} containing the
 consensus regions.
-     }
+}
 }
 \description{
 Find regions sharing the same features for a minimum number of

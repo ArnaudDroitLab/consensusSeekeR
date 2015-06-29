@@ -2,34 +2,39 @@
 #'      function
 #'
 #' @description Validation of all parameters needed by the public
-#'      \code{\link{findConsensusPeakRegions}} function.
+#' \code{\link{findConsensusPeakRegions}} function.
 #'
 #' @param narrowPeaks a \code{vector} containing \code{GRanges} representing
-#'          called peaks of signal enrichment based on pooled, normalized data
-#'          for all experiments.
+#' called peaks of signal enrichment based on pooled, normalized data
+#' for all experiments.
+#'
 #' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
+#'
 #' @param chrList a \code{Seqinfo} containing the name and the length of the
-#'          chromosomes to analyze which indicate that all
-#'          chromosomes must be analyzed.
+#' chromosomes to analyze which indicate that all chromosomes must
+#' be analyzed.
+#'
 #' @param extendingSize a \code{numeric} value indicating the size of padding
-#'          at each side of the peaks median position to create the consensus
-#'          region. The minimum size of the consensu region will be equal to
-#'          twice the value of the \code{extendingSize} parameter. The size of
-#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#' at each side of the peaks median position to create the consensus
+#' region. The minimum size of the consensu region will be equal to
+#' twice the value of the \code{extendingSize} parameter. The size of
+#' the \code{extendingSize} must be a positive integer. Default = 250.
+#'
 #' @param includeAllPeakRegion a \code{logical} indicating if the region set by
-#'          the \code{extendingSize} parameter is extended to include all
-#'          region of the peak closest to the peaks median position for each
-#'          experiment.
+#' the \code{extendingSize} parameter is extended to include all
+#' region of the peak closest to the peaks median position for each
+#' experiment.
+#'
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
-#'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number
-#'          of files present in the \code{narrowPeakFiles} parameter.
-#'          Default = 1.
+#' in which a peak must be present for a region to be retained. The numeric
+#' must be a positive value inferior or equal to the number of files
+#' present in the \code{narrowPeakFiles} parameter. Default = 1.
+#'
 #' @param nbrThreads a \code{numeric} indicating the number of threads to use
-#'          in parallel.
+#' in parallel.
 #'
 #' @return \code{0} indicating that all parameters validations have been
-#'      successful.
+#' successful.
 #'
 #' @author Astrid Louise Deschenes
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
@@ -125,11 +130,11 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 #' @title Validate if a value is an integer
 #'
 #' @description Validate if the value passed to the function is an integer or
-#'          not. To be considered as an integer, the value must have a length
-#'          of 1. The type of value can be a \code{integer} or
-#'          \code{numerical}. However, a \code{numerical} must have the same
-#'          value once casted to a \code{integer}.  A \code{vector} of
-#'          integers will returned \code{FALSE}.
+#' not. To be considered as an integer, the value must have a length
+#' of 1. The type of value can be a \code{integer} or \code{numerical}.
+#' However, a \code{numerical} must have the same value
+#' once casted to a \code{integer}.  A \code{vector} of
+#' integers will returned \code{FALSE}.
 #'
 #' @param value an object to validate.
 #'
@@ -148,30 +153,35 @@ isInteger <- function(value) {
 #'
 #' @param chrName the name of the chromosome to analyse.
 #' @param allPeaks a \code{GRanges} containing all peaks from all experiments
-#'          sorted by position.
+#' sorted by position.
+#'
 #' @param allNarrowPeaks a \code{GRanges} containing all narrow peaks from all
-#'          experiments sorted by position.
+#' experiments sorted by position.
+#'
 #' @param extendingSize a \code{numeric} value indicating the size of padding
-#'          at each side of the peaks median position to create the consensus
-#'          region. The minimum size of the consensu region will be equal to
-#'          twice the value of the \code{extendingSize} parameter. The size of
-#'          the \code{extendingSize} must be a positive integer. Default = 250.
+#' at each side of the peaks median position to create the consensus
+#' region. The minimum size of the consensu region will be equal to
+#' twice the value of the \code{extendingSize} parameter. The size of
+#' the \code{extendingSize} must be a positive integer. Default = 250.
+#'
 #' @param includeAllPeakRegion a \code{logical} indicating if the region set by
-#'          the \code{extendingSize} parameter is extended to include all
-#'          narrow peak regions. Only the narrow peaks regions of the peaks
-#'          included in the unextended region are used during the extension
-#'          process. It is possible that has a side effect, adding peaks are
-#'          being included in the extended region.
+#' the \code{extendingSize} parameter is extended to include all narrow peak
+#' regions. Only the narrow peaks regions of the peaks included in the
+#' unextended region are used during the extension process. It is possible
+#' that has a side effect, adding peaks are being included in the
+#' extended region.
+#'
 #' @param shrinkToFitPeakRegion a \code{logical} indicating if the region set
-#'          by the \code{extendingSize} parameter is shrinked to fit the narrow
-#'          peak regions.
+#' by the \code{extendingSize} parameter is shrinked to fit the narrow
+#' peak regions.
+#'
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
-#'          in which a peak must be present for a region to be retained. The
-#'          numeric must be a positive value inferior or equal to the number
-#'          of files present in the \code{narrowPeakFiles} parameter.
-#'          Default = 1.
+#' in which a peak must be present for a region to be retained. The
+#' numeric must be a positive value inferior or equal to the number
+#' of files present in the \code{narrowPeakFiles} parameter. Default = 1.
+#'
 #' @param chrList a \code{Seqinfo} containing the name and the length of the
-#'          chromosomes to analyze.
+#' chromosomes to analyze.
 #'
 #' @return an object of \code{class} "commonFeatures".
 #'

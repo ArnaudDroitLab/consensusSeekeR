@@ -76,11 +76,11 @@
 #' positive integer. Default = 1.
 #'
 #' @return an object of \code{class} "consensusRanges" containing :
-#'      \itemize{
-#'          \item \code{call} the matched call.
-#'          \item \code{consensusRanges} a \code{GRanges} containing the
+#' \itemize{
+#' \item \code{call} the matched call.
+#' \item \code{consensusRanges} a \code{GRanges} containing the
 #' consensus regions.
-#'      }
+#' }
 #'
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end

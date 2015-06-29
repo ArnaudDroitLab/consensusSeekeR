@@ -24,11 +24,11 @@ twice the value of the \code{extendingSize} parameter. The size of
 the \code{extendingSize} must be a positive integer. Default = 250.}
 
 \item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
-the \code{extendingSize} parameter is extended to include all
-narrow peak regions. Only the narrow peaks regions of the peaks
-included in the unextended region are used during the extension
-process. It is possible that has a side effect, adding peaks are
-being included in the extended region.}
+the \code{extendingSize} parameter is extended to include all narrow peak
+regions. Only the narrow peaks regions of the peaks included in the
+unextended region are used during the extension process. It is possible
+that has a side effect, adding peaks are being included in the
+extended region.}
 
 \item{shrinkToFitPeakRegion}{a \code{logical} indicating if the region set
 by the \code{extendingSize} parameter is shrinked to fit the narrow
@@ -37,11 +37,10 @@ peak regions.}
 \item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
 in which a peak must be present for a region to be retained. The
 numeric must be a positive value inferior or equal to the number
-of files present in the \code{narrowPeakFiles} parameter.
-Default = 1.}
+of files present in the \code{narrowPeakFiles} parameter. Default = 1.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
-         chromosomes to analyze.}
+chromosomes to analyze.}
 }
 \value{
 an object of \code{class} "commonFeatures".

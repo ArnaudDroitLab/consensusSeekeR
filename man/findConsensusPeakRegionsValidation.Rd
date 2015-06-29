@@ -16,8 +16,8 @@ for all experiments.}
 \item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
-chromosomes to analyze which indicate that all
-chromosomes must be analyzed.}
+chromosomes to analyze which indicate that all chromosomes must
+be analyzed.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
 at each side of the peaks median position to create the consensus
@@ -31,21 +31,20 @@ region of the peak closest to the peaks median position for each
 experiment.}
 
 \item{minNbrExp}{a \code{numeric} indicating the minimum number of BED files
-in which a peak must be present for a region to be retained. The
-numeric must be a positive value inferior or equal to the number
-of files present in the \code{narrowPeakFiles} parameter.
-Default = 1.}
+in which a peak must be present for a region to be retained. The numeric
+must be a positive value inferior or equal to the number of files
+present in the \code{narrowPeakFiles} parameter. Default = 1.}
 
 \item{nbrThreads}{a \code{numeric} indicating the number of threads to use
-         in parallel.}
+in parallel.}
 }
 \value{
 \code{0} indicating that all parameters validations have been
-     successful.
+successful.
 }
 \description{
 Validation of all parameters needed by the public
-     \code{\link{findConsensusPeakRegions}} function.
+\code{\link{findConsensusPeakRegions}} function.
 }
 \author{
 Astrid Louise Deschenes
