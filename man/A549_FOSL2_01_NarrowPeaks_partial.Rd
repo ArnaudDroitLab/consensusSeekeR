@@ -6,10 +6,10 @@
 \title{Genomic regions with the greatest evidence of transcription factor binding
 for the FOSL2 transcription factor (for demonstration purpose)}
 \format{A \code{GRanges} containing one entry per genomic regions. Each row
- of \code{GRanges} has a name which represent the name of the experiment.}
+of \code{GRanges} has a name which represent the name of the experiment.}
 \source{
 The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
- ENCFF002CFN)
+ENCFF002CFN)
 }
 \usage{
 data(A549_FOSL2_01_NarrowPeaks_partial)
@@ -32,13 +32,13 @@ data(A549_FOXA1_01_Peaks_partial)
 ## NarrowPeak and Peak datasets from the same experiment must
 ## have identical names.
 names(A549_FOXA1_01_Peaks_partial) <- rep("FOXA1_01",
-                             length(A549_FOXA1_01_Peaks_partial))
+                            length(A549_FOXA1_01_Peaks_partial))
 names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1_01",
-                             length(A549_FOXA1_01_NarrowPeaks_partial))
+                            length(A549_FOXA1_01_NarrowPeaks_partial))
 names(A549_FOSL2_01_Peaks_partial) <-rep("FOSL2_01",
-                             length(A549_FOSL2_01_Peaks_partial))
+                            length(A549_FOSL2_01_Peaks_partial))
 names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
-                             length(A549_FOSL2_01_NarrowPeaks_partial))
+                            length(A549_FOSL2_01_NarrowPeaks_partial))
 
 ## Calculating consensus regions for chromosome 10 only
 ## with a defaut region size of 200 bp (2 * extendingSize)
@@ -47,28 +47,29 @@ names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
 ## be retained as a consensus region.
 chrList <- Seqinfo("chr10", 135534747, NA)
 findConsensusPeakRegions(
-     narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
-                     A549_FOSL2_01_NarrowPeaks_partial),
-     peaks = c(A549_FOXA1_01_Peaks_partial,
-                 A549_FOSL2_01_Peaks_partial),
-     chrInfo = chrList,
-     extendingSize = 100,
-     includeAllPeakRegion = FALSE,
-     minNbrExp = 2,
-     nbrThreads = 1)
+    narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
+                        A549_FOSL2_01_NarrowPeaks_partial),
+    peaks = c(A549_FOXA1_01_Peaks_partial,
+                        A549_FOSL2_01_Peaks_partial),
+    chrInfo = chrList,
+    extendingSize = 100,
+    includeAllPeakRegion = FALSE,
+    shrinkToFitPeakRegion = TRUE,
+    minNbrExp = 2,
+    nbrThreads = 1)
 }
 \references{
 \itemize{
- \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
- DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
- }
+     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+}
 }
 \seealso{
 \itemize{
-   \item \code{\link{A549_FOSL2_01_Peaks_partial}} { the associate
-                 sites dataset.}
-   \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-                 sharing the same features in more than one experiment.}
+    \item \code{\link{A549_FOSL2_01_Peaks_partial}} { the associate
+sites dataset.}
+    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+sharing the same features in more than one experiment.}
 }
 }
 \keyword{datasets}

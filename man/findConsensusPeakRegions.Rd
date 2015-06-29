@@ -51,11 +51,11 @@ which is set by the \code{extendingSize} parameter is shrinked to
 fit the narrow peak regions of the peaks when all those regions
 are smaller than the consensus region. Default: \code{FALSE}.}
 
-\item{minNbrExp}{a \code{numeric} or a \code{integer} indicating the
-minimum number of experiments in which at least one peak must be present
-for a potential consensus region. The numeric must be a positive integer
-inferior or equal to the number of experiments present in the
-\code{narrowPeaks} and \code{peaks} parameters. Default = 1.}
+\item{minNbrExp}{a positive \code{numeric} or a positive \code{integer}
+indicating the minimum number of experiments in which at least one peak
+must be present for a potential consensus region. The numeric must be a
+positive integer inferior or equal to the number of experiments present
+in the \code{narrowPeaks} and \code{peaks} parameters. Default = 1.}
 
 \item{nbrThreads}{a \code{numeric} or a \code{integer} indicating the
 number of threads to use in parallel. The \code{nbrThreads} must be a

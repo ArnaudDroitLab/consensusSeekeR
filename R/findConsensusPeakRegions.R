@@ -65,11 +65,11 @@
 #' fit the narrow peak regions of the peaks when all those regions
 #' are smaller than the consensus region. Default: \code{FALSE}.
 #'
-#' @param minNbrExp a \code{numeric} or a \code{integer} indicating the
-#' minimum number of experiments in which at least one peak must be present
-#' for a potential consensus region. The numeric must be a positive integer
-#' inferior or equal to the number of experiments present in the
-#' \code{narrowPeaks} and \code{peaks} parameters. Default = 1.
+#' @param minNbrExp a positive \code{numeric} or a positive \code{integer}
+#' indicating the minimum number of experiments in which at least one peak
+#' must be present for a potential consensus region. The numeric must be a
+#' positive integer inferior or equal to the number of experiments present
+#' in the \code{narrowPeaks} and \code{peaks} parameters. Default = 1.
 #'
 #' @param nbrThreads a \code{numeric} or a \code{integer} indicating the
 #' number of threads to use in parallel. The \code{nbrThreads} must be a
@@ -102,7 +102,8 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Parameters validation
     findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrInfo,
-            extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads)
+            extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion,
+            minNbrExp, nbrThreads)
 
     # Change minNbrExp to integer
     minNbrExp = as.integer(minNbrExp)

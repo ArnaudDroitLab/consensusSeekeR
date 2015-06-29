@@ -366,15 +366,43 @@ test.findConsensusPeakRegions_string_as_includeAllPeakRegion <- function() {
 test.findConsensusPeakRegions_numerical_as_includeAllPeakRegion <- function() {
     testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-            c(A549_FOSL2_01_NarrowPeaks_partial,
-            A549_FOXA1_01_NarrowPeaks_partial),
-            peaks = c(A549_FOSL2_01_Peaks_partial,
-            A549_FOXA1_01_Peaks_partial), chrInfo = testList,
-            includeAllPeakRegion=333), error = conditionMessage)
+                        c(A549_FOSL2_01_NarrowPeaks_partial,
+                        A549_FOXA1_01_NarrowPeaks_partial),
+                        peaks = c(A549_FOSL2_01_Peaks_partial,
+                        A549_FOXA1_01_Peaks_partial), chrInfo = testList,
+                        includeAllPeakRegion=333), error = conditionMessage)
     exp <- "includeAllPeakRegion must be a logical value"
     message <- paste0("findConsensusPeakRegions_numerical_as_",
                       "includeAllPeakRegion - Numerical as ",
                       "includeAllPeakRegion did not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when string as shrinkToFitPeakRegion
+test.findConsensusPeakRegions_string_as_shrinkToFitPeakRegion <- function() {
+    testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
+                    A549_FOSL2_01_NarrowPeaks_partial[1:2], chrInfo = testList,
+                    peaks = A549_FOSL2_01_Peaks_partial[1:2],
+                    shrinkToFitPeakRegion = "444"), error = conditionMessage)
+    exp <- "shrinkToFitPeakRegion must be a logical value"
+    message <- paste0("findConsensusPeakRegions_string_as_shrinkToFitPeakRegion",
+                      " - String as shrinkToFitPeakRegion did ",
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
+
+## Test the result when numerical as shrinkToFitPeakRegion
+test.findConsensusPeakRegions_numerical_as_shrinkToFitPeakRegion <- function() {
+    testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
+                    A549_FOSL2_01_NarrowPeaks_partial[1:2], chrInfo = testList,
+                    peaks = A549_FOSL2_01_Peaks_partial[1:2],
+                    shrinkToFitPeakRegion = 43), error = conditionMessage)
+    exp <- "shrinkToFitPeakRegion must be a logical value"
+    message <- paste0("findConsensusPeakRegions_numerical_as_shrinkToFitPeakRegion",
+                      " - String as shrinkToFitPeakRegion did ",
+                      "not generated expected error.")
     checkEquals(obs, exp, msg = message)
 }
 
@@ -514,7 +542,6 @@ test.findConsensusPeakRegions_list_of_integers_as_nbrThreads <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
-
 ###########################################################
 ## Test the findConsensusPeakRegions() function results
 ###########################################################
@@ -617,8 +644,7 @@ test.findConsensusPeakRegions_ALL_with_minNbrExp_two_no_expending <- function() 
                                               249167214, 249167809, 249199968,
                                               179374,    312979,    343055),
                                     end = c(249120424, 249120834, 249123574,
-                                            249132540,
-                                            249153364, 249153705,
+                                            249132540, 249153364, 249153705,
                                             249167714, 249168309, 249200468,
                                             179874,    313479,    343555)),
                    seqinfo = seqinfo)
@@ -735,10 +761,8 @@ test.findConsensusPeakRegions_ALL_with_superior_right_boundary <- function() {
     names(exp2NarrowPeak)<-rep("exp2", 2)
     chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- findConsensusPeakRegions(narrowPeaks =
-                                        c(exp1NarrowPeak,
-                                          exp2NarrowPeak),
-                                    peaks = c(exp1Peak,
-                                                exp2Peak),
+                                        c(exp1NarrowPeak, exp2NarrowPeak),
+                                    peaks = c(exp1Peak, exp2Peak),
                                     chrInfo = chrList,
                                     minNbrExp = 2, extendingSize = 100,
                                     includeAllPeakRegion = FALSE,
@@ -751,5 +775,51 @@ test.findConsensusPeakRegions_ALL_with_superior_right_boundary <- function() {
                       " - When right boubdary superior to chromosome length ",
                       "the boundary ",
                       "is not modified to generate expected results.")
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
+
+## Test that consensus regions are shrinked to fit peak regions
+test.findConsensusPeakRegions_when_shrinkToFitPeakRegion_TRUE<- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
+    exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249250617, 135534737),
+                                         end = c(249250617, 135534737)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp1Peak)<-rep("exp1", 2)
+    exp1NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(249250614, 135534717),
+                                               end = c(249250619, 135534737)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp1NarrowPeak)<-rep("exp1", 2)
+    exp2Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249250619, 135534740),
+                                         end = c(249250619, 135534740)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp2Peak)<-rep("exp2", 2)
+    exp2NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(249250600, 135534710),
+                                               end = c(249250620, 135534746)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp2NarrowPeak)<-rep("exp2", 2)
+    chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- findConsensusPeakRegions(narrowPeaks =
+                                        c(exp1NarrowPeak, exp2NarrowPeak),
+                                    peaks = c(exp1Peak, exp2Peak),
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 200,
+                                    includeAllPeakRegion = FALSE,
+                                    shrinkToFitPeakRegion = TRUE)
+    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                   ranges = IRanges(start = c(249250600, 135534710),
+                                    end = c(249250620, 135534746)),
+                   seqinfo = seqinfo)
+    message <- paste0(" findConsensusPeakRegions_when_shrinkToFitPeakRegion_TRUE",
+                      " - When shrinkToFitPeakRegion set to TRUE, ",
+                      "the observed results don't fit with ",
+                      "the expected results.")
     checkEquals(obs$consensusRanges, exp, msg = message)
 }

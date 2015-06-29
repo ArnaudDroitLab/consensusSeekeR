@@ -14,20 +14,20 @@ to mark a potential region as a consensus peak region.
 }
 \author{
 Astrid Louise Deschenes,
- Fabien Claude Lamaze,
- Pascal Belleau and
- Arnaud Droit
+Fabien Claude Lamaze,
+Pascal Belleau and
+Arnaud Droit
 
 Maintainer:
 Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
 }
 \seealso{
 \itemize{
-   \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
-                 from a narrowPeak file.}
-   \item \code{\link{findConsensusPeakRegions}} { for extracting regions
-                 sharing the same features in more than one experiment. }
-   }
+    \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
+from a narrowPeak file.}
+    \item \code{\link{findConsensusPeakRegions}} { for extracting regions
+sharing the same features in more than one experiment. }
+}
 }
 \keyword{package}
 

@@ -8,7 +8,8 @@
 #' called peaks of signal enrichment based on pooled, normalized data
 #' for all experiments.
 #'
-#' @param peaks a \code{vector} containing \code{GRanges} representing peaks.
+#' @param peaks a \code{vector} containing \code{GRanges} representing peaks
+#' for all experiments.
 #'
 #' @param chrList a \code{Seqinfo} containing the name and the length of the
 #' chromosomes to analyze which indicate that all chromosomes must
@@ -25,6 +26,11 @@
 #' region of the peak closest to the peaks median position for each
 #' experiment.
 #'
+#' @param shrinkToFitPeakRegion a \code{logical} indicating if the region size,
+#' which is set by the \code{extendingSize} parameter is shrinked to
+#' fit the narrow peak regions of the peaks when all those regions
+#' are smaller than the consensus region.
+#'
 #' @param minNbrExp a \code{numeric} indicating the minimum number of BED files
 #' in which a peak must be present for a region to be retained. The numeric
 #' must be a positive value inferior or equal to the number of files
@@ -36,11 +42,46 @@
 #' @return \code{0} indicating that all parameters validations have been
 #' successful.
 #'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_FOSL2_01_NarrowPeaks_partial)
+#' data(A549_FOXA1_01_NarrowPeaks_partial)
+#' data(A549_FOSL2_01_Peaks_partial)
+#' data(A549_FOXA1_01_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_FOXA1_01_Peaks_partial) <- rep("FOXA1_01",
+#'                         length(A549_FOXA1_01_Peaks_partial))
+#' names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1_01",
+#'                         length(A549_FOXA1_01_NarrowPeaks_partial))
+#' names(A549_FOSL2_01_Peaks_partial) <- rep("FOSL2_01",
+#'                         length(A549_FOSL2_01_Peaks_partial))
+#' names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
+#'                         length(A549_FOSL2_01_NarrowPeaks_partial))
+#'
+#' chrList <- Seqinfo("chr10", 135534747, NA)
+#'
+#' consensusSeekeR:::findConsensusPeakRegionsValidation(
+#'     narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
+#'             A549_FOSL2_01_NarrowPeaks_partial),
+#'     peaks = c(A549_FOXA1_01_Peaks_partial,
+#'             A549_FOSL2_01_Peaks_partial),
+#'     chrList = chrList,
+#'     extendingSize = 110,
+#'     includeAllPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = TRUE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
 #' @author Astrid Louise Deschenes
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
-            extendingSize, includeAllPeakRegion, minNbrExp, nbrThreads) {
+            extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion,
+            minNbrExp, nbrThreads) {
 
     if (!is(narrowPeaks, "GRanges")) {
         stop("narrowPeaks must be a GRanges object")
@@ -107,6 +148,10 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 
     if (!is.logical(includeAllPeakRegion)) {
         stop("includeAllPeakRegion must be a logical value")
+    }
+
+    if (!is.logical(shrinkToFitPeakRegion)) {
+        stop("shrinkToFitPeakRegion must be a logical value")
     }
 
     if (!isInteger(minNbrExp) || minNbrExp < 1) {

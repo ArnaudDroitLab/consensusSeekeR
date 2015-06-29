@@ -6,7 +6,7 @@
 \title{Genomic regions with the greatest evidence of transcription factor binding
 for the FOXA1 transcription factor (for demonstration purpose)}
 \format{A \code{GRanges} containing one entry per genomic regions. Each row
- of \code{GRanges} has a name which represent the name of the experiment.}
+of \code{GRanges} has a name which represent the name of the experiment.}
 \usage{
 data(A549_FOXA1_01_NarrowPeaks_partial)
 }
@@ -44,9 +44,9 @@ names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
 chrList <- Seqinfo(c("chr1", "chr10"), c(249250621, 135534747), NA)
 findConsensusPeakRegions(
      narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
-                     A549_FOSL2_01_NarrowPeaks_partial),
+                        A549_FOSL2_01_NarrowPeaks_partial),
      peaks = c(A549_FOXA1_01_Peaks_partial,
-                 A549_FOSL2_01_Peaks_partial),
+                        A549_FOSL2_01_Peaks_partial),
      chrInfo = chrList,
      extendingSize = 150,
      includeAllPeakRegion = FALSE,
@@ -55,16 +55,16 @@ findConsensusPeakRegions(
 }
 \references{
 \itemize{
- \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia of
- DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
- }
+    \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+}
 }
 \seealso{
 \itemize{
-   \item \code{\link{A549_FOXA1_01_Peaks_partial}} { the associate
-                 sites dataset.}
-   \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-                 sharing the same features in more than one experiment.}
+    \item \code{\link{A549_FOXA1_01_Peaks_partial}} { the associate
+sites dataset.}
+    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+sharing the same features in more than one experiment.}
 }
 }
 \keyword{datasets}
