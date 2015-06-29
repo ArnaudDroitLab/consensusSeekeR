@@ -5,7 +5,7 @@
 \title{Extract regions sharing the same features in more than one experiment}
 \usage{
 findConsensusPeakRegions(narrowPeaks, peaks, chrInfo, extendingSize = 250,
-  includeAllPeakRegion = FALSE, shrinkToFitPeakRegion = FALSE,
+  expandToFitPeakRegion = FALSE, shrinkToFitPeakRegion = FALSE,
   minNbrExp = 1L, nbrThreads = 1L)
 }
 \arguments{
@@ -40,7 +40,7 @@ equal to twice the value of the \code{extendingSize} parameter.
 The size of the \code{extendingSize} must be a positive integer.
 Default = 250.}
 
-\item{includeAllPeakRegion}{a \code{logical} indicating if the region size,
+\item{expandToFitPeakRegion}{a \code{logical} indicating if the region size,
 which is set by the \code{extendingSize} parameter is extended to include
 the entire narrow peak regions of all peaks included in the unextended
 consensus region. The narrow peak regions of the peaks added because of the

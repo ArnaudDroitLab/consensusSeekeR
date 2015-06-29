@@ -21,7 +21,7 @@
 #' twice the value of the \code{extendingSize} parameter. The size of
 #' the \code{extendingSize} must be a positive integer. Default = 250.
 #'
-#' @param includeAllPeakRegion a \code{logical} indicating if the region set by
+#' @param expandToFitPeakRegion a \code{logical} indicating if the region set by
 #' the \code{extendingSize} parameter is extended to include all
 #' region of the peak closest to the peaks median position for each
 #' experiment.
@@ -71,7 +71,7 @@
 #'             A549_FOSL2_01_Peaks_partial),
 #'     chrList = chrList,
 #'     extendingSize = 110,
-#'     includeAllPeakRegion = FALSE,
+#'     expandToFitPeakRegion = FALSE,
 #'     shrinkToFitPeakRegion = TRUE,
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
@@ -80,7 +80,7 @@
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
-            extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion,
+            extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion,
             minNbrExp, nbrThreads) {
 
     if (!is(narrowPeaks, "GRanges")) {
@@ -146,8 +146,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
         stop("extendingSize must be a non-negative integer")
     }
 
-    if (!is.logical(includeAllPeakRegion)) {
-        stop("includeAllPeakRegion must be a logical value")
+    if (!is.logical(expandToFitPeakRegion)) {
+        stop("expandToFitPeakRegion must be a logical value")
     }
 
     if (!is.logical(shrinkToFitPeakRegion)) {
@@ -209,7 +209,7 @@ isInteger <- function(value) {
 #' twice the value of the \code{extendingSize} parameter. The size of
 #' the \code{extendingSize} must be a positive integer. Default = 250.
 #'
-#' @param includeAllPeakRegion a \code{logical} indicating if the region set by
+#' @param expandToFitPeakRegion a \code{logical} indicating if the region set by
 #' the \code{extendingSize} parameter is extended to include all narrow peak
 #' regions. Only the narrow peaks regions of the peaks included in the
 #' unextended region are used during the extension process. It is possible
@@ -238,7 +238,7 @@ isInteger <- function(value) {
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
-                allNarrowPeaks, extendingSize, includeAllPeakRegion,
+                allNarrowPeaks, extendingSize, expandToFitPeakRegion,
                 shrinkToFitPeakRegion,
                 minNbrExp, chrList) {
 
@@ -322,7 +322,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     minLeft <- min(start(narrowPeaksSet))
                     maxRight <- max(end(narrowPeaksSet))
 
-                    if (includeAllPeakRegion) {
+                    if (expandToFitPeakRegion) {
                         minPos <- ifelse(minLeft < minPos, minLeft, minPos)
                         maxPos <- ifelse(maxRight > maxPos, maxRight, maxPos)
                     }

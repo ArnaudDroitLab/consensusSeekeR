@@ -6,14 +6,15 @@
      function}
 \usage{
 findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, extendingSize,
-  includeAllPeakRegion, shrinkToFitPeakRegion, minNbrExp, nbrThreads)
+  expandToFitPeakRegion, shrinkToFitPeakRegion, minNbrExp, nbrThreads)
 }
 \arguments{
 \item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
 called peaks of signal enrichment based on pooled, normalized data
 for all experiments.}
 
-\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks.}
+\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks
+for all experiments.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
 chromosomes to analyze which indicate that all chromosomes must
@@ -25,7 +26,7 @@ region. The minimum size of the consensu region will be equal to
 twice the value of the \code{extendingSize} parameter. The size of
 the \code{extendingSize} must be a positive integer. Default = 250.}
 
-\item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
+\item{expandToFitPeakRegion}{a \code{logical} indicating if the region set by
 the \code{extendingSize} parameter is extended to include all
 region of the peak closest to the peaks median position for each
 experiment.}
@@ -79,7 +80,7 @@ consensusSeekeR:::findConsensusPeakRegionsValidation(
             A549_FOSL2_01_Peaks_partial),
     chrList = chrList,
     extendingSize = 110,
-    includeAllPeakRegion = FALSE,
+    expandToFitPeakRegion = FALSE,
     shrinkToFitPeakRegion = TRUE,
     minNbrExp = 2,
     nbrThreads = 1)

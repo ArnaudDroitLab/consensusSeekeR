@@ -49,7 +49,7 @@ findConsensusPeakRegions(
                         A549_FOSL2_01_Peaks_partial),
      chrInfo = chrList,
      extendingSize = 150,
-     includeAllPeakRegion = FALSE,
+     expandToFitPeakRegion = FALSE,
      minNbrExp = 2,
      nbrThreads = 1)
 }

@@ -103,7 +103,7 @@ NULL
 #'                         A549_FOSL2_01_Peaks_partial),
 #'     chrInfo = chrList,
 #'     extendingSize = 100,
-#'     includeAllPeakRegion = FALSE,
+#'     expandToFitPeakRegion = FALSE,
 #'     shrinkToFitPeakRegion = TRUE,
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
@@ -178,7 +178,7 @@ NULL
 #'                         A549_FOSL2_01_Peaks_partial),
 #'     chrInfo = chrList,
 #'     extendingSize = 200,
-#'     includeAllPeakRegion = TRUE,
+#'     expandToFitPeakRegion = TRUE,
 #'     shrinkToFitPeakRegion = FALSE,
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
@@ -252,7 +252,7 @@ NULL
 #'                         A549_FOSL2_01_Peaks_partial),
 #'      chrInfo = chrList,
 #'      extendingSize = 150,
-#'      includeAllPeakRegion = FALSE,
+#'      expandToFitPeakRegion = FALSE,
 #'      minNbrExp = 2,
 #'      nbrThreads = 1)
 #'
@@ -327,7 +327,8 @@ NULL
 #'                         A549_FOSL2_01_Peaks_partial),
 #'     chrInfo = chrList,
 #'     extendingSize = 50,
-#'     includeAllPeakRegion = TRUE,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = TRUE,
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
 #'

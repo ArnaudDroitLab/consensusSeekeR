@@ -5,7 +5,7 @@
 \title{TODO}
 \usage{
 findConsensusPeakRegionsForOneChrom(chrName, allPeaks, allNarrowPeaks,
-  extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion, minNbrExp,
+  extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion, minNbrExp,
   chrList)
 }
 \arguments{
@@ -23,7 +23,7 @@ region. The minimum size of the consensu region will be equal to
 twice the value of the \code{extendingSize} parameter. The size of
 the \code{extendingSize} must be a positive integer. Default = 250.}
 
-\item{includeAllPeakRegion}{a \code{logical} indicating if the region set by
+\item{expandToFitPeakRegion}{a \code{logical} indicating if the region set by
 the \code{extendingSize} parameter is extended to include all narrow peak
 regions. Only the narrow peaks regions of the peaks included in the
 unextended region are used during the extension process. It is possible

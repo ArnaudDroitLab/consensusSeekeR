@@ -54,7 +54,7 @@
 #' The size of the \code{extendingSize} must be a positive integer.
 #' Default = 250.
 #'
-#' @param includeAllPeakRegion a \code{logical} indicating if the region size,
+#' @param expandToFitPeakRegion a \code{logical} indicating if the region size,
 #' which is set by the \code{extendingSize} parameter is extended to include
 #' the entire narrow peak regions of all peaks included in the unextended
 #' consensus region. The narrow peak regions of the peaks added because of the
@@ -93,7 +93,7 @@
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                 extendingSize = 250,
-                                includeAllPeakRegion = FALSE,
+                                expandToFitPeakRegion = FALSE,
                                 shrinkToFitPeakRegion = FALSE,
                                 minNbrExp = 1L,
                                 nbrThreads = 1L) {
@@ -102,7 +102,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Parameters validation
     findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrInfo,
-            extendingSize, includeAllPeakRegion, shrinkToFitPeakRegion,
+            extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion,
             minNbrExp, nbrThreads)
 
     # Change minNbrExp to integer
@@ -138,7 +138,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                         allPeaks = selectedPeaksSplit,
                         allNarrowPeaks = selectedNarrowPeaksSplit,
                         MoreArgs = c(extendingSize = extendingSize,
-                        includeAllPeakRegion = includeAllPeakRegion,
+                        expandToFitPeakRegion = expandToFitPeakRegion,
                         shrinkToFitPeakRegion = shrinkToFitPeakRegion,
                         minNbrExp = minNbrExp, chrList = chrInfo),
                         BPPARAM = coreParam)
