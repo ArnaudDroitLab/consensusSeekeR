@@ -4,12 +4,10 @@
 #' @description Validation of all parameters needed by the public
 #' \code{\link{findConsensusPeakRegions}} function.
 #'
-#' @param narrowPeaks a \code{vector} containing \code{GRanges} representing
-#' called peaks of signal enrichment based on pooled, normalized data
+#' @param narrowPeaks a \code{GRanges} representing called peaks of signal
 #' for all experiments.
 #'
-#' @param peaks a \code{vector} containing \code{GRanges} representing peaks
-#' for all experiments.
+#' @param peaks a \code{GRanges} representing peaks for all experiments.
 #'
 #' @param chrList a \code{Seqinfo} containing the name and the length of the
 #' chromosomes to analyze which indicate that all chromosomes must
@@ -17,7 +15,7 @@
 #'
 #' @param extendingSize a \code{numeric} value indicating the size of padding
 #' at each side of the peaks median position to create the consensus
-#' region. The minimum size of the consensu region will be equal to
+#' region. The minimum size of the consensus region will be equal to
 #' twice the value of the \code{extendingSize} parameter. The size of
 #' the \code{extendingSize} must be a positive integer. Default = 250.
 #'
