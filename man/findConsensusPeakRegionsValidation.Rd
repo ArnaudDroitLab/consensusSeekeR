@@ -9,12 +9,10 @@ findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, extendingSize,
   expandToFitPeakRegion, shrinkToFitPeakRegion, minNbrExp, nbrThreads)
 }
 \arguments{
-\item{narrowPeaks}{a \code{vector} containing \code{GRanges} representing
-called peaks of signal enrichment based on pooled, normalized data
+\item{narrowPeaks}{a \code{GRanges} representing called peaks of signal
 for all experiments.}
 
-\item{peaks}{a \code{vector} containing \code{GRanges} representing peaks
-for all experiments.}
+\item{peaks}{a \code{GRanges} representing peaks for all experiments.}
 
 \item{chrList}{a \code{Seqinfo} containing the name and the length of the
 chromosomes to analyze which indicate that all chromosomes must
