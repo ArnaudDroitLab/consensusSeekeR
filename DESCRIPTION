@@ -26,7 +26,9 @@ Depends: R (>= 3.1),
 Imports: GenomeInfoDb,
     stringr,
     S4Vectors
-Suggests: knitr,
+Suggests: BiocStyle,
+    knitr,
+    rmarkdown,
     RUnit
 License: Artistic-2.0 | file LICENSE
 URL: https://github.com/adeschen/consensusSeekeR

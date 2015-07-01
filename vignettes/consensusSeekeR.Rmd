@@ -1,19 +1,31 @@
+---
+title: "Detection of consensus peak regions inside a group of experiences 
+using narrowPeak data"
+output:
+  BiocStyle::html_document:
+    toc: true
+---
 <!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions inside a group of experiences using narrowPeak files }
+%\VignetteEngine{knitr::rmarkdown}
+%\VignettePackage{consensusSeekeR}
+%\VignetteIndexEntry{consensusSeekeR: Detection of consensus peak regions 
+inside a group of experiences using narrowPeak files }
 -->
 
-<center> <h1>Detection of consensus regions inside a group of experiences 
-using narrowPeak data</h1> </center>
+<br />
+Authors: Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau 
+and Arnaud Droit <br />
+Compilation date: `r Sys.Date()`
 
-<center>Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau 
-and Arnaud Droit.</center>
-</br>
-<center>This package and the underlying consensusSeekeR code are distributed 
-under the Artistic license 2.0.</center> 
-<center>You are free to use and redistribute this software.</center>
 
-## Introduction
+## 1. Licensing
+
+This package and the underlying consensusSeekeR code are distributed 
+under the Artistic license 2.0. You are free to use and redistribute this 
+software.
+
+
+## 2. Introduction
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed our ability to interrogate whole genome protein-DNA 
@@ -24,14 +36,17 @@ constantly upgrading, a set of standards and guidelines for ChIP experiments.
 However, it 
 
 
+## 3. Loading the consensusSeekeR package
 
-## Loading the consensusSeekeR package
+As with any R package, the `consensusSeekeR` package should first be loaded 
+with the following command:
 
-```{r loadingPackage}
-suppressMessages(library(consensusSeekeR))
+```{r loadingPackage, warning=FALSE, message=FALSE}
+library(consensusSeekeR)
 ```
 
-## Inputs
+
+## 4. Inputs
 
 ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
 DNA sequencing to identify the binding sites of DNA-associated proteins. The
@@ -105,6 +120,7 @@ analyzed and 2 replicates are available in BAM files format on
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak).
+
 
 ## References
 
