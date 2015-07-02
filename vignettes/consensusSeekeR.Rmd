@@ -5,8 +5,7 @@ output:
   BiocStyle::html_document:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Detection of consensus peak regions 
-inside a group of experiences using narrowPeak files }
+  %\VignetteIndexEntry{Detection of consensus peak regions inside a group of experiences using narrowPeak files }
   %\VignetteEngine{knitr::rmarkdown}
   %\VignettePackage{consensusSeekeR}
 ---
@@ -20,12 +19,17 @@ Compilation date: `r Sys.Date()`
 
 ## 1. Licensing
 
-This package and the underlying consensusSeekeR code are distributed 
+This package and the underlying `consensusSeekeR` code are distributed 
 under the Artistic license 2.0. You are free to use and redistribute this 
 software.
 
 
 ## 2. Introduction
+
+The genome is commonly represented as a linear sequence, split up in 
+multiple chromosomes.  Genome data, such as genes or single-nucleotide 
+polymorphisms (SNPs) are linked to the genome by occupying either a range of 
+positions or a single position on the sequence.
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed our ability to interrogate whole genome protein-DNA 
