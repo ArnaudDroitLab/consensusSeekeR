@@ -31,8 +31,9 @@ software.
 ## 2. Introduction
 
 The genome is commonly represented as a linear sequence, split up in 
-multiple chromosomes. Genome data, such as genes or single-nucleotide 
-polymorphisms (SNPs) are linked to the genome by occupying either a range of 
+multiple chromosomes. Genome data, such as genes, nucleosomes or 
+single-nucleotide polymorphisms (SNPs) are linked to the genome by 
+occupying either a range of 
 positions or a single position on the sequence. Genomic related data 
 integration is made possible by treating the data as 
 ranges on the genome, which acts as a common scaffold [@Lawrence2013]. 
@@ -41,17 +42,10 @@ Bioconductor as developed an infrastructure, including packages such as
 `r Biocpkg("GenomicFeatures")`, to facilitate 
 the integrative statistical analysis of range-based genomic data.
 
-Ranges have a fundamental role in the analysis of experimental data, where 
-they are used to represent read alignments.
-
-Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
-(ChIP-seq) has changed our ability to interrogate whole genome protein-DNA 
-interactions by enabeling  genomic locatization of histone 
-modifications and transcription-factor binding in living cells. Consortium, 
-such as [ENCODE]((https://www.encodeproject.org) have developed, and 
-constantly upgrading, a set of standards and guidelines for ChIP experiments. 
-However, it 
-
+Ranges have a fundamental role in the analysis of experimental data. As 
+an example, the peak calling step, in the analysis of ChIP-seq data, generally
+generated narrow peaks outputs which include a peak position located inside 
+a genomic range.
 
 ## 3. Loading consensusSeekeR package
 
@@ -73,34 +67,29 @@ software specialized in transcript factor binding sites identification, such
 MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peak
 position is defined as a single base pair.
 
-## Using consensusSeekeR on ChIP-Seq data
+## 5. Using consensusSeekeR on nucleosome position data
 
-### ChIP-Seq replicates 
+Global gene expression patterns are established and maintained by the 
+concerted actions of Transcription Factors (TFs) and the proteins that 
+constitute chromatin. The key structural element of chromatin is the 
+nucleosome, which consists of an octameric histone core wrapped by 146 bps 
+of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
+DNA (reference TODO).
 
-The Encyclopedia of DNA Elements (ENCODE) Consortium is an international 
-collaboration of research groups funded by the National Human Genome Research 
-Institute. The [ENCODE website](https://www.encodeproject.org) hold data that 
-is freely available for download and analysis.
+### 5.1 Comparing nucleosome positioning results
 
-First, the `consensusSeekeR` package must be loaded.
+## 6. Using consensusSeekeR on ChIP-Seq data
 
-```{r libraryLoad, warning=FALSE, message=FALSE}
-library(consensusSeekeR)
-```
-
-### ChIP-Seq multiple experiments
-
-## Effect of the extendingSize parameter
-
-The value of the `extendingSize` parameter can affect the final number of 
-consensus regions. While small `extendingSize` value can miss some regions, 
-large `extendingSize` value can gather consensus regions.
+Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
+(ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
+interactions by enabeling  genomic locatization of histone 
+modifications and transcription-factor binding in living cells. Consortium, 
+such as [ENCODE]((https://www.encodeproject.org) have developed, and 
+constantly upgrading, a set of standards and guidelines for ChIP experiments 
+[@Landt2012].
 
 
-
-## Using consensusSeekeR on ChIP-Seq samples
-
-### Replicate ChIP-Seq samples from one experiment
+### 6.1 ChIP-Seq replicates from one experiment
 
 The Encyclopedia of DNA Elements (ENCODE) Consortium is an international 
 collaboration of research groups funded by the National Human Genome Research 
@@ -112,7 +101,7 @@ one ChIP-Seq replicate is often available.
 The software used to identify transcript factor binding sites generally 
 generates a peak position and a narrow region region for each binding site. 
 However, it is quite unlikely that the exact peak position is exactly the same 
-across replicates. Finally, there is not yet a consensus on how to analyze 
+across replicates. Even more, there is not yet a consensus on how to analyze 
 multiple-replicate ChIP-seq samples [@Yang2014].
 
 The `consensusSeekeR` package can be used to identify consensus regions for
@@ -126,17 +115,29 @@ ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description
 sur la methode pour obtenir narrowPeak). To simplify this demo, only 
 
 
-### ChIP-Seq samples from multiple experiments
+First, the `consensusSeekeR` package must be loaded.
+
+```{r libraryLoad, warning=FALSE, message=FALSE}
+library(consensusSeekeR)
+```
+
+### 6.2 ChIP-Seq data from multiple experiments
 
 The `consensusSeekeR` package can also be used to identify consensus regions 
 for two or more ChIP-Seq samples from multiple experiments. While the 
-consensus regions are being found by using the peak positions, the .
+consensus regions are being found by using the peak positions, the TODO.
 
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak).
+
+## 7. Effect of the extendingSize parameter
+
+The value of the `extendingSize` parameter can affect the final number of 
+consensus regions. While small `extendingSize` value can miss some regions, 
+large `extendingSize` value can gather consensus regions.
 
 
 ## References
