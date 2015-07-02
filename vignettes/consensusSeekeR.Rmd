@@ -21,14 +21,14 @@ and Arnaud Droit <br />
 Compilation date: `r Sys.Date()`
 
 
-## 1. Licensing
+## Licensing
 
 This package and the underlying `consensusSeekeR` code are distributed 
 under the Artistic license 2.0. You are free to use and redistribute this 
 software.
 
 
-## 2. Introduction
+## Introduction
 
 The genome is commonly represented as a linear sequence, split up in 
 multiple chromosomes. Genome data, such as genes, nucleosomes or 
@@ -45,9 +45,11 @@ the integrative statistical analysis of range-based genomic data.
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
 generated narrow peaks outputs which include a peak position located inside 
-a genomic range.
+a genomic range. The analysis of gene expression, using RNA-seq data, is based
+on counting the alignments overlapping exons which can be translated as
+genomic ranges.
 
-## 3. Loading consensusSeekeR package
+## Loading consensusSeekeR package
 
 As with any R package, the `consensusSeekeR` package should first be loaded 
 with the following command:
@@ -56,8 +58,7 @@ with the following command:
 library(consensusSeekeR)
 ```
 
-
-## 4. Inputs
+## Inputs
 
 ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
 DNA sequencing to identify the binding sites of DNA-associated proteins. The
@@ -67,7 +68,7 @@ software specialized in transcript factor binding sites identification, such
 MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peak
 position is defined as a single base pair.
 
-## 5. Using consensusSeekeR on nucleosome position data
+## Using consensusSeekeR on nucleosome position data
 
 Global gene expression patterns are established and maintained by the 
 concerted actions of Transcription Factors (TFs) and the proteins that 
@@ -76,9 +77,9 @@ nucleosome, which consists of an octameric histone core wrapped by 146 bps
 of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
 DNA (reference TODO).
 
-### 5.1 Comparing nucleosome positioning results
+### Comparing nucleosome positioning results
 
-## 6. Using consensusSeekeR on ChIP-Seq data
+## Using consensusSeekeR on ChIP-Seq data
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
@@ -89,7 +90,7 @@ constantly upgrading, a set of standards and guidelines for ChIP experiments
 [@Landt2012].
 
 
-### 6.1 ChIP-Seq replicates from one experiment
+### ChIP-Seq replicates from one experiment
 
 The Encyclopedia of DNA Elements (ENCODE) Consortium is an international 
 collaboration of research groups funded by the National Human Genome Research 
@@ -114,14 +115,13 @@ analyzed and 2 replicates are available in BAM files format on
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak). To simplify this demo, only 
 
-
 First, the `consensusSeekeR` package must be loaded.
 
 ```{r libraryLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-### 6.2 ChIP-Seq data from multiple experiments
+### ChIP-Seq data from multiple experiments
 
 The `consensusSeekeR` package can also be used to identify consensus regions 
 for two or more ChIP-Seq samples from multiple experiments. While the 
@@ -133,7 +133,7 @@ analyzed and 2 replicates are available in BAM files format on
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak).
 
-## 7. Effect of the extendingSize parameter
+## Effect of the extendingSize parameter
 
 The value of the `extendingSize` parameter can affect the final number of 
 consensus regions. While small `extendingSize` value can miss some regions, 
