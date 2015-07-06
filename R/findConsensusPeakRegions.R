@@ -75,7 +75,7 @@
 #' number of threads to use in parallel. The \code{nbrThreads} must be a
 #' positive integer. Default = 1.
 #'
-#' @return an object of \code{class} "consensusRanges" containing :
+#' @return an \code{list} of \code{class} "consensusRanges" containing :
 #' \itemize{
 #' \item \code{call} the matched call.
 #' \item \code{consensusRanges} a \code{GRanges} containing the

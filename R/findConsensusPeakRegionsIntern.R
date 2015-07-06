@@ -1,5 +1,5 @@
 #' @title Parameter validation for the \code{\link{findConsensusPeakRegions}}
-#'      function
+#' function
 #'
 #' @description Validation of all parameters needed by the public
 #' \code{\link{findConsensusPeakRegions}} function.
@@ -19,8 +19,8 @@
 #' twice the value of the \code{extendingSize} parameter. The size of
 #' the \code{extendingSize} must be a positive integer. Default = 250.
 #'
-#' @param expandToFitPeakRegion a \code{logical} indicating if the region set by
-#' the \code{extendingSize} parameter is extended to include all
+#' @param expandToFitPeakRegion a \code{logical} indicating if the region set
+#' by the \code{extendingSize} parameter is extended to include all
 #' region of the peak closest to the peaks median position for each
 #' experiment.
 #'
@@ -194,7 +194,8 @@ isInteger <- function(value) {
 #'
 #' @description TODO
 #'
-#' @param chrName the name of the chromosome to analyse.
+#' @param chrName a \code{character}, the name of the chromosome to analyze.
+#'
 #' @param allPeaks a \code{GRanges} containing all peaks from all experiments
 #' sorted by position.
 #'
