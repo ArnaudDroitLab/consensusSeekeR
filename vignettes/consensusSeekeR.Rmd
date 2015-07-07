@@ -45,9 +45,15 @@ the integrative statistical analysis of range-based genomic data.
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
 generated narrow peaks outputs which include a peak position located inside 
-a genomic range. The analysis of gene expression, using RNA-seq data, is based
-on counting the alignments overlapping exons which can be translated as
-genomic ranges.
+a genomic range. Even more, the analysis of gene expression, using RNA-seq 
+data, is based on counting the alignments overlapping exons which can be 
+translated as genomic ranges.
+
+In genomic analysis where feature finding generate a position value surrounded 
+by a genomic ranges, such as in ChIP-Seq and nucleosome postioning, the 
+replication of the analyses may result in differences between predicted values. 
+Conciliation of the results can be difficult, especially when many replicates
+are done.
 
 ## Loading consensusSeekeR package
 
