@@ -49,11 +49,19 @@ a genomic range. Even more, the analysis of gene expression, using RNA-seq
 data, is based on counting the alignments overlapping exons which can be 
 translated as genomic ranges.
 
-In genomic analysis where feature finding generate a position value surrounded 
-by a genomic ranges, such as in ChIP-Seq and nucleosome postioning, the 
-replication of the analyses may result in differences between predicted values. 
-Conciliation of the results can be difficult, especially when many replicates
-are done.
+In genomic analysis where feature identification generate a position value 
+surrounded by a genomic range, such as in ChIP-Seq and nucleosome postioning, 
+the replication of the analyses may result in slight differences between  
+predicted values. Conciliation of the results can be difficult, especially 
+when many replicates are done.
+
+One approach used to find a consensus in a group of results consist of using
+the overlapping regions of the genomic ranges. This approach, when use on
+a large group of experiments, can miss, as a side effect, regions when one of 
+the experiment has missing features or slightly shift ones.
+
+
+The consensusSeekeR package
 
 ## Loading consensusSeekeR package
 
