@@ -2,14 +2,15 @@
 % Please edit documentation in R/findConsensusPeakRegionsIntern.R
 \name{findConsensusPeakRegionsForOneChrom}
 \alias{findConsensusPeakRegionsForOneChrom}
-\title{TODO}
+\title{Extract regions sharing features in more than one experiment for
+one specific chromosome.}
 \usage{
 findConsensusPeakRegionsForOneChrom(chrName, allPeaks, allNarrowPeaks,
   extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion, minNbrExp,
   chrList)
 }
 \arguments{
-\item{chrName}{the name of the chromosome to analyse.}
+\item{chrName}{a \code{character}, the name of the chromosome to analyze.}
 
 \item{allPeaks}{a \code{GRanges} containing all peaks from all experiments
 sorted by position.}
@@ -46,7 +47,15 @@ chromosomes to analyze.}
 an object of \code{class} "commonFeatures".
 }
 \description{
-TODO
+Find regions sharing the same features for a minimum number of
+experiments using called peaks of signal enrichment based on
+pooled, normalized data (mainly coming from narrowPeak files). Tje
+analysis is limited to one chromosome.
+The peaks and narrow peaks are used to identify
+the consensus regions. The minimum number of experiments that must
+have at least on peak in a region so that it is retained as a
+consensus region is specified by user, as well as the size of
+mining regions.
 }
 \author{
 Astrid Louise Deschenes

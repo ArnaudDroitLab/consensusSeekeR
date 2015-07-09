@@ -1,4 +1,4 @@
-#' @title Extract regions sharing the same features in more than one experiment
+#' @title Extract regions sharing features in more than one experiment
 #'
 #' @description Find regions sharing the same features for a minimum number of
 #' experiments using called peaks of signal enrichment based on
@@ -9,7 +9,7 @@
 #' consensus region is specified by user, as well as the size of
 #' mining regions. Only the chromosomes specified by the user are treated.
 #' The function can be parallized by specifying a number of threads superior
-#' to 1. However, Windows does not support multicore  evaluation.
+#' to 1. However, Windows does not support multicore evaluation.
 #'
 #' When the padding is small, the detected regions are smaller than
 #' the one that could be obtained by doing an overlap of the narrow

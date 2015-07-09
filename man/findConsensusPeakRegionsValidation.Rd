@@ -3,7 +3,7 @@
 \name{findConsensusPeakRegionsValidation}
 \alias{findConsensusPeakRegionsValidation}
 \title{Parameter validation for the \code{\link{findConsensusPeakRegions}}
-     function}
+function}
 \usage{
 findConsensusPeakRegionsValidation(narrowPeaks, peaks, chrList, extendingSize,
   expandToFitPeakRegion, shrinkToFitPeakRegion, minNbrExp, nbrThreads)
@@ -20,12 +20,12 @@ be analyzed.}
 
 \item{extendingSize}{a \code{numeric} value indicating the size of padding
 at each side of the peaks median position to create the consensus
-region. The minimum size of the consensu region will be equal to
+region. The minimum size of the consensus region will be equal to
 twice the value of the \code{extendingSize} parameter. The size of
 the \code{extendingSize} must be a positive integer. Default = 250.}
 
-\item{expandToFitPeakRegion}{a \code{logical} indicating if the region set by
-the \code{extendingSize} parameter is extended to include all
+\item{expandToFitPeakRegion}{a \code{logical} indicating if the region set
+by the \code{extendingSize} parameter is extended to include all
 region of the peak closest to the peaks median position for each
 experiment.}
 

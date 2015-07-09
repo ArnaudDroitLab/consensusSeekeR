@@ -2,7 +2,7 @@
 % Please edit documentation in R/findConsensusPeakRegions.R
 \name{findConsensusPeakRegions}
 \alias{findConsensusPeakRegions}
-\title{Extract regions sharing the same features in more than one experiment}
+\title{Extract regions sharing features in more than one experiment}
 \usage{
 findConsensusPeakRegions(narrowPeaks, peaks, chrInfo, extendingSize = 250,
   expandToFitPeakRegion = FALSE, shrinkToFitPeakRegion = FALSE,
@@ -62,7 +62,7 @@ number of threads to use in parallel. The \code{nbrThreads} must be a
 positive integer. Default = 1.}
 }
 \value{
-an object of \code{class} "consensusRanges" containing :
+an \code{list} of \code{class} "consensusRanges" containing :
 \itemize{
 \item \code{call} the matched call.
 \item \code{consensusRanges} a \code{GRanges} containing the
@@ -79,7 +79,7 @@ have at least on peak in a region so that it is retained as a
 consensus region is specified by user, as well as the size of
 mining regions. Only the chromosomes specified by the user are treated.
 The function can be parallized by specifying a number of threads superior
-to 1. However, Windows does not support multicore  evaluation.
+to 1. However, Windows does not support multicore evaluation.
 
 When the padding is small, the detected regions are smaller than
 the one that could be obtained by doing an overlap of the narrow
