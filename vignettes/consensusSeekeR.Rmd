@@ -68,7 +68,7 @@ surrounded by a genomic ranges. The `consensusSeekeR` package is characterized
 by its use of the position values, instead of the genomic range, to identify
 the consensus regions.
 
-## consensusSeekeR package
+## The consensusSeekeR package
 
 The `consensusSeekeR` package implements a novative way to identify consensus 
 ranges in a group of experiments which generated position values
@@ -88,12 +88,11 @@ the set of position values become stable. The final set of position values is
 used to set the central position of the consensus region. This consensus 
 region must respect the minimum number of experiments that must have at least 
 on inside it to be retained as an final consensus region. The minimum number 
-of experiments is set by the user. Finally, the final consensus region can be
+of experiments is set by the user. At last, the final consensus region can be
 extended or shrinked to fit the regions associated to the position values 
 present inside. If new position values are added during the extension, the
 extension step is not reprocess to include those new position
 values.
-
 
 
 ## Loading consensusSeekeR package
@@ -123,7 +122,7 @@ DNA (reference TODO).
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
-interactions by enabeling  genomic locatization of histone 
+interactions by enabeling  genomic localization of histone 
 modifications and transcription-factor binding in living cells. Consortium, 
 such as [ENCODE](https://www.encodeproject.org) have developed, and 
 constantly upgrading, a set of standards and guidelines for ChIP experiments 
@@ -134,8 +133,8 @@ DNA sequencing to identify the binding sites of DNA-associated proteins. The
 obtained sequence reads are first mapped to the reference genome of the 
 organism used in the experiments. Bindind sites are them dectected by using
 software specialized in transcript factor binding sites identification, such 
-MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peak
-position is defined as a single base pair.
+MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peaks
+are defined as a single base pair position.
 
 ### ChIP-Seq replicates from one experiment
 
@@ -149,7 +148,7 @@ one ChIP-Seq replicate is often available.
 The software used to identify transcript factor binding sites generally 
 generates a peak position and a narrow region region for each binding site. 
 However, it is quite unlikely that the exact peak position is exactly the same 
-across replicates. Even more, there is not yet a consensus on how to analyze 
+across replicates. Even more, there is not yet a consent on how to analyze 
 multiple-replicate ChIP-seq samples [@Yang2014].
 
 The `consensusSeekeR` package can be used to identify consensus regions for
@@ -160,7 +159,10 @@ The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
-sur la methode pour obtenir narrowPeak). To simplify this demo, only 
+sur la methode pour obtenir narrowPeaks). 
+
+To simplify this demo, only part of chromosomes X and Y have been retained in 
+thedatasets. 
 
 First, the `consensusSeekeR` package must be loaded.
 
@@ -177,7 +179,8 @@ consensus regions are being found by using the peak positions, the TODO.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
+ENCFF000MYJ and ENCFF000MYN) [@Dunham2012a]. (TODO FABIEN : ajouter une courte 
+description 
 sur la methode pour obtenir narrowPeak).
 
 ## Effect of the extendingSize parameter
@@ -186,6 +189,15 @@ The value of the `extendingSize` parameter can affect the final number of
 consensus regions. While small `extendingSize` value can miss some regions, 
 large `extendingSize` value can gather consensus regions.
 
+##  Parallelizing consensusSeekeR
+
+Due to the size of the analyzed genomes, the `findConsensusPeakRegions` 
+function can take long to process.  However, a job can be separated by 
+chromosome and run in parallel. This takes advantage of multiple 
+processors and reduce the total execution time. This number of threads 
+used by the  can be set with
+the `minNbrExp` parameter in the `findConsensusPeakRegions` function. However, 
+Windows does not support multicore evaluation.
 
 ## References
 
