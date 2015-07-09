@@ -12,6 +12,8 @@ r_binary_packages:
   - RUnit
   - stringr
   - knitr
+  - rmarkdown
+  - S4Vectors
 # Package dependencies from Bioconductor
 bioc_packages:
   - GenomicRanges
@@ -19,3 +21,4 @@ bioc_packages:
   - IRanges
   - BiocParallel
   - GenomeInfoDb
+  - BiocStyle
