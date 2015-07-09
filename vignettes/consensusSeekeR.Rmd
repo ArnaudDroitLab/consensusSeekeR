@@ -44,24 +44,57 @@ the integrative statistical analysis of range-based genomic data.
 
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
-generated narrow peaks outputs which include a peak position located inside 
+generated narrow peaks outputs, used by the ENCODE project [@Dunham2012a], 
+which include a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
 translated as genomic ranges.
 
 In genomic analysis where feature identification generate a position value 
 surrounded by a genomic range, such as in ChIP-Seq and nucleosome postioning, 
-the replication of the analyses may result in slight differences between  
+the replication of the analyses may result in slight differences between 
 predicted values. Conciliation of the results can be difficult, especially 
 when many replicates are done.
 
-One approach used to find a consensus in a group of results consist of using
-the overlapping regions of the genomic ranges. This approach, when use on
+One approach often used to identify consensus in a group of results consist of 
+using the overlapping regions of the genomic ranges. This approach, when use on
 a large group of experiments, can miss, as a side effect, regions when one of 
-the experiment has missing features or slightly shift ones.
+the experiment has missing features or slightly shift ones. On the other hand,
+the use of the union of the regions cans result in wide consensus ranges.
+
+The `consensusSeekeR` package implements a novative way to identify consensus 
+ranges in a group of experiments which generated position values
+surrounded by a genomic ranges. The `consensusSeekeR` package is characterized 
+by its use of the position values, instead of the genomic range, to identify
+the consensus regions.
+
+## consensusSeekeR package
+
+The `consensusSeekeR` package implements a novative way to identify consensus 
+ranges in a group of experiments which generated position values
+surrounded by a genomic ranges. The `consensusSeekeR` package is characterized 
+by its use of the position values, instead of the genomic range, to identify
+the consensus regions.
+
+Using iterative steps on ordered position values from all experiments which 
+have not been yet associated to a consensus region, a window of fixed size 
+(specified by user) with the position value as starting point is set. All 
+position values which reside inside the window are gathered to calculate the 
+median position which is then used to recreate a new window. This time, the 
+new window has twice the size fixed by user and its center is the median. An 
+update of the position values residing inside the window is done and a new 
+median position is calculated. This step is repeated up to the moment that 
+the set of position values become stable. The final set of position values is
+used to set the central position of the consensus region. This consensus 
+region must respect the minimum number of experiments that must have at least 
+on inside it to be retained as an final consensus region. The minimum number 
+of experiments is set by the user. Finally, the final consensus region can be
+extended or shrinked to fit the regions associated to the position values 
+present inside. If new position values are added during the extension, the
+extension step is not reprocess to include those new position
+values.
 
 
-The consensusSeekeR package
 
 ## Loading consensusSeekeR package
 
@@ -74,13 +107,6 @@ library(consensusSeekeR)
 
 ## Inputs
 
-ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
-DNA sequencing to identify the binding sites of DNA-associated proteins. The
-obtained sequence reads are first mapped to the reference genome of the 
-organism used in the experiments. Bindind sites are them dectected by using
-software specialized in transcript factor binding sites identification, such 
-MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peak
-position is defined as a single base pair.
 
 ## Using consensusSeekeR on nucleosome position data
 
@@ -99,16 +125,23 @@ Next-generation DNA sequencing coupled with chromatin immunoprecipitation
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
 interactions by enabeling  genomic locatization of histone 
 modifications and transcription-factor binding in living cells. Consortium, 
-such as [ENCODE]((https://www.encodeproject.org) have developed, and 
+such as [ENCODE](https://www.encodeproject.org) have developed, and 
 constantly upgrading, a set of standards and guidelines for ChIP experiments 
 [@Landt2012].
 
+ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
+DNA sequencing to identify the binding sites of DNA-associated proteins. The
+obtained sequence reads are first mapped to the reference genome of the 
+organism used in the experiments. Bindind sites are them dectected by using
+software specialized in transcript factor binding sites identification, such 
+MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peak
+position is defined as a single base pair.
 
 ### ChIP-Seq replicates from one experiment
 
 The Encyclopedia of DNA Elements (ENCODE) Consortium is an international 
 collaboration of research groups funded by the National Human Genome Research 
-Institute. The [ENCODE website](https://www.encodeproject.org) is portal 
+Institute. The [ENCODE website](https://www.encodeproject.org) is a portal 
 giving access to the data generated by the ENCODE Consortium. The amount of 
 data gathered is extensive. Moreover, for one specific experiment, more than 
 one ChIP-Seq replicate is often available.
