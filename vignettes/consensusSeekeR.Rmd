@@ -107,14 +107,16 @@ library(consensusSeekeR)
 ## Inputs
 
 
-## Using consensusSeekeR on nucleosome position data
+## Using consensusSeekeR on nucleosome positions data   
 
 Global gene expression patterns are established and maintained by the 
 concerted actions of Transcription Factors (TFs) and the proteins that 
 constitute chromatin. The key structural element of chromatin is the 
 nucleosome, which consists of an octameric histone core wrapped by 146 bps 
 of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
-DNA (reference TODO).
+DNA (reference TODO). Nucleosome occupancy and positioning have proved to be 
+dynamic. It also have a major impact on expression, regulation, and evolution 
+of eukaryotic genes
 
 ### Comparing nucleosome positioning results
 
@@ -179,7 +181,7 @@ consensus regions are being found by using the peak positions, the TODO.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN) [@Dunham2012a]. (TODO FABIEN : ajouter une courte 
+ENCFF000MYJ and ENCFF000MYN) . (TODO FABIEN : ajouter une courte 
 description 
 sur la methode pour obtenir narrowPeak).
 
