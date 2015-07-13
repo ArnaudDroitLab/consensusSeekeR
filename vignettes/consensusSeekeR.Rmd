@@ -104,8 +104,8 @@ with the following command:
 library(consensusSeekeR)
 ```
 
-## Inputs
 
+## Inputs
 
 ## Using consensusSeekeR on nucleosome positions data   
 
