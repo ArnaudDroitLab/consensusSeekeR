@@ -44,7 +44,7 @@ the integrative statistical analysis of range-based genomic data.
 
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
-generated narrow peaks outputs, used by the ENCODE project [@Dunham2012a], 
+generated narrow peaks outputs, used by the ENCODE project [@Dunham2012], 
 which include a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
@@ -76,19 +76,21 @@ surrounded by a genomic ranges. The `consensusSeekeR` package is characterized
 by its use of the position values, instead of the genomic range, to identify
 the consensus regions.
 
-Using iterative steps on ordered position values from all experiments which 
-have not been yet associated to a consensus region, a window of fixed size 
-(specified by user) with the position value as starting point is set. All 
+Using iterative steps on ordered peak position values from all experiments, 
+a window of fixed size (specified by user) with the current position value as 
+starting point is set. All 
 position values which reside inside the window are gathered to calculate the 
 median position which is then used to recreate a new window. This time, the 
-new window has twice the size fixed by user and its center is the median. An 
-update of the position values residing inside the window is done and a new 
+new window has twice the size fixed by user and its center is the median of 
+the peak positions. An 
+update of the peaks located inside the window is done and a new 
 median position is calculated. This step is repeated up to the moment that 
-the set of position values become stable. The final set of position values is
-used to set the central position of the consensus region. This consensus 
-region must respect the minimum number of experiments that must have at least 
-on inside it to be retained as an final consensus region. The minimum number 
-of experiments is set by the user. At last, the final consensus region can be
+the set of peaks become stable. The final set of peak positions is
+used to fix
+the central position of the consensus region. This final 
+region must respect the minimum number of experiments with at least 
+one peak inside it to be retained as an final consensus region. The minimum 
+number of experiments is set by the user. At last, the consensus region can be
 extended or shrinked to fit the regions associated to the position values 
 present inside. If new position values are added during the extension, the
 extension step is not reprocess to include those new position
@@ -112,7 +114,7 @@ library(consensusSeekeR)
 Global gene expression patterns are established and maintained by the 
 concerted actions of Transcription Factors (TFs) and the proteins that 
 constitute chromatin. The key structural element of chromatin is the 
-nucleosome, which consists of an octameric histone core wrapped by 146 bps 
+nucleosome, which consists of an octameric histone core wrapped by 147 bps 
 of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
 DNA (reference TODO). Nucleosome occupancy and positioning have proved to be 
 dynamic. It also have a major impact on expression, regulation, and evolution 
@@ -164,7 +166,7 @@ ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description
 sur la methode pour obtenir narrowPeaks). 
 
 To simplify this demo, only part of chromosomes X and Y have been retained in 
-thedatasets. 
+the datasets. 
 
 First, the `consensusSeekeR` package must be loaded.
 
@@ -189,7 +191,8 @@ sur la methode pour obtenir narrowPeak).
 
 The value of the `extendingSize` parameter can affect the final number of 
 consensus regions. While small `extendingSize` value can miss some regions, 
-large `extendingSize` value can gather consensus regions.
+large `extendingSize` value can gather consensus regions. Testing a range 
+of `extendingSize` parameters can be an option worth considering.
 
 ##  Parallelizing consensusSeekeR
 
