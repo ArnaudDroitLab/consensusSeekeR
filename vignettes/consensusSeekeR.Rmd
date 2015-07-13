@@ -125,7 +125,7 @@ of eukaryotic genes
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
 interactions by enabeling  genomic localization of histone 
-modifications and transcription-factor binding in living cells [@Mundade2014]. 
+modifications and transcription-factor binding in living cells (MUDADE). 
 Consortium, 
 such as [ENCODE](https://www.encodeproject.org) have developed, and 
 constantly upgrading, a set of standards and guidelines for ChIP experiments 
