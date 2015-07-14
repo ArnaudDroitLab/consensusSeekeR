@@ -7,6 +7,10 @@ bioc_required: true
 # Be strict when checking package
 warnings_are_errors: true
 
+# Package from Linux
+apt_packages:
+  - pandoc-citeproc
+
 # Package dependencies from CRAN
 r_binary_packages:
   - RUnit
