@@ -44,7 +44,7 @@ the integrative statistical analysis of range-based genomic data.
 
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
-generated narrow peaks outputs, used by the ENCODE project [@Dunham2012], 
+generated narrow peaks outputs, used by the ENCODE project [@Dunham2012a], 
 which include a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
@@ -116,18 +116,27 @@ concerted actions of Transcription Factors (TFs) and the proteins that
 constitute chromatin. The key structural element of chromatin is the 
 nucleosome, which consists of an octameric histone core wrapped by 147 bps 
 of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
-DNA (reference TODO). Nucleosome occupancy and positioning have proved to be 
+DNA [@Kornberg1999]. Nucleosome occupancy and positioning have proved to be 
 dynamic. It also have a major impact on expression, regulation, and evolution 
 of eukaryotic genes
 
 ### Comparing nucleosome positioning results
+
+With the development of the Next-generation sequencing, nucleosome 
+positioning using MNase-Seq data or MNase- or sonicated- ChIP-Seq data 
+combined with either single-end or paired-end sequencing have evolved as 
+popular techniques. Software such as PING [@Woo2013] and NOrMAL
+[@Polishko2012], generates output which contain the position of the
+predicted nucleosomes, which simply are a one pair base position on
+the reference genome. A range of $\pm$ 74 bps is usually superposed to the
+predicted nucleosome to repesent the nucleosome occupancy.
 
 ## Using consensusSeekeR on ChIP-Seq data
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
 interactions by enabeling  genomic localization of histone 
-modifications and transcription-factor binding in living cells (MUDADE). 
+modifications and transcription-factor binding in living cells [@Mundade2014]. 
 Consortium, 
 such as [ENCODE](https://www.encodeproject.org) have developed, and 
 constantly upgrading, a set of standards and guidelines for ChIP experiments 
@@ -163,10 +172,13 @@ by using the peak positions.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN). (TODO FABIEN : ajouter une courte description 
+ENCFF000MYJ and ENCFF000MYN). 
+
+(TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeaks). 
 
-To simplify this demo, only part of chromosomes X and Y have been retained in 
+To simplify this demo, only part of chromosome chr1:245000000-249250620 and 
+chromosome chr10:10000000-20000000 have been retained in 
 the datasets. 
 
 First, the `consensusSeekeR` package must be loaded.
@@ -174,6 +186,72 @@ First, the `consensusSeekeR` package must be loaded.
 ```{r libraryLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
+
+The datasets, which are included in the `consensusSeekeR` package, 
+have to be loaded.
+
+```{r loadingDatasets}
+## Loading datasets
+data(A549_CTCF_MYN_NarrowPeaks_partial)
+data(A549_CTCF_MYJ_NarrowPeaks_partial)
+data(A549_CTCF_MYN_Peaks_partial)
+data(A549_CTCF_MYJ_Peaks_partial)
+```
+
+To be able to identify data from the same experiment, each row of the dataset
+has to be assigned am experiment name. Beware that NarrowPeak and Peak 
+datasets from the same experiment must assigned identical names. In this 
+exemple, datasets are replicates of the same experiment. So, the names 
+"rep01" and 
+"rep02" are going to be assigned to each dataset.
+
+
+```{r repAssignment}
+## Assigning experiment name "rep01" to the first replicate
+names(A549_CTCF_MYJ_NarrowPeaks_partial) <- rep("rep01",
+                        length(A549_CTCF_MYJ_NarrowPeaks_partial))
+names(A549_CTCF_MYJ_Peaks_partial) <- rep("rep01",
+                        length(A549_CTCF_MYJ_Peaks_partial))
+
+## Assigning experiment name "rep02" to the second replicate
+names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("rep02",
+                        length(A549_CTCF_MYN_NarrowPeaks_partial))
+names(A549_CTCF_MYN_Peaks_partial) <- rep("rep02",
+                        length(A549_CTCF_MYN_Peaks_partial))
+```
+The consensus regions for chromosome 10 only are calculated 
+with a defaut region size of 200 bases pairs (2 * `extendingSize`)
+The regions are extended to include all peaks regions 
+(`expandToFitPeakRegion` = `TRUE` and `shrinkToFitPeakRegion` = `TRUE`).
+A peak from both replicates must be present in a region to be retained as a 
+consensus region.
+
+```{r replicateConsensus}
+## Only choromsome 10 is going to be analysed
+chrList <- Seqinfo("chr10", 135534747, NA)
+
+## Find consensus regions with both replicates inside it
+results <- findConsensusPeakRegions(
+            narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
+                                A549_CTCF_MYN_NarrowPeaks_partial),
+            peaks = c(A549_CTCF_MYJ_Peaks_partial,
+                                A549_CTCF_MYN_Peaks_partial),
+            chrInfo = chrList,
+            extendingSize = 100,
+            expandToFitPeakRegion = TRUE,
+            shrinkToFitPeakRegion = TRUE,
+            minNbrExp = 2,
+            nbrThreads = 1)
+
+head(results$consensusRanges)
+```
+
+A total of `r length(results$consensusRanges)` consensus regions have been 
+found. A exemple of the consensus regions (in green) is shown here using 
+Integrative genomics viewer [@Interests2011]:
+
+![alt text](figures/ctcf_replicates.jpg "ChIP-Seq replicates from one experiment")
+
 
 ### ChIP-Seq data from multiple experiments
 
@@ -184,7 +262,9 @@ consensus regions are being found by using the peak positions, the TODO.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN) [@Dunham2012]. (TODO FABIEN : ajouter une courte 
+ENCFF000MYJ and ENCFF000MYN) [@Dunham2012a].
+
+(TODO FABIEN : ajouter une courte 
 description 
 sur la methode pour obtenir narrowPeak).
 

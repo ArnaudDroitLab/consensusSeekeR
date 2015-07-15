@@ -24,8 +24,8 @@ the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 \examples{
 ## Loading datasets
 data(A549_FOSL2_01_NarrowPeaks_partial)
-data(A549_FOXA1_01_NarrowPeaks_partial)
 data(A549_FOSL2_01_Peaks_partial)
+data(A549_FOXA1_01_NarrowPeaks_partial)
 data(A549_FOXA1_01_Peaks_partial)
 
 ## Assigning experiment name to each row of the dataset.
