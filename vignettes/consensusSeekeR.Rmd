@@ -3,7 +3,7 @@ title: "Detection of consensus peak regions inside a group of experiences using 
 output:
   BiocStyle::html_document:
     toc: true
-bibliography: consensusSeekeR.bib
+bibliography: consensusSeekeR.bibtex
 vignette: >
   %\VignetteIndexEntry{Detection of consensus peak regions inside a group of experiences using narrowPeak files}
   %\VignetteEngine{knitr::rmarkdown}
