@@ -44,7 +44,7 @@ the integrative statistical analysis of range-based genomic data.
 
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, generally
-generated narrow peaks outputs, used by the ENCODE project [@Dunham2012a], 
+generated narrow peaks outputs, used by the ENCODE project [@Dunham2012], 
 which include a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
@@ -193,8 +193,8 @@ have to be loaded.
 ```{r loadingDatasets}
 ## Loading datasets
 data(A549_CTCF_MYN_NarrowPeaks_partial)
-data(A549_CTCF_MYJ_NarrowPeaks_partial)
 data(A549_CTCF_MYN_Peaks_partial)
+data(A549_CTCF_MYJ_NarrowPeaks_partial)
 data(A549_CTCF_MYJ_Peaks_partial)
 ```
 
@@ -262,10 +262,9 @@ consensus regions are being found by using the peak positions, the TODO.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN) [@Dunham2012a].
+ENCFF000MYJ and ENCFF000MYN) [@Dunham2012].
 
-(TODO FABIEN : ajouter une courte 
-description 
+(TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak).
 
 ## Effect of the extendingSize parameter
