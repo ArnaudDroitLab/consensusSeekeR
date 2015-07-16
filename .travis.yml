@@ -28,3 +28,6 @@ bioc_packages:
   - GenomeInfoDb
   - BiocStyle
   - S4Vectors
+
+r_github_packages:
+  - jgm/pandoc
