@@ -138,7 +138,8 @@ test.findConsensusPeakRegions_narrowPeaks_with_no_row_name_GRanges <- function()
     exp <- paste0("narrowPeaks and peaks must have defined row names ",
                   "so that each entry can be associated to an ",
                   "experiment")
-    message <- paste0(" findConsensusPeakRegions_narrowPeaks_with_no_row_name_GRanges",
+    message <- paste0(" findConsensusPeakRegions_narrowPeaks_with_",
+                      "no_row_name_GRanges",
                       " - A GRanges without row name used as narrowPeaks ",
                       "parameter did not generated expected error.")
     checkEquals(obs, exp, msg = message)
@@ -817,7 +818,8 @@ test.findConsensusPeakRegions_when_shrinkToFitPeakRegion_TRUE<- function() {
                    ranges = IRanges(start = c(249250600, 135534710),
                                     end = c(249250620, 135534746)),
                    seqinfo = seqinfo)
-    message <- paste0(" findConsensusPeakRegions_when_shrinkToFitPeakRegion_TRUE",
+    message <- paste0(" findConsensusPeakRegions_when_",
+                      "shrinkToFitPeakRegion_TRUE",
                       " - When shrinkToFitPeakRegion set to TRUE, ",
                       "the observed results don't fit with ",
                       "the expected results.")
