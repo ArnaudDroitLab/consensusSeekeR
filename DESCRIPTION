@@ -27,6 +27,7 @@ Imports: GenomeInfoDb,
     stringr,
     S4Vectors
 Suggests: BiocStyle,
+    ggplot2,
     knitr,
     RUnit
 License: Artistic-2.0 | file LICENSE
