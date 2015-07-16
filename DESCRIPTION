@@ -28,7 +28,6 @@ Imports: GenomeInfoDb,
     S4Vectors
 Suggests: BiocStyle,
     knitr,
-    rmarkdown,
     RUnit
 License: Artistic-2.0 | file LICENSE
 URL: https://github.com/adeschen/consensusSeekeR
