@@ -1,13 +1,14 @@
 ---
-title: "Detection of consensus peak regions inside a group of experiences using narrowPeak data"
+title: "Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges"
 output:
   BiocStyle::html_document:
     toc: true
 bibliography: consensusSeekeR.bibtex
 vignette: >
-  %\VignetteIndexEntry{Detection of consensus peak regions inside a group of experiences using narrowPeak files}
+  %\VignetteIndexEntry{Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignettePackage{consensusSeekeR}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -18,7 +19,6 @@ BiocStyle::markdown()
 
 Authors: Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau 
 and Arnaud Droit <br />
-Compilation date: `r Sys.Date()`
 
 
 ## Licensing
@@ -43,9 +43,10 @@ Bioconductor as developed an infrastructure, including packages such as
 the integrative statistical analysis of range-based genomic data.
 
 Ranges have a fundamental role in the analysis of experimental data. As 
-an example, the peak calling step, in the analysis of ChIP-seq data, generally
-generated narrow peaks outputs, used by the ENCODE project [@Dunham2012], 
-which include a peak position located inside 
+an example, the peak calling step, in the analysis of ChIP-seq data, commonly
+generates narrow peaks outputs. The NarrowPeak format, wichi is used by the 
+ENCODE project [@Dunham2012], 
+includes a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
 translated as genomic ranges.
@@ -60,12 +61,12 @@ One approach often used to identify consensus in a group of results consist of
 using the overlapping regions of the genomic ranges. This approach, when use on
 a large group of experiments, can miss, as a side effect, regions when one of 
 the experiment has missing features or slightly shift ones. On the other hand,
-the use of the union of the regions cans result in wide consensus ranges.
+the use of the union of the regions can result in wide consensus ranges.
 
 The `consensusSeekeR` package implements a novative way to identify consensus 
-ranges in a group of experiments which generated position values
+ranges in a group of experiments which generated feature positions
 surrounded by a genomic ranges. The `consensusSeekeR` package is characterized 
-by its use of the position values, instead of the genomic range, to identify
+by the use of the features positions, instead of the genomic range, to identify
 the consensus regions.
 
 ## The consensusSeekeR package
@@ -109,7 +110,7 @@ library(consensusSeekeR)
 
 ## Inputs
 
-## Using consensusSeekeR on nucleosome positions data   
+## Using consensusSeekeR on nucleosome positions   
 
 Global gene expression patterns are established and maintained by the 
 concerted actions of Transcription Factors (TFs) and the proteins that 
@@ -118,7 +119,7 @@ nucleosome, which consists of an octameric histone core wrapped by 147 bps
 of DNA and connected to its neighbor by approximately 10-80 pbs of linker 
 DNA [@Kornberg1999]. Nucleosome occupancy and positioning have proved to be 
 dynamic. It also have a major impact on expression, regulation, and evolution 
-of eukaryotic genes
+of eukaryotic genes [@Jiang2015].
 
 ### Comparing nucleosome positioning results
 
@@ -130,6 +131,7 @@ popular techniques. Software such as PING [@Woo2013] and NOrMAL
 predicted nucleosomes, which simply are a one pair base position on
 the reference genome. A range of $\pm$ 74 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
+
 
 ## Using consensusSeekeR on ChIP-Seq data
 
@@ -177,8 +179,8 @@ ENCFF000MYJ and ENCFF000MYN).
 (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeaks). 
 
-To simplify this demo, only part of chromosome chr1:245000000-249250620 and 
-chromosome chr10:10000000-20000000 have been retained in 
+To simplify this demo, only part of genome hg19, chr1:246000000-249250621 and 
+chr10:10000000-12500000, have been retained in 
 the datasets. 
 
 First, the `consensusSeekeR` package must be loaded.
@@ -226,7 +228,7 @@ The regions are extended to include all peaks regions
 A peak from both replicates must be present in a region to be retained as a 
 consensus region.
 
-```{r replicateConsensus}
+```{r replicateConsensus, collapse=FALSE}
 ## Only choromsome 10 is going to be analysed
 chrList <- Seqinfo("chr10", 135534747, NA)
 
@@ -242,8 +244,20 @@ results <- findConsensusPeakRegions(
             shrinkToFitPeakRegion = TRUE,
             minNbrExp = 2,
             nbrThreads = 1)
+```
 
-head(results$consensusRanges)
+
+The outpout of `findConsensusPeakRegions` function is a list containing an 
+object `call` and an object `conesensusRanges`. The object `call`  contains the
+matched call while the object `conesensusRanges` is a `GRanges` containing the
+consensus regions.
+
+```{r replicateResults, collapse=TRUE}
+## Print the call 
+results$call
+
+## Print the 3 first consensus regions
+head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
@@ -256,16 +270,18 @@ Integrative genomics viewer [@Interests2011]:
 ### ChIP-Seq data from multiple experiments
 
 The `consensusSeekeR` package can also be used to identify consensus regions 
-for two or more ChIP-Seq samples from multiple experiments. While the 
-consensus regions are being found by using the peak positions, the TODO.
+for two or more ChIP-Seq samples from multiple experiments. The peak positions
+are the feature used to identify the consensus regions.
 
 The transcription factor binding for the CTCF transcription factor have been
-analyzed and 2 replicates are available in BAM files format on 
+analyzed in more than one experiments. Results are available in narrowPeak 
+format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
 ENCFF000MYJ and ENCFF000MYN) [@Dunham2012].
 
 (TODO FABIEN : ajouter une courte description 
 sur la methode pour obtenir narrowPeak).
+
 
 ## Effect of the extendingSize parameter
 
@@ -274,6 +290,51 @@ consensus regions. While small `extendingSize` value can miss some regions,
 large `extendingSize` value can gather consensus regions. Testing a range 
 of `extendingSize` parameters can be an option worth considering.
 
+As an example, the number of consensus regions obtained with different values
+of `extendingSize` is calculated.
+
+``` {r sizeEffect, collapse=TRUE}
+## Set different values for the extendingSize parameter
+size <- c(1, 10, 50, 100, 300, 500, 750, 1000)
+
+## Find consensus regions using all the size values
+resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
+                    narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
+                                A549_CTCF_MYN_NarrowPeaks_partial),
+                    peaks = c(A549_CTCF_MYJ_Peaks_partial,
+                                A549_CTCF_MYN_Peaks_partial),
+                    chrInfo = chrList,
+                    extendingSize = size,
+                    expandToFitPeakRegion = TRUE,
+                    shrinkToFitPeakRegion = TRUE,
+                    minNbrExp = 2,
+                    nbrThreads = 1))
+
+## Extract the number of consensus regions obtained for each extendingSize
+nbrRegions<-mapply(resultsBySize, FUN = function(x) 
+                    return(length(x$consensusRanges)))
+
+nbrRegions
+```
+
+A graph can be used to visualize the variation of the number of consensus 
+regions in function of the `extendingSize` parameter.
+
+```{r graphSizeEffect, warning=FALSE}
+
+library(ggplot2)
+
+data <- data.frame(extendingSize = size, nbrRegions = nbrRegions)
+
+ggplot(data, aes(extendingSize, nbrRegions)) + 
+        scale_x_log10("Extending size") + 
+        stat_smooth(se = FALSE, method = "loess") +
+        ylab("Number of consensus regions") +
+        ggtitle(paste0("Number of consensus regions in function \n", 
+                        "of the extendingSize"))
+    
+```
+
 ##  Parallelizing consensusSeekeR
 
 Due to the size of the analyzed genomes, the `findConsensusPeakRegions` 
@@ -281,8 +342,19 @@ function can take long to process.  However, a job can be separated by
 chromosome and run in parallel. This takes advantage of multiple 
 processors and reduce the total execution time. This number of threads 
 used by the  can be set with
-the `minNbrExp` parameter in the `findConsensusPeakRegions` function. However, 
-Windows does not support multicore evaluation.
+the `nbrThreads` parameter in the `findConsensusPeakRegions` function. 
+However, Windows does not support multicore evaluation.
+
+
+## Session info
+
+Here is the output of `sessionInfo()` on the system on which this document was 
+compiled:
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
 
 ## References
 
