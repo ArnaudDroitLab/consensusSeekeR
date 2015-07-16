@@ -13,7 +13,6 @@ r_binary_packages:
   - stringr
   - knitr
   - rmarkdown
-  - knitcitations
 
 # Package dependencies from Bioconductor
 bioc_packages:
