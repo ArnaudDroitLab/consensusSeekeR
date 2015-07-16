@@ -90,7 +90,48 @@
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam
 #' multicoreWorkers bpmapply bpok
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
-#' @export
+
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_CTCF_MYN_NarrowPeaks_partial)
+#' data(A549_CTCF_MYN_Peaks_partial)
+#' data(A549_CTCF_MYJ_NarrowPeaks_partial)
+#' data(A549_CTCF_MYJ_Peaks_partial)
+#'
+#' ## Assigning experiment name "CTCF_MYJ" to first experiment
+#' names(A549_CTCF_MYJ_NarrowPeaks_partial) <- rep("CTCF_MYJ",
+#'     length(A549_CTCF_MYJ_NarrowPeaks_partial))
+#' names(A549_CTCF_MYJ_Peaks_partial) <- rep("CTCF_MYJ",
+#'     length(A549_CTCF_MYJ_Peaks_partial))
+#'
+#' ## Assigning experiment name "CTCF_MYN" to second experiment
+#' names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("CTCF_MYN",
+#'     length(A549_CTCF_MYN_NarrowPeaks_partial))
+#' names(A549_CTCF_MYN_Peaks_partial) <- rep("CTCF_MYN",
+#'     length(A549_CTCF_MYN_Peaks_partial))
+#'
+#' ## Only choromsome 1 is going to be analysed
+#' chrList <- Seqinfo("chr1", 249250621, NA)
+#'
+#' ## Find consensus regions with both experiments
+#' results <- findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
+#'         A549_CTCF_MYN_NarrowPeaks_partial),
+#'     peaks = c(A549_CTCF_MYJ_Peaks_partial,
+#'         A549_CTCF_MYN_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 300,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+#' ## Print 2 first consensus regions
+#' head(results$consensusRanges, 2)
+#'
+#'  @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                 extendingSize = 250,
                                 expandToFitPeakRegion = FALSE,
