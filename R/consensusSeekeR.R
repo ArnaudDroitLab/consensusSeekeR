@@ -339,7 +339,7 @@ NULL
 #'
 #' Sites representing the greatest evidence of enrichment for
 #' the CTCF transcription factor (DCC accession: TODO)
-#' for regions chr1:245000000-249250620 and chr10:10000000-20000000
+#' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -414,7 +414,7 @@ NULL
 #'
 #' Sites representing the greatest evidence of enrichment for
 #' the CTCF transcription factor (DCC accession: TODO)
-#' for regions chr1:245000000-249250620 and chr10:10000000-20000000
+#' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -489,7 +489,7 @@ NULL
 #'
 #' Sites representing the greatest evidence of enrichment for
 #' the CTCF transcription factor (DCC accession: TODO)
-#' for regions chr1:245000000-249250620 and chr10:10000000-20000000
+#' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -564,7 +564,7 @@ NULL
 #'
 #' Sites representing the greatest evidence of enrichment for
 #' the CTCF transcription factor (DCC accession: TODO)
-#' for regions chr1:245000000-249250620 and chr10:10000000-20000000
+#' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
