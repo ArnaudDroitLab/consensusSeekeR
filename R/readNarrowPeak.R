@@ -59,7 +59,7 @@ readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
                     strip.white = TRUE, sep = "\n", quiet = TRUE)
 
     grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
-                        "(\\s+[0-9\\.]+){3}\\s+\\d+"), data)
+                        "(\\s+[0-9\\.-]+){3}\\s+\\d+"), data)
 
     if (length(grepRes) == 0) {
         stop("No valid chromosome detected within first ", data_size,
