@@ -462,7 +462,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for both chromosomes 1 and 10
-#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## with a defaut region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -537,7 +537,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for both chromosomes 1 and 10
-#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## with a defaut region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -612,7 +612,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for both chromosomes 1 and 10
-#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## with a defaut region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -630,5 +630,382 @@ NULL
 #'     shrinkToFitPeakRegion = FALSE,
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Sites with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFQ).
+#' For demonstration purpose.
+#'
+#' Sites representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFQ)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFQ_Peaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The peaks are
+#' surronded by ranges present in the dataset
+#' \code{A549_NR3C1_CFQ_NarrowPeaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFQ_Peaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFQ_NarrowPeaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFS_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFS_Peaks_partial)
+#' data(A549_NR3C1_CFR_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFR_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_Peaks_partial))
+#' names(A549_NR3C1_CFR_NarrowPeaks_partial) <-rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_Peaks_partial))
+#'
+#' ## Calculating consensus regions for both chromosomes 1 and 10
+#' ## with a defaut region size of 140 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from at least 2 experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr3"), c(198022430), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFS_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFR_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFS_Peaks_partial,
+#'                         A549_NR3C1_CFR_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 70,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Ranges with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFQ).
+#' For demonstration purpose.
+#'
+#' Ranges representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFQ)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFQ_NarrowPeaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The ranges are
+#' surronding the peaks present in the dataset
+#' \code{A549_NR3C1_CFQ_Peaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFQ_Peaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFS_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFS_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_Peaks_partial))
+#'
+#' ## Calculating consensus regions for both chromosomes 1 and 10
+#' ## with a defaut region size of 300 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFS_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFS_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 150,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = TRUE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Sites with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFR).
+#' For demonstration purpose.
+#'
+#' Sites representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFR)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFR_Peaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The peaks are
+#' surronded by ranges present in the dataset
+#' \code{A549_NR3C1_CFR_NarrowPeaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFR_Peaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFR_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFR_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFR_NarrowPeaks_partial) <-rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_Peaks_partial))
+#'
+#' ## Calculating consensus regions for both chromosomes 1 and 10
+#' ## with a defaut region size of 40 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFR_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFR_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 20,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Ranges with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFR).
+#' For demonstration purpose.
+#'
+#' Ranges representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFR)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFR_NarrowPeaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The ranges are
+#' surronding the peaks present in the dataset
+#' \code{A549_NR3C1_CFR_Peaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFR_NarrowPeaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFR_Peaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#'
+NULL
+
+#' Sites with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFS).
+#' For demonstration purpose.
+#'
+#' Sites representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFS)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFS_Peaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The peaks are
+#' surronded by ranges present in the dataset
+#' \code{A549_NR3C1_CFS_NarrowPeaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFS_Peaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFS_NarrowPeaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+
+#'
+NULL
+
+
+#' Ranges with the greatest evidence of transcription factor binding
+#' for the NR3C1 transcription factor from ENCODE (DDC accession: ENCFF002CFS).
+#' For demonstration purpose.
+#'
+#' Ranges representing the greatest evidence of enrichment for
+#' the NR3C1 transcription factor (DCC accession: ENCFF002CFS)
+#' for regions chr2:40000000-50000000 and chr3:10000000-13000000
+#' from
+#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#'
+#' The peaks and ranges have been obtained using an optimal IDR analysis
+#' done on all replicates.
+#'
+#' @name A549_NR3C1_CFS_NarrowPeaks_partial
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per site. The ranges are
+#' surronding the peaks present in the dataset
+#' \code{A549_NR3C1_CFs_Peaks_partial}.
+#'
+#' @usage data(A549_NR3C1_CFS_NarrowPeaks_partial)
+#'
+#' @references
+#' \itemize{
+#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{A549_NR3C1_CFS_Peaks_partial}} { the associate
+#'                  genomic regions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing the same features in more than one experiment.}
+#' }
+#' @keywords datasets
+#'
 #'
 NULL
