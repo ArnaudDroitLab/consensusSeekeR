@@ -49,7 +49,7 @@ names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
                               length(A549_NR3C1_CFR_Peaks_partial))
 
 ## Calculating consensus regions for chromosome 3
-## with a defaut region size of 140 bp (2 * extendingSize)
+## with a default region size of 140 bp (2 * extendingSize)
 ## which is extended to include all genomic regions for the closest
 ## peak to the median position of all peaks included in the region (for
 ## each experiment).

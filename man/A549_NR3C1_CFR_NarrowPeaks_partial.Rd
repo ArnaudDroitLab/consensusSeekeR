@@ -23,6 +23,45 @@ the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 The peaks and ranges have been obtained using an optimal IDR analysis
 done on all replicates.
 }
+\examples{
+## Loading datasets
+data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+data(A549_NR3C1_CFQ_Peaks_partial)
+data(A549_NR3C1_CFR_NarrowPeaks_partial)
+data(A549_NR3C1_CFR_Peaks_partial)
+
+## Assigning experiment name to each row of the dataset.
+## NarrowPeak and Peak datasets from the same experiment must
+## have identical names.
+names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+                              length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+                              length(A549_NR3C1_CFQ_Peaks_partial))
+names(A549_NR3C1_CFR_NarrowPeaks_partial) <-rep("NR3C1_CFR",
+                              length(A549_NR3C1_CFR_NarrowPeaks_partial))
+names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
+                              length(A549_NR3C1_CFR_Peaks_partial))
+
+## Calculating consensus regions for chromosome 2
+## with a default region size of 250 bp (2 * extendingSize)
+## which is extended to include all genomic regions for the closest
+## peak to the median position of all peaks included in the region (for
+## each experiment).
+## Peaks from both experiments must be present in a region to
+## be retained as a consensus region.
+chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+findConsensusPeakRegions(
+    narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+                        A549_NR3C1_CFR_NarrowPeaks_partial),
+    peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+                        A549_NR3C1_CFR_Peaks_partial),
+    chrInfo = chrList,
+    extendingSize = 125,
+    expandToFitPeakRegion = TRUE,
+    shrinkToFitPeakRegion = TRUE,
+    minNbrExp = 2,
+    nbrThreads = 1)
+}
 \references{
 \itemize{
     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia

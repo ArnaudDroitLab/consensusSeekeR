@@ -38,7 +38,7 @@ names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
                             length(A549_FOSL2_01_NarrowPeaks_partial))
 
 ## Calculating consensus regions for chromosome 1 only
-## with a defaut region size of 400 bp (2 * extendingSize)
+## with a default region size of 400 bp (2 * extendingSize)
 ## which is extended to include all genomic regions of the
 ## closest peak (for each experiment).
 ## A peak from both experiments must be present in a region to

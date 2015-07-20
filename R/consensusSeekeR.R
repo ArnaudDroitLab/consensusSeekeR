@@ -91,7 +91,7 @@ NULL
 #'                             length(A549_FOSL2_01_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 10 only
-#' ## with a defaut region size of 200 bp (2 * extendingSize)
+#' ## with a default region size of 200 bp (2 * extendingSize)
 #' ## which is not extended to include all genomic regions.
 #' ## A peak from both experiments must be present in a region to
 #' ## be retained as a consensus region.
@@ -165,7 +165,7 @@ NULL
 #'                             length(A549_FOSL2_01_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 1 only
-#' ## with a defaut region size of 400 bp (2 * extendingSize)
+#' ## with a default region size of 400 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions of the
 #' ## closest peak (for each experiment).
 #' ## A peak from both experiments must be present in a region to
@@ -240,7 +240,7 @@ NULL
 #'                              length(A549_FOSL2_01_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for both chromosomes 1 and 10
-#' ## with a defaut region size of 300 bp (2 * extendingSize)
+#' ## with a default region size of 300 bp (2 * extendingSize)
 #' ## which is not extended to include all genomic regions.
 #' ## A peak from both experiments must be present in a region to
 #' ## be retained as a consensus region.
@@ -313,7 +313,7 @@ NULL
 #'                               length(A549_FOSL2_01_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for both chromosomes 1 and 10
-#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## with a default region size of 100 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -387,7 +387,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 10
-#' ## with a defaut region size of 100 bp (2 * extendingSize)
+#' ## with a default region size of 100 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -462,7 +462,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 10
-#' ## with a defaut region size of 40 bp (2 * extendingSize)
+#' ## with a default region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -537,7 +537,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 10
-#' ## with a defaut region size of 40 bp (2 * extendingSize)
+#' ## with a default region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -612,7 +612,7 @@ NULL
 #'                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 #'
 #' ## Calculating consensus regions for chromosomes 1
-#' ## with a defaut region size of 40 bp (2 * extendingSize)
+#' ## with a default region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for each
 #' ## experiment).
@@ -699,7 +699,7 @@ NULL
 #'                               length(A549_NR3C1_CFR_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 3
-#' ## with a defaut region size of 140 bp (2 * extendingSize)
+#' ## with a default region size of 140 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for
 #' ## each experiment).
@@ -782,7 +782,7 @@ NULL
 #'                               length(A549_NR3C1_CFS_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 3
-#' ## with a defaut region size of 300 bp (2 * extendingSize)
+#' ## with a default region size of 300 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for
 #' ## each experiment).
@@ -863,7 +863,7 @@ NULL
 #'                               length(A549_NR3C1_CFR_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 2
-#' ## with a defaut region size of 40 bp (2 * extendingSize)
+#' ## with a default region size of 40 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for
 #' ## each experiment).
@@ -923,6 +923,45 @@ NULL
 #' }
 #' @keywords datasets
 #'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFR_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFR_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFR_NarrowPeaks_partial) <-rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
+#'                               length(A549_NR3C1_CFR_Peaks_partial))
+#'
+#' ## Calculating consensus regions for chromosome 2
+#' ## with a default region size of 250 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFR_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFR_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 125,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = TRUE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
 #'
 NULL
 
@@ -964,7 +1003,45 @@ NULL
 #' }
 #' @keywords datasets
 #'
-
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFS_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFS_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_Peaks_partial))
+#'
+#' ## Calculating consensus regions for chromosome 2
+#' ## with a default region size of 80 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFS_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFS_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 40,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
 #'
 NULL
 
@@ -1007,5 +1084,44 @@ NULL
 #' }
 #' @keywords datasets
 #'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFQ_Peaks_partial)
+#' data(A549_NR3C1_CFS_NarrowPeaks_partial)
+#' data(A549_NR3C1_CFS_Peaks_partial)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## NarrowPeak and Peak datasets from the same experiment must
+#' ## have identical names.
+#' names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
+#'                               length(A549_NR3C1_CFQ_Peaks_partial))
+#' names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_NarrowPeaks_partial))
+#' names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
+#'                               length(A549_NR3C1_CFS_Peaks_partial))
+#'
+#' ## Calculating consensus regions for chromosome 2
+#' ## with a default region size of 500 bp (2 * extendingSize)
+#' ## which is extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Peaks from both experiments must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+#'                         A549_NR3C1_CFS_NarrowPeaks_partial),
+#'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+#'                         A549_NR3C1_CFS_Peaks_partial),
+#'     chrInfo = chrList,
+#'     extendingSize = 500,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
 #'
 NULL

@@ -36,7 +36,7 @@ names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("CTCF_MYN",
                               length(A549_CTCF_MYN_NarrowPeaks_partial))
 
 ## Calculating consensus regions for chromosome 10
-## with a defaut region size of 40 bp (2 * extendingSize)
+## with a default region size of 40 bp (2 * extendingSize)
 ## which is extended to include all genomic regions for the closest
 ## peak to the median position of all peaks included in the region (for each
 ## experiment).
