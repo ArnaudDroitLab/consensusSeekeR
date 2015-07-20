@@ -42,7 +42,7 @@ names(A549_NR3C1_CFR_NarrowPeaks_partial) <-rep("NR3C1_CFR",
 names(A549_NR3C1_CFR_Peaks_partial) <- rep("NR3C1_CFR",
                               length(A549_NR3C1_CFR_Peaks_partial))
 
-## Calculating consensus regions for both chromosomes 1 and 10
+## Calculating consensus regions for chromosome 2
 ## with a defaut region size of 40 bp (2 * extendingSize)
 ## which is extended to include all genomic regions for the closest
 ## peak to the median position of all peaks included in the region (for

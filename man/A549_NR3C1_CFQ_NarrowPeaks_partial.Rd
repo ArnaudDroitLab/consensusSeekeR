@@ -42,14 +42,14 @@ names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
 names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
                               length(A549_NR3C1_CFS_Peaks_partial))
 
-## Calculating consensus regions for both chromosomes 1 and 10
+## Calculating consensus regions for chromosome 3
 ## with a defaut region size of 300 bp (2 * extendingSize)
 ## which is extended to include all genomic regions for the closest
 ## peak to the median position of all peaks included in the region (for
 ## each experiment).
 ## Peaks from both experiments must be present in a region to
 ## be retained as a consensus region.
-chrList <- Seqinfo(c("chr2"), c(243199373), NA)
+chrList <- Seqinfo(c("chr3"), c(198022430), NA)
 findConsensusPeakRegions(
     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
                         A549_NR3C1_CFS_NarrowPeaks_partial),
