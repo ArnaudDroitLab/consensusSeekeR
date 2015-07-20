@@ -1105,7 +1105,7 @@ NULL
 #'                               length(A549_NR3C1_CFS_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 2
-#' ## with a default region size of 500 bp (2 * extendingSize)
+#' ## with a default region size of 1000 bp (2 * extendingSize)
 #' ## which is extended to include all genomic regions for the closest
 #' ## peak to the median position of all peaks included in the region (for
 #' ## each experiment).
