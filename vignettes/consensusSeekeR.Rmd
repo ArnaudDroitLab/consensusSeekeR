@@ -23,9 +23,9 @@ and Arnaud Droit <br />
 
 ## Licensing
 
-This package and the underlying `consensusSeekeR` code are distributed 
-under the Artistic license 2.0. You are free to use and redistribute this 
-software.
+This package and the underlying `r Rpackage("consensusSeekeR")` code are 
+distributed under the Artistic license 2.0. You are free to use and 
+redistribute this software.
 
 
 ## Introduction
@@ -39,69 +39,78 @@ integration is made possible by treating the data as
 ranges on the genome, which acts as a common scaffold [@Lawrence2013]. 
 Bioconductor as developed an infrastructure, including packages such as 
 `r Biocpkg("GenomicRanges")`,  `r Biocpkg("IRanges")` and 
-`r Biocpkg("GenomicFeatures")`, to facilitate 
+`r Biocpkg("GenomicFeatures")`, which facilitate 
 the integrative statistical analysis of range-based genomic data.
 
-Ranges have a fundamental role in the analysis of experimental data. As 
+Ranges play a fundamental role in the analysis of diffent experimental genomic 
+data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, commonly
-generates narrow peaks outputs. The NarrowPeak format, wichi is used by the 
+generates narrow peaks outputs. The NarrowPeak format, wich is used by the 
 ENCODE project [@Dunham2012a], 
 includes a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
-data, is based on counting the alignments overlapping exons which can be 
-translated as genomic ranges.
+data, is based on counting the alignments overlapping exons.  Those exons can 
+easily be translated as genomic ranges.
 
 In genomic analysis where feature identification generate a position value 
 surrounded by a genomic range, such as in ChIP-Seq and nucleosome postioning, 
-the replication of the analyses may result in slight differences between 
+the replication of an experiment may result in slight differences between 
 predicted values. Conciliation of the results can be difficult, especially 
 when many replicates are done.
 
-One approach often used to identify consensus in a group of results consist of 
-using the overlapping regions of the genomic ranges. This approach, when use on
-a large group of experiments, can miss, as a side effect, regions when one of 
-the experiment has missing features or slightly shift ones. On the other hand,
-the use of the union of the regions can result in wide consensus ranges.
+One current approach used to identify consensus in a group of results consist 
+of extracting the overlapping regions of the genomic ranges. This approach, 
+when use on a large number of experiments, can miss, as a side effect, regions 
+when one of the experiment has missing or slightly shift features. On the 
+other hand, the use of the union of the regions can result in wide 
+consensus ranges.
 
-The `consensusSeekeR` package implements a novative way to identify consensus 
+The `r Rpackage("consensusSeekeR")` package implements a novative way to 
+identify consensus 
 ranges in a group of experiments which generated feature positions
-surrounded by a genomic ranges. The `consensusSeekeR` package is characterized 
-by the use of the features positions, instead of the genomic range, to identify
-the consensus regions.
+surrounded by a genomic ranges. The `r Rpackage("consensusSeekeR")` package 
+is characterized 
+by the use of the features positions, instead of genomic ranges, to 
+identify the consensus regions.
 
 ## The consensusSeekeR package
 
-The `consensusSeekeR` package implements a novative way to identify consensus 
+The `r Rpackage("consensusSeekeR")` package implements a novative way to 
+identify consensus 
 ranges in a group of experiments which generated position values
-surrounded by a genomic ranges. The `consensusSeekeR` package is characterized 
-by its use of the position values, instead of the genomic range, to identify
+surrounded by genomic ranges. The `consensusSeekeR` package is characterized 
+by its use of the position values, instead of the genomic ranges, to identify
 the consensus regions.
 
-Using iterative steps on ordered peak position values from all experiments, 
-a window of fixed size (specified by user) with the current position value as 
-starting point is set. All 
-position values which reside inside the window are gathered to calculate the 
-median position which is then used to recreate a new window. This time, the 
-new window has twice the size fixed by user and its center is the median of 
-the peak positions. An 
-update of the peaks located inside the window is done and a new 
-median position is calculated. This step is repeated up to the moment that 
-the set of peaks become stable. The final set of peak positions is
+Using iterative steps on ordered features position values from all experiments, 
+a window of fixed size (specified by user) with the current feature position 
+as starting point is set. All 
+features which reside inside the window are gathered to calculate a 
+median feature position which is then used to recreate a new window. This time, 
+the 
+new window has twice the size fixed by user and its center is the median 
+feature position. An 
+update of the features located inside the window is done and the 
+median feature position is recalculated. This step is repeated up to the 
+moment that 
+the set of features become stable. The final set of features positions is
 used to fix
 the central position of the consensus region. This final 
-region must respect the minimum number of experiments with at least 
-one peak inside it to be retained as an final consensus region. The minimum 
+region must respect the minimum number of experiments with at least one 
+feature inside it to be retained as an final consensus region. The minimum 
 number of experiments is set by the user. At last, the consensus region can be
-extended or shrinked to fit the regions associated to the position values 
-present inside. If new position values are added during the extension, the
-extension step is not reprocess to include those new position
-values.
+extended or/and shrinked to fit the regions associated to the position values 
+present inside. If new features positions are added during the consensus 
+region resizing, the iterative steps are not reprocessed. So, it is possible 
+that the extension step adds new features in the extended consensus region. 
+However, those new features ranges won't be taked into account during the
+extension step.
 
 
 ## Loading consensusSeekeR package
 
-As with any R package, the `consensusSeekeR` package should first be loaded 
-with the following command:
+As with any R package, the `r Rpackage("consensusSeekeR")` package should 
+first be loaded with the following command:
 
 ```{r loadingPackage, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
@@ -109,6 +118,23 @@ library(consensusSeekeR)
 
 
 ## Inputs
+
+The main function of the `r Rpackage("consensusSeekeR")` is 
+`findConsensusPeakRegions`. The mains inputs of the `findConsensusPeakRegions` 
+function are:
+
+* a `GRanges` of the feature positions of all experiments. All entry must have
+an unique metadata field called `name`. Each row of the `GRanges` must be named
+to identify by the experiment source.
+* a `GRanges` of the feature ranges for all experiments. All entry must have
+an unique metadata field called `name`. Each row of the `GRanges` must be named
+to identify by the experiment source.
+
+Each feature must have one entry in both `GRanges`. The metadata field `name` 
+is used to associate the feature position to its range. Each row of both 
+`GRanges` must also be named to using tag that allow the differenciation of 
+the experiment sources.
+
 
 ## Using consensusSeekeR on nucleosome positions   
 
@@ -132,16 +158,16 @@ predicted nucleosomes, which simply are a one pair base position on
 the reference genome. A range of $\pm$ 74 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
 
-First, the `consensusSeekeR` package must be loaded.
+First, the `r Rpackage("consensusSeekeR")` package must be loaded.
 
 ```{r libraryLoadNucl, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `consensusSeekeR` package, 
-have to be loaded.
+The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+package, have to be loaded.
 
-```{r loadingDatasetsCTCF}
+```{r loadingDatasetsNucl}
 ## Loading datasets
 data(A549_CTCF_MYN_NarrowPeaks_partial)
 data(A549_CTCF_MYN_Peaks_partial)
@@ -200,14 +226,14 @@ To simplify this demo, only part of genome hg19, chr1:246000000-249250621 and
 chr10:10000000-12500000, have been retained in 
 the datasets. 
 
-First, the `consensusSeekeR` package must be loaded.
+First, the `r Rpackage("consensusSeekeR")` package must be loaded.
 
 ```{r libraryLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `consensusSeekeR` package, 
-have to be loaded.
+The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+package, have to be loaded.
 
 ```{r loadingDatasets}
 ## Loading datasets
@@ -299,14 +325,14 @@ To simplify this demo, only part of genome hg19, chr2:40000000-50000000  and
 chr3:10000000-13000000, have been retained in 
 the datasets. 
 
-First, the `consensusSeekeR` package must be loaded.
+First, the `r Rpackage("consensusSeekeR")` package must be loaded.
 
 ```{r libLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `consensusSeekeR` package, 
-have to be loaded.
+The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+package, have to be loaded.
 
 ```{r loadingDatasetsExp}
 ## Loading datasets
