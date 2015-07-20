@@ -45,7 +45,7 @@ the integrative statistical analysis of range-based genomic data.
 Ranges have a fundamental role in the analysis of experimental data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, commonly
 generates narrow peaks outputs. The NarrowPeak format, wichi is used by the 
-ENCODE project [@Dunham2012], 
+ENCODE project [@Dunham2012a], 
 includes a peak position located inside 
 a genomic range. Even more, the analysis of gene expression, using RNA-seq 
 data, is based on counting the alignments overlapping exons which can be 
@@ -132,6 +132,23 @@ predicted nucleosomes, which simply are a one pair base position on
 the reference genome. A range of $\pm$ 74 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
 
+First, the `consensusSeekeR` package must be loaded.
+
+```{r libraryLoadNucl, warning=FALSE, message=FALSE}
+library(consensusSeekeR)
+```
+
+The datasets, which are included in the `consensusSeekeR` package, 
+have to be loaded.
+
+```{r loadingDatasetsCTCF}
+## Loading datasets
+data(A549_CTCF_MYN_NarrowPeaks_partial)
+data(A549_CTCF_MYN_Peaks_partial)
+data(A549_CTCF_MYJ_NarrowPeaks_partial)
+data(A549_CTCF_MYJ_Peaks_partial)
+```
+
 
 ## Using consensusSeekeR on ChIP-Seq data
 
@@ -200,13 +217,11 @@ data(A549_CTCF_MYJ_NarrowPeaks_partial)
 data(A549_CTCF_MYJ_Peaks_partial)
 ```
 
-To be able to identify data from the same experiment, each row of the dataset
-has to be assigned am experiment name. Beware that NarrowPeak and Peak 
-datasets from the same experiment must assigned identical names. In this 
+To be able to identify data from the same source, each row of the dataset
+has to be assigned an source name. Beware that NarrowPeak and Peak 
+datasets from the same source must be assigned identical names. In this 
 exemple, datasets are replicates of the same experiment. So, the names 
-"rep01" and 
-"rep02" are going to be assigned to each dataset.
-
+"rep01" and "rep02" are going to be assigned to each dataset.
 
 ```{r repAssignment}
 ## Assigning experiment name "rep01" to the first replicate
@@ -221,6 +236,7 @@ names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("rep02",
 names(A549_CTCF_MYN_Peaks_partial) <- rep("rep02",
                         length(A549_CTCF_MYN_Peaks_partial))
 ```
+
 The consensus regions for chromosome 10 only are calculated 
 with a defaut region size of 200 bases pairs (2 * `extendingSize`)
 The regions are extended to include all peaks regions 
@@ -245,7 +261,6 @@ results <- findConsensusPeakRegions(
             minNbrExp = 2,
             nbrThreads = 1)
 ```
-
 
 The outpout of `findConsensusPeakRegions` function is a list containing an 
 object `call` and an object `conesensusRanges`. The object `call`  contains the
@@ -273,15 +288,165 @@ The `consensusSeekeR` package can also be used to identify consensus regions
 for two or more ChIP-Seq samples from multiple experiments. The peak positions
 are the feature used to identify the consensus regions.
 
-The transcription factor binding for the CTCF transcription factor have been
-analyzed in more than one experiments. Results are available in narrowPeak 
-format on 
+The transcription factor binding for the NR3C1 transcription factor have been
+analyzed in more than one experiments. For each experiment, replicates have 
+been analyzed together usign the irreproducible discovery rate method [@Li2011]. 
+Results are available in bed narrowPeak format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN) [@Dunham2012].
+ENCFF002CFQ, ENCFF002CFR and ENCFF002CFS) [@Dunham2012a].
 
-(TODO FABIEN : ajouter une courte description 
-sur la methode pour obtenir narrowPeak).
+To simplify this demo, only part of genome hg19, chr2:40000000-50000000  and 
+chr3:10000000-13000000, have been retained in 
+the datasets. 
 
+First, the `consensusSeekeR` package must be loaded.
+
+```{r libLoad, warning=FALSE, message=FALSE}
+library(consensusSeekeR)
+```
+
+The datasets, which are included in the `consensusSeekeR` package, 
+have to be loaded.
+
+```{r loadingDatasetsExp}
+## Loading datasets
+data(A549_NR3C1_CFQ_NarrowPeaks_partial)
+data(A549_NR3C1_CFQ_Peaks_partial)
+data(A549_NR3C1_CFR_NarrowPeaks_partial)
+data(A549_NR3C1_CFR_Peaks_partial)
+data(A549_NR3C1_CFS_NarrowPeaks_partial)
+data(A549_NR3C1_CFS_Peaks_partial)
+```
+
+To be able to identify data from the same source, each row of the dataset
+has to be assigned an experiment name. Beware that NarrowPeak and Peak 
+datasets from the same source must be assigned identical names. In this 
+exemple, datasets are coming from different experiments for the same 
+transcription factor. So, the shorten names of each experiment 
+"ENCFF002CFQ", "ENCFF002CFR" ans "ENCFF002CFS" are going to be 
+assigned to each dataset.
+
+```{r expAssignment}
+## Assigning experiment name "ENCFF002CFQ" to the first experiment
+names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("ENCFF002CFQ",
+                        length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+names(A549_NR3C1_CFQ_Peaks_partial) <- rep("ENCFF002CFQ",
+                        length(A549_NR3C1_CFQ_Peaks_partial))
+
+## Assigning experiment name "ENCFF002CFQ" to the second experiment
+names(A549_NR3C1_CFR_NarrowPeaks_partial) <- rep("ENCFF002CFR",
+                        length(A549_NR3C1_CFR_NarrowPeaks_partial))
+names(A549_NR3C1_CFR_Peaks_partial) <- rep("ENCFF002CFR",
+                        length(A549_NR3C1_CFR_Peaks_partial))
+
+## Assigning experiment name "ENCFF002CFQ" to the third experiment
+names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS",
+                        length(A549_NR3C1_CFS_NarrowPeaks_partial))
+names(A549_NR3C1_CFS_Peaks_partial) <- rep("ENCFF002CFS",
+                        length(A549_NR3C1_CFS_Peaks_partial))
+```
+In ENCODE bed narrowPeak format, each entry doesn't have a specific name 
+associated to it.
+
+```{r rowNames}
+## Assigning specific name to each entry of to first experiment
+## NarrowPeak name must fit Peaks name for same experiment
+A549_NR3C1_CFQ_NarrowPeaks_partial$name <- paste0("NR3C1_CFQ_region_",
+                        1:length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+A549_NR3C1_CFQ_Peaks_partial$name <- paste0("NR3C1_CFQ_region_",
+                        1:length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+
+## Assigning specific name to each entry of to second experiment
+## NarrowPeak name must fit Peaks name for same experiment
+A549_NR3C1_CFR_NarrowPeaks_partial$name <- paste0("NR3C1_CFR_region_",
+                        1:length(A549_NR3C1_CFR_NarrowPeaks_partial))
+A549_NR3C1_CFR_Peaks_partial$name <- paste0("NR3C1_CFR_region_",
+                        1:length(A549_NR3C1_CFR_Peaks_partial))
+
+## Assigning specific name to each entry of to third experiment
+## NarrowPeak name must fit Peaks name for same experiment
+A549_NR3C1_CFS_NarrowPeaks_partial$name <- paste0("NR3C1_CFS_region_",
+                        1:length(A549_NR3C1_CFS_NarrowPeaks_partial))
+A549_NR3C1_CFS_Peaks_partial$name <- paste0("NR3C1_CFS_region_",
+                        1:length(A549_NR3C1_CFS_Peaks_partial))
+```
+
+
+The consensus regions for chromosome 3 only are calculated 
+with a defaut region size of 400 bases pairs (2 * `extendingSize`)
+The regions are not extended to include all peaks regions but are shrinked
+when exceeding peaks regions
+(`expandToFitPeakRegion` = `FALSE` and `shrinkToFitPeakRegion` = `TRUE`).
+A peak from 2 out 3 experiments must be present in a region to be retained as 
+a consensus region.
+
+```{r experimentConsensus, collapse=FALSE}
+## Only choromsome 2 is going to be analysed
+chrList <- Seqinfo("chr2", 243199373, NA)
+
+## Find consensus regions with both replicates inside it
+results <- findConsensusPeakRegions(
+            narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
+                                A549_NR3C1_CFR_NarrowPeaks_partial,
+                                A549_NR3C1_CFS_NarrowPeaks_partial),
+            peaks = c(A549_NR3C1_CFQ_Peaks_partial,
+                                A549_NR3C1_CFR_Peaks_partial,
+                                A549_NR3C1_CFS_Peaks_partial),
+            chrInfo = chrList,
+            extendingSize = 200,
+            expandToFitPeakRegion = FALSE,
+            shrinkToFitPeakRegion = TRUE,
+            minNbrExp = 2,
+            nbrThreads = 1)
+```
+
+The outpout of `findConsensusPeakRegions` function is a list containing an 
+object `call` and an object `conesensusRanges`. The object `call` contains the
+matched call while the object `conesensusRanges` is a `GRanges` containing the
+consensus regions.
+
+```{r experimentResults, collapse=TRUE}
+## Print the call 
+results$call
+
+## Print the 3 first consensus regions
+head(results$consensusRanges, n = 3)
+```
+
+A total of `r length(results$consensusRanges)` consensus regions have been 
+found. A exemple of the consensus regions (in green) is shown here using 
+Integrative genomics viewer [@Interests2011]:
+
+![alt text](figures/NR3C1_exp.jpg "ChIP-Seq data from multiple experiments")
+
+
+## Effect of the shrinkToFitPeakRegion parameter
+
+The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
+the minimum and maximum regions of the included features when those values are
+included inside the initial consensus region. When the 
+`extendingSize` parameter is large, the effect can be quite visible on the 
+final consensus regions. As exemple, the following figure shows the same 
+region, from NR3C1 example  with `extendingSize` of 200, when the 
+`shrinkToFitPeakRegion` is set to `TRUE` (green color) and to `FALSE` 
+(orange color) using Integrative 
+genomics viewer [@Interests2011]:
+
+![alt text](figures/shrink.jpg "Effect of shrinkToFitPeakRegion parameter")
+
+
+## Effect of the expandToFitPeakRegion parameter
+
+The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
+the maximum and minimum regions of the included features when those values are
+outside the initial consensus region. When the 
+`extendingSize` parameter is small, the effect can be quite visible on the 
+final consensus regions. As exemple, the following figure shows the same 
+region, from CTCF example with `extendingSize` of 100, when the 
+`shrinkToFitPeakRegion` is set 
+to `FALSE` (orange color) and to `TRUE` (green color).
+
+![alt text](figures/extend.jpg "Effect of expandToFitPeakRegion parameter")
 
 ## Effect of the extendingSize parameter
 
@@ -296,6 +461,9 @@ of `extendingSize` is calculated.
 ``` {r sizeEffect, collapse=TRUE}
 ## Set different values for the extendingSize parameter
 size <- c(1, 10, 50, 100, 300, 500, 750, 1000)
+
+## Only choromsome 10 is going to be analysed
+chrList <- Seqinfo("chr10", 135534747, NA)
 
 ## Find consensus regions using all the size values
 resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
