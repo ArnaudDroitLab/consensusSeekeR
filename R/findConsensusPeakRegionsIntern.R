@@ -132,7 +132,7 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
                 collapse = ", ")))
         } else {
             stop("None of chromosome names present in chrList ",
-                 "is not present in peak")
+                "is not present in peak")
         }
     }
 
@@ -309,7 +309,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                 # Stop loop when the overlaping peaks are stable or
                 # when no peaks is found
                 if (!is.null(set) && (length(set) == length(setNew)) &&
-                        all(set == setNew)) break
+                    all(set == setNew)) break
             }
 
             if (noRegionFound) {

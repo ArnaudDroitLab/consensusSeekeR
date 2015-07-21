@@ -75,9 +75,9 @@ findConsensusPeakRegions(
 \seealso{
 \itemize{
     \item \code{\link{NOrMAL_nucleosome_ranges}} { the associate
-                 genomic ranges dataset.}
+genomic ranges dataset.}
     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-                 sharing nucleosomes from more than one experiment.}
+sharing nucleosomes from more than one experiment.}
 }
 }
 \keyword{datasets}

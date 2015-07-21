@@ -116,8 +116,7 @@ NULL
 #' Sites representing the greatest evidence of enrichment for
 #' the FOSL2 transcription factor (DCC accession: ENCFF002CFN)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
-#' from
-#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
 #' @name A549_FOSL2_01_Peaks_partial
 #'
@@ -191,8 +190,7 @@ NULL
 #' Genomic regions representing the greatest evidence of enrichment for
 #' the FOXA1 transcription factor (DCC accession: TODO)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
-#' from
-#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
 #' @name A549_FOXA1_01_NarrowPeaks_partial
 #'
@@ -264,8 +262,7 @@ NULL
 #' Sites representing the greatest evidence of enrichment for
 #' the FOXA1 transcription factor (DCC accession: TODO)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
-#' from
-#' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+#' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
 #' @name A549_FOXA1_01_Peaks_partial
 #'
@@ -286,9 +283,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_FOXA1_01_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -360,9 +357,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_CTCF_MYJ_Peaks_partial}} { the associate
-#'                  genomic peaks dataset.}
+#' genomic peaks dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -435,9 +432,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_CTCF_MYJ_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -510,9 +507,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_CTCF_MYN_Peaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -585,9 +582,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_CTCF_MYN_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -666,9 +663,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFQ_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -755,9 +752,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFQ_Peaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -836,9 +833,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -917,9 +914,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFR_Peaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1315,8 +1312,8 @@ NULL
 #' @references
 #' \itemize{
 #'     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
-#'     Accurate nucleosome positioning using a modified Gaussian mixture
-#'     model. Bioinformatics 28 (12): 242-49.
+#' Accurate nucleosome positioning using a modified Gaussian mixture
+#' model. Bioinformatics 28 (12): 242-49.
 #' }
 #'
 #' @seealso
@@ -1406,9 +1403,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{NOrMAL_nucleosome_ranges}} { the associate
-#'                  genomic ranges dataset.}
+#' genomic ranges dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1486,17 +1483,16 @@ NULL
 #' @references
 #' \itemize{
 #'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
-#'     Wedemann G. 2013. Modeling nucleosome position distributions from
-#'     experimental nucleosome positioning maps. Bioinformatics 29
-#'     (19): 2380-86.
+#' Wedemann G. 2013. Modeling nucleosome position distributions from
+#' experimental nucleosome positioning maps. Bioinformatics 29 (19): 2380-86.
 #' }
 #'
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{NucPosSimulator_nucleosome_positions}} { the associate
-#'                  genomic positions dataset.}
+#' genomic positions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1571,17 +1567,16 @@ NULL
 #' @references
 #' \itemize{
 #'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
-#'     Wedemann G. 2013. Modeling nucleosome position distributions from
-#'     experimental nucleosome positioning maps. Bioinformatics 29
-#'     (19): 2380-86.
+#' Wedemann G. 2013. Modeling nucleosome position distributions from
+#' experimental nucleosome positioning maps. Bioinformatics 29 (19): 2380-86.
 #' }
 #'
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
-#'                  genomic ranges dataset.}
+#' genomic ranges dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'

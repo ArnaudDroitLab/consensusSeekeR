@@ -15,8 +15,7 @@ data(A549_FOSL2_01_Peaks_partial)
 Sites representing the greatest evidence of enrichment for
 the FOSL2 transcription factor (DCC accession: ENCFF002CFN)
 for regions chr1:249120200-249250621 and chr10:1-370100
-from
-the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
+from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 }
 \examples{
 ## Loading datasets

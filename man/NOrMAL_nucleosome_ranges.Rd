@@ -67,8 +67,8 @@ findConsensusPeakRegions(
 \references{
 \itemize{
     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
-    Accurate nucleosome positioning using a modified Gaussian mixture
-    model. Bioinformatics 28 (12): 242-49.
+Accurate nucleosome positioning using a modified Gaussian mixture
+model. Bioinformatics 28 (12): 242-49.
 }
 }
 \seealso{
