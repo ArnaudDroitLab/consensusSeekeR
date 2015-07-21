@@ -155,7 +155,7 @@ combined with either single-end or paired-end sequencing have evolved as
 popular techniques. Software such as PING [@Woo2013] and NOrMAL
 [@Polishko2012], generates output which contain the position of the
 predicted nucleosomes, which simply are a one pair base position on
-the reference genome. A range of $\pm$ 74 bps is usually superposed to the
+the reference genome. A range of $\pm$ 73 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
 
 First, the `r Rpackage("consensusSeekeR")` package must be loaded.
@@ -165,16 +165,113 @@ library(consensusSeekeR)
 ```
 
 The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
-package, have to be loaded.
+package, have to be loaded. Those include results obtained using syntethic 
+reads distributed following a normal distribution with a variance of 
+20 from three different 
+nucleosome positioning software: PING [@Woo2013], NOrMAL [@Polishko2012] and
+NucPosSimulator [@Schopflin2013]. The genomic ranges have been obtained by
+adding $\pm$ 73 bps to the detected positions. (TODO: PASCAL info sur 
+le chromosome)
 
 ```{r loadingDatasetsNucl}
-## Loading datasets
-data(A549_CTCF_MYN_NarrowPeaks_partial)
-data(A549_CTCF_MYN_Peaks_partial)
-data(A549_CTCF_MYJ_NarrowPeaks_partial)
-data(A549_CTCF_MYJ_Peaks_partial)
+## Loading dataset from NOrMAL
+data(NOrMAL_nucleosome_positions)
+data(NOrMAL_nucleosome_ranges)
+
+## Loading dataset from PING
+data(PING_nucleosome_positions)
+data(PING_nucleosome_ranges)
+
+## Loading dataset from NucPosSimulator
+data(NucPosSimulator_nucleosome_positions)
+data(NucPosSimulator_nucleosome_ranges)
 ```
 
+The metadata field `name` is specific to each software and is incremented to be
+unique. For the positions and ranges dataset from the same software, the `name`
+field is paired to ensure that each position can be associated to a range.
+
+```{r datasetNuc, collapse=TRUE}
+## Each entry for the positions dataset has an equivalent "name" entry in the 
+## ranges dataset
+head(NOrMAL_nucleosome_positions, n = 2)
+head(NOrMAL_nucleosome_ranges, n = 2)
+
+## Entries for each software are unique
+head(NOrMAL_nucleosome_positions, n = 2)
+head(PING_nucleosome_positions, n = 2)
+head(NucPosSimulator_nucleosome_positions, n = 2)
+```
+
+To be able to identify all entries from the same software, each row of the 
+dataset has to be assigned an name. The positions and ranges
+datasets from the same source must be assigned identical row names. In this 
+exemple, datasets are going to be identified by the name of their source 
+software.
+
+```{r nuclAssignment}
+## Assigning software name "NOrMAL" 
+names(NOrMAL_nucleosome_positions) <- rep("NOrMAL",
+                        length(NOrMAL_nucleosome_positions))
+names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+                        length(NOrMAL_nucleosome_ranges))
+
+## Assigning experiment name "PING"
+names(PING_nucleosome_positions) <- rep("PING",
+                        length(PING_nucleosome_positions))
+names(PING_nucleosome_ranges) <- rep("PING",
+                        length(PING_nucleosome_ranges))
+
+## Assigning experiment name "NucPosSimulator"
+names(NucPosSimulator_nucleosome_positions) <- rep("NucPosSimulator",
+                        length(NucPosSimulator_nucleosome_positions))
+names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+                        length(NucPosSimulator_nucleosome_ranges))
+```
+
+The consensus regions for chromosome 1 only are calculated 
+with a defaut region size of 50 bases pairs (2 * `extendingSize`)
+The regions are extended to include all nucleosome regions 
+(`expandToFitPeakRegion` = `TRUE` and `shrinkToFitPeakRegion` = `TRUE`).
+A nucleosome from at least 2 software must be present in a region to be 
+retained as a consensus region.
+
+```{r nuclConsensus, collapse=FALSE}
+## Only choromsome 1 is going to be analysed
+chrList <- Seqinfo("chr1", 135534747, NA)
+
+## Find consensus regions with both replicates inside it
+results <- findConsensusPeakRegions(
+            narrowPeaks = c(NOrMAL_nucleosome_ranges,
+                                PING_nucleosome_ranges,
+                                NucPosSimulator_nucleosome_ranges),
+            peaks = c(NOrMAL_nucleosome_positions,
+                                PING_nucleosome_positions,
+                                NucPosSimulator_nucleosome_positions),
+            chrInfo = chrList,
+            extendingSize = 25,
+            expandToFitPeakRegion = TRUE,
+            shrinkToFitPeakRegion = TRUE,
+            minNbrExp = 2,
+            nbrThreads = 1)
+```
+
+The output of `findConsensusPeakRegions` function is a list containing an 
+object `call` and an object `consensusRanges`. The object `call`  contains the
+matched call while the object `consensusRanges` is a `GRanges` containing the
+consensus regions.
+
+```{r nuclResults, collapse=TRUE}
+## Print the call 
+results$call
+
+## Print the 3 first consensus regions
+head(results$consensusRanges, n = 3)
+```
+
+A total of `r length(results$consensusRanges)` consensus regions have been 
+found. A exemple of the consensus regions (in green) is shown here using 
+Integrative genomics viewer [@Interests2011]:
 
 ## Using consensusSeekeR on ChIP-Seq data
 
@@ -288,7 +385,7 @@ results <- findConsensusPeakRegions(
             nbrThreads = 1)
 ```
 
-The outpout of `findConsensusPeakRegions` function is a list containing an 
+The output of `findConsensusPeakRegions` function is a list containing an 
 object `call` and an object `conesensusRanges`. The object `call`  contains the
 matched call while the object `conesensusRanges` is a `GRanges` containing the
 consensus regions.
@@ -371,8 +468,9 @@ names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS",
 names(A549_NR3C1_CFS_Peaks_partial) <- rep("ENCFF002CFS",
                         length(A549_NR3C1_CFS_Peaks_partial))
 ```
-In ENCODE bed narrowPeak format, each entry doesn't have a specific name 
-associated to it.
+In ENCODE bed narrowPeak format, entries don't have a specific metadata field 
+called `name`. So, to be able to use the `findConsensusPeakRegions` function, 
+specific names must manually be added to each entry.
 
 ```{r rowNames}
 ## Assigning specific name to each entry of to first experiment
@@ -398,7 +496,7 @@ A549_NR3C1_CFS_Peaks_partial$name <- paste0("NR3C1_CFS_region_",
 ```
 
 
-The consensus regions for chromosome 3 only are calculated 
+The consensus regions for chromosome 2 only are calculated 
 with a defaut region size of 400 bases pairs (2 * `extendingSize`)
 The regions are not extended to include all peaks regions but are shrinked
 when exceeding peaks regions
@@ -426,9 +524,9 @@ results <- findConsensusPeakRegions(
             nbrThreads = 1)
 ```
 
-The outpout of `findConsensusPeakRegions` function is a list containing an 
-object `call` and an object `conesensusRanges`. The object `call` contains the
-matched call while the object `conesensusRanges` is a `GRanges` containing the
+The output of `findConsensusPeakRegions` function is a list containing an 
+object `call` and an object `consensusRanges`. The object `call` contains the
+matched call while the object `consensusRanges` is a `GRanges` containing the
 consensus regions.
 
 ```{r experimentResults, collapse=TRUE}
