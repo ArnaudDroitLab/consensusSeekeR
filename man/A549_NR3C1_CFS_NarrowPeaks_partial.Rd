@@ -43,10 +43,8 @@ names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
                               length(A549_NR3C1_CFS_Peaks_partial))
 
 ## Calculating consensus regions for chromosome 2
-## with a default region size of 1000 bp (2 * extendingSize)
-## which is extended to include all genomic regions for the closest
-## peak to the median position of all peaks included in the region (for
-## each experiment).
+## with a default region size of 400 bp (2 * extendingSize).
+## The consensus regions are not resized to fit the narrowPeak regions.
 ## Peaks from both experiments must be present in a region to
 ## be retained as a consensus region.
 chrList <- Seqinfo(c("chr2"), c(243199373), NA)
@@ -56,7 +54,7 @@ findConsensusPeakRegions(
     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
                         A549_NR3C1_CFS_Peaks_partial),
     chrInfo = chrList,
-    extendingSize = 500,
+    extendingSize = 200,
     expandToFitPeakRegion = FALSE,
     shrinkToFitPeakRegion = FALSE,
     minNbrExp = 2,
@@ -71,9 +69,9 @@ of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 \seealso{
 \itemize{
     \item \code{\link{A549_NR3C1_CFS_Peaks_partial}} { the associate
-                 genomic regions dataset.}
+genomic regions dataset.}
     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-                 sharing the same features in more than one experiment.}
+sharing the same features in more than one experiment.}
 }
 }
 \keyword{datasets}

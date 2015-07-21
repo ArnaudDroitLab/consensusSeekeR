@@ -997,9 +997,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFS_NarrowPeaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1024,10 +1024,8 @@ NULL
 #'                               length(A549_NR3C1_CFS_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 2
-#' ## with a default region size of 80 bp (2 * extendingSize)
-#' ## which is extended to include all genomic regions for the closest
-#' ## peak to the median position of all peaks included in the region (for
-#' ## each experiment).
+#' ## with a default region size of 80 bp (2 * extendingSize).
+#' ## The consensus regions are not resized to fit the narrowPeak regions.
 #' ## Peaks from both experiments must be present in a region to
 #' ## be retained as a consensus region.
 #' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
@@ -1078,9 +1076,9 @@ NULL
 #' @seealso
 #' \itemize{
 #'     \item \code{\link{A549_NR3C1_CFS_Peaks_partial}} { the associate
-#'                  genomic regions dataset.}
+#' genomic regions dataset.}
 #'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing the same features in more than one experiment.}
+#' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1105,10 +1103,8 @@ NULL
 #'                               length(A549_NR3C1_CFS_Peaks_partial))
 #'
 #' ## Calculating consensus regions for chromosome 2
-#' ## with a default region size of 1000 bp (2 * extendingSize)
-#' ## which is extended to include all genomic regions for the closest
-#' ## peak to the median position of all peaks included in the region (for
-#' ## each experiment).
+#' ## with a default region size of 400 bp (2 * extendingSize).
+#' ## The consensus regions are not resized to fit the narrowPeak regions.
 #' ## Peaks from both experiments must be present in a region to
 #' ## be retained as a consensus region.
 #' chrList <- Seqinfo(c("chr2"), c(243199373), NA)
@@ -1118,10 +1114,524 @@ NULL
 #'     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
 #'                         A549_NR3C1_CFS_Peaks_partial),
 #'     chrInfo = chrList,
-#'     extendingSize = 500,
+#'     extendingSize = 200,
 #'     expandToFitPeakRegion = FALSE,
 #'     shrinkToFitPeakRegion = FALSE,
 #'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Ranges associated to nucleosomes detected by the PING software using
+#' syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Ranges associated to nucleosomes detected by the PING software using
+#' syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name PING_nucleosome_ranges
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The ranges are surronding the nucleosomes present in the dataset
+#' \code{PING_nucleosome_positions}. The genomic ranges have been obtained by
+#' adding  73 bps on both sides of the detected positions.
+#'
+#' @usage data(PING_nucleosome_ranges)
+#'
+#' @references
+#' \itemize{
+#'     \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
+#'     PING 2.0: An R/Bioconductor package for nucleosome positioning using
+#'     next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{PING_nucleosome_positions}} { the associate
+#'                  genomic positions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 20 bp (2 * extendingSize).
+#' ## which is not extended to include all genomic regions for the closest
+#' ## peak to the median position of all peaks included in the region (for
+#' ## each experiment).
+#' ## Nucleosomes from at least 2 software must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 10,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Nucleosome positions detected by the PING software using
+#' syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Nucleosome positions detected by the PING software using
+#' syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name PING_nucleosome_positions
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The surronding ranges associated to those nucleosomes are in
+#' the dataset \code{PING_nucleosome_positions}.
+#'
+#' @usage data(PING_nucleosome_positions)
+#'
+#' @references
+#' \itemize{
+#'     \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
+#'     PING 2.0: An R/Bioconductor package for nucleosome positioning using
+#'     next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{PING_nucleosome_ranges}} { the associate
+#'                  genomic ranges dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 20 bp (2 * extendingSize).
+#' ## The consensus regions are not resized to fit genomic ranges of the
+#' ## included nucleosomes.
+#' ## Nucleosomes from at least 2 software must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 10,
+#'     expandToFitPeakRegion = FALSE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 3,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Ranges associated to nucleosomes detected by the NOrMAL software using
+#' syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Ranges associated to nucleosomes detected by the NOrMAL software using
+#' syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name NOrMAL_nucleosome_ranges
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The ranges are surronding the nucleosomes present in the dataset
+#' \code{NOrMAL_nucleosome_positions}. The genomic ranges have been obtained by
+#' adding 73 bps on each side of the detected positions.
+#'
+#' @usage data(NOrMAL_nucleosome_ranges)
+#'
+#' @references
+#' \itemize{
+#'     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
+#'     Accurate nucleosome positioning using a modified Gaussian mixture
+#'     model. Bioinformatics 28 (12): 242-49.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{NOrMAL_nucleosome_positions}} { the associate
+#'                  genomic positions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 30 bp (2 * extendingSize).
+#' ## Consensus regions are resized to include all genomic regions of
+#' ## included nucleosomes.
+#' ## Nucleosomes from at least 2 software must be present
+#' ## in a region to be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 15,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = TRUE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Nucleosome positions detected by the NOrMAL software using
+#' syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Nucleosome positions detected by the NOrMAL software using
+#' syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name NOrMAL_nucleosome_positions
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The surronding ranges associated to those nucleosomes are in
+#' the dataset \code{NOrMAL_nucleosome_ranges}.
+#'
+#' @usage data(NOrMAL_nucleosome_positions)
+#'
+#' @references
+#' \itemize{
+#'     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
+#'     Accurate nucleosome positioning using a modified Gaussian mixture
+#'     model. Bioinformatics 28 (12): 242-49.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{NOrMAL_nucleosome_ranges}} { the associate
+#'                  genomic ranges dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 40 bp (2 * extendingSize).
+#' ## The consensus regions are extended to include all genomic regions for
+#' ## all nucleosomes. However, if the consensus regions are larger than the
+#' ## genomic regions of the nucleosomes, the consensus regions are not
+#' ## shrinked.
+#' ## Nucleosomes from all software must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 20,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 3,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Ranges associated to nucleosomes detected by the NucPosSimulator software
+#' using syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Ranges associated to nucleosomes detected by the NucPosSimulator software
+#' using syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name NucPosSimulator_nucleosome_ranges
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The ranges are surronding the nucleosomes present in the dataset
+#' \code{NucPosSimulator_nucleosome_positions}. The genomic ranges have been
+#' obtained by adding 73 bps on each side of the detected positions.
+#'
+#' @usage data(NucPosSimulator_nucleosome_ranges)
+#'
+#' @references
+#' \itemize{
+#'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
+#'     Wedemann G. 2013. Modeling nucleosome position distributions from
+#'     experimental nucleosome positioning maps. Bioinformatics 29
+#'     (19): 2380-86.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{NucPosSimulator_nucleosome_positions}} { the associate
+#'                  genomic positions dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 60 bp (2 * extendingSize).
+#' ## Consensus regions are resized to include all genomic regions of
+#' ## included nucleosomes.
+#' ## Nucleosomes from at least 2 software must be present
+#' ## in a region to be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 30,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = TRUE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
+#'
+NULL
+
+
+#' Nucleosome positions detected by the NucPosSimulator software using
+#' syntetic reads generated using a normal distribution.
+#' For demonstration purpose.
+#'
+#' Nucleosome positions detected by the NucPosSimulator software using
+#' syntetic reads generated using a normal distribution with a variance
+#' of 20 for regions chr1:10000-15000.
+#'
+#' @name NucPosSimulator_nucleosome_positions
+#'
+#' @docType data
+#'
+#' @format A \code{GRanges} containing one entry per detected
+#' nucleosome. The surronding ranges associated to those nucleosomes are in
+#' the dataset \code{NucPosSimulator_nucleosome_ranges}.
+#'
+#' @usage data(NucPosSimulator_nucleosome_positions)
+#'
+#' @references
+#' \itemize{
+#'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
+#'     Wedemann G. 2013. Modeling nucleosome position distributions from
+#'     experimental nucleosome positioning maps. Bioinformatics 29
+#'     (19): 2380-86.
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'     \item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
+#'                  genomic ranges dataset.}
+#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#'                  sharing nucleosomes from more than one experiment.}
+#' }
+#' @keywords datasets
+#'
+#' @examples
+#'
+#' ## Loading datasets
+#' data(PING_nucleosome_positions)
+#' data(PING_nucleosome_ranges)
+#' data(NOrMAL_nucleosome_positions)
+#' data(NOrMAL_nucleosome_ranges)
+#' data(NucPosSimulator_nucleosome_positions)
+#' data(NucPosSimulator_nucleosome_ranges)
+#'
+#' ## Assigning experiment name to each row of the dataset.
+#' ## Position and range datasets from the same sofware must
+#' ## have identical names.
+#' names(PING_nucleosome_positions) <- rep("PING",
+#'                               length(PING_nucleosome_positions))
+#' names(PING_nucleosome_ranges) <- rep("PING",
+#'                               length(PING_nucleosome_ranges))
+#' names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_positions))
+#' names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
+#'                               length(NOrMAL_nucleosome_ranges))
+#' names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_positions))
+#' names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
+#'                               length(NucPosSimulator_nucleosome_ranges))
+#'
+#' ## Calculating consensus regions for chromosome 1
+#' ## with a default region size of 50 bp (2 * extendingSize).
+#' ## The consensus regions are extended to include all genomic regions for
+#' ## all nucleosomes. However, if the consensus regions are larger than the
+#' ## genomic regions of the nucleosomes, the consensus regions are not
+#' ## shrinked.
+#' ## Nucleosomes from all software must be present in a region to
+#' ## be retained as a consensus region.
+#' chrList <- Seqinfo(c("chr1"), c(249250621), NA)
+#' findConsensusPeakRegions(
+#'     narrowPeaks = c(PING_nucleosome_ranges,
+#'                         NOrMAL_nucleosome_ranges,
+#'                         NucPosSimulator_nucleosome_ranges),
+#'     peaks = c(PING_nucleosome_positions,
+#'                         NOrMAL_nucleosome_positions,
+#'                         NucPosSimulator_nucleosome_positions),
+#'     chrInfo = chrList,
+#'     extendingSize = 25,
+#'     expandToFitPeakRegion = TRUE,
+#'     shrinkToFitPeakRegion = FALSE,
+#'     minNbrExp = 3,
 #'     nbrThreads = 1)
 #'
 NULL

@@ -43,10 +43,8 @@ names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
                               length(A549_NR3C1_CFS_Peaks_partial))
 
 ## Calculating consensus regions for chromosome 2
-## with a default region size of 80 bp (2 * extendingSize)
-## which is extended to include all genomic regions for the closest
-## peak to the median position of all peaks included in the region (for
-## each experiment).
+## with a default region size of 80 bp (2 * extendingSize).
+## The consensus regions are not resized to fit the narrowPeak regions.
 ## Peaks from both experiments must be present in a region to
 ## be retained as a consensus region.
 chrList <- Seqinfo(c("chr2"), c(243199373), NA)
