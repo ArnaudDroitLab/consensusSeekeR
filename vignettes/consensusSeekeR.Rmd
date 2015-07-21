@@ -78,9 +78,9 @@ identify the consensus regions.
 The `r Rpackage("consensusSeekeR")` package implements a novative way to 
 identify consensus 
 ranges in a group of experiments which generated position values
-surrounded by genomic ranges. The `consensusSeekeR` package is characterized 
-by its use of the position values, instead of the genomic ranges, to identify
-the consensus regions.
+surrounded by genomic ranges. The `r Rpackage("consensusSeekeR")` package is 
+characterized by its use of the position values, instead of the genomic 
+ranges, to identify the consensus regions.
 
 Using iterative steps on ordered features position values from all experiments, 
 a window of fixed size (specified by user) with the current feature position 
@@ -131,10 +131,35 @@ an unique metadata field called `name`. Each row of the `GRanges` must be named
 to identify by the experiment source.
 
 Each feature must have one entry in both `GRanges`. The metadata field `name` 
-is used to associate the feature position to its range. Each row of both 
-`GRanges` must also be named to using tag that allow the differenciation of 
-the experiment sources.
+is used to associate the feature position to its range. 
 
+Each row of both 
+`GRanges` must also be named using tag that allow the differenciation of 
+the experiment sources. This time, all entries from the same experiment must
+assigned the same name.
+
+This is an example of a dataset which metadata field `name` has been removed. 
+A metadata field `name` can easily be created. Row names can be also easily be
+assigned.
+
+```{r input, collapse=TRUE}
+## Load dataset
+data(A549_FOSL2_01_NarrowPeaks_partial)
+
+## Remove dataset metadata field "name"
+A549_FOSL2_01_NarrowPeaks_partial$name = NULL
+
+## Create a new metadata field "name" unique to each entry
+A549_FOSL2_01_NarrowPeaks_partial$name = paste0("A549_FOSL2_01_entry_", 
+                                1:length(A549_FOSL2_01_NarrowPeaks_partial))
+
+## Assing the same row name to each entry
+names(A549_FOSL2_01_NarrowPeaks_partial) = rep("A549_FOSL2", 
+                                length(A549_FOSL2_01_NarrowPeaks_partial))
+
+## Final result
+head(A549_FOSL2_01_NarrowPeaks_partial, n = 4)
+```
 
 ## Using consensusSeekeR on nucleosome positions   
 
@@ -273,6 +298,8 @@ A total of `r length(results$consensusRanges)` consensus regions have been
 found. A exemple of the consensus regions (in green) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
+TODO ASTRID
+
 ## Using consensusSeekeR on ChIP-Seq data
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
@@ -307,9 +334,9 @@ However, it is quite unlikely that the exact peak position is exactly the same
 across replicates. Even more, there is not yet a consent on how to analyze 
 multiple-replicate ChIP-seq samples [@Yang2014].
 
-The `consensusSeekeR` package can be used to identify consensus regions for
-two or more replicates ChIP-Seq samples. The consensus regions are being found 
-by using the peak positions.
+The `r Rpackage("consensusSeekeR")` package can be used to identify consensus 
+regions for two or more replicates ChIP-Seq samples. The consensus regions 
+are being found by using the peak positions.
 
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
@@ -407,9 +434,9 @@ Integrative genomics viewer [@Interests2011]:
 
 ### ChIP-Seq data from multiple experiments
 
-The `consensusSeekeR` package can also be used to identify consensus regions 
-for two or more ChIP-Seq samples from multiple experiments. The peak positions
-are the feature used to identify the consensus regions.
+The `r Rpackage("consensusSeekeR")` package can also be used to identify 
+consensus regions for two or more ChIP-Seq samples from multiple experiments. 
+The peak positions are the feature used to identify the consensus regions.
 
 The transcription factor binding for the NR3C1 transcription factor have been
 analyzed in more than one experiments. For each experiment, replicates have 
