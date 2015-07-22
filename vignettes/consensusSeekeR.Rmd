@@ -139,8 +139,8 @@ the experiment sources. This time, all entries from the same experiment must
 assigned the same name.
 
 This is an example of a dataset which metadata field `name` has been removed. 
-A metadata field `name` can easily be created. Row names can be also easily be
-assigned.
+As shown bellow, a metadata field `name` can easily be created. Row names can 
+be also easily be assigned.
 
 ```{r input, collapse=TRUE}
 ## Load dataset
