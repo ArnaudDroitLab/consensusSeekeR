@@ -1,2 +1,2 @@
-## Run all tests presnt in the package
+## Run all tests present in the package
 BiocGenerics:::testPackage("consensusSeekeR")
