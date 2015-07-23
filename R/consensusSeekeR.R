@@ -1,4 +1,4 @@
-      #' consensusSeekeR: Detection of consensus peak regions inside a group of
+#' consensusSeekeR: Detection of consensus peak regions inside a group of
 #' experiments using narrowPeak files
 #'
 #' This package compares narrowPeak data from multiple experiments to extract
