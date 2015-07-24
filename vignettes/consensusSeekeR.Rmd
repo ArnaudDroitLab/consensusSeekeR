@@ -1,5 +1,7 @@
 ---
 title: "Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges"
+author: Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit 
+date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
   BiocStyle::html_document:
     toc: true
@@ -16,10 +18,6 @@ BiocStyle::markdown()
 ```
 
 <br />
-
-Authors: Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau 
-and Arnaud Droit <br />
-
 
 ## Licensing
 
