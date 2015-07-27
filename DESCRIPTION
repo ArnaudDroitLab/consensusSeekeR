@@ -36,6 +36,6 @@ BugReports: https://github.com/adeschen/consensusSeekeR/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
 biocViews: BiologicalQuestion, ChIPSeq, Genetics, MultipleComparison,
-    Transcription, PeakDetection
+    Transcription, PeakDetection, Sequencing, Coverage
 Maintainer: Astrid Louise Deschenes
     <Astrid-Louise.Deschenes@crchudequebec.ulaval.ca>
