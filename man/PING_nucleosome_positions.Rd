@@ -65,17 +65,17 @@ findConsensusPeakRegions(
 }
 \references{
 \itemize{
-    \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
-    PING 2.0: An R/Bioconductor package for nucleosome positioning using
-    next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
+\item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
+PING 2.0: An R/Bioconductor package for nucleosome positioning using
+next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
 }
 }
 \seealso{
 \itemize{
-    \item \code{\link{PING_nucleosome_ranges}} { the associate
-                 genomic ranges dataset.}
-    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-                 sharing nucleosomes from more than one experiment.}
+\item \code{\link{PING_nucleosome_ranges}} { the associate
+genomic ranges dataset.}
+\item \code{\link{findConsensusPeakRegions}} {for extracting regions
+sharing nucleosomes from more than one experiment.}
 }
 }
 \keyword{datasets}

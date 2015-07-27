@@ -67,16 +67,16 @@ findConsensusPeakRegions(
 }
 \references{
 \itemize{
-    \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
+\item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
 Wedemann G. 2013. Modeling nucleosome position distributions from
 experimental nucleosome positioning maps. Bioinformatics 29 (19): 2380-86.
 }
 }
 \seealso{
 \itemize{
-    \item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
+\item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
 genomic ranges dataset.}
-    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+\item \code{\link{findConsensusPeakRegions}} {for extracting regions
 sharing nucleosomes from more than one experiment.}
 }
 }

@@ -22,9 +22,9 @@
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
+#' \item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
 #' from a narrowPeak file.}
-#'     \item \code{\link{findConsensusPeakRegions}} { for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} { for extracting regions
 #' sharing the same features in more than one experiment. }
 #' }
 #'
@@ -54,15 +54,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'      \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_FOSL2_01_Peaks_partial}} { the associate
+#' \item \code{\link{A549_FOSL2_01_Peaks_partial}} { the associate
 #' sites dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #'
@@ -130,15 +130,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_FOSL2_01_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_FOSL2_01_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -203,15 +203,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_FOXA1_01_Peaks_partial}} { the associate
+#' \item \code{\link{A549_FOXA1_01_Peaks_partial}} { the associate
 #' sites dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #'
@@ -276,15 +276,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_FOXA1_01_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_FOXA1_01_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -350,15 +350,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_CTCF_MYJ_Peaks_partial}} { the associate
+#' \item \code{\link{A549_CTCF_MYJ_Peaks_partial}} { the associate
 #' genomic peaks dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -425,15 +425,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_CTCF_MYJ_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_CTCF_MYJ_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -500,15 +500,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_CTCF_MYN_Peaks_partial}} { the associate
+#' \item \code{\link{A549_CTCF_MYN_Peaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -575,15 +575,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_CTCF_MYN_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_CTCF_MYN_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -662,9 +662,9 @@ NULL
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFQ_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFQ_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -745,15 +745,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFQ_Peaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFQ_Peaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -826,15 +826,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -907,15 +907,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFR_Peaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFR_Peaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -987,15 +987,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFS_NarrowPeaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFS_NarrowPeaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -1066,15 +1066,15 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+#' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 #' of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{A549_NR3C1_CFS_Peaks_partial}} { the associate
+#' \item \code{\link{A549_NR3C1_CFS_Peaks_partial}} { the associate
 #' genomic regions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing the same features in more than one experiment.}
 #' }
 #' @keywords datasets
@@ -1141,17 +1141,17 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
-#'     PING 2.0: An R/Bioconductor package for nucleosome positioning using
-#'     next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
+#' \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
+#' PING 2.0: An R/Bioconductor package for nucleosome positioning using
+#' next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{PING_nucleosome_positions}} { the associate
-#'                  genomic positions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' \item \code{\link{PING_nucleosome_positions}} { the associate
+#' genomic positions dataset.}
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1226,17 +1226,17 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
-#'     PING 2.0: An R/Bioconductor package for nucleosome positioning using
-#'     next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
+#' \item Sangsoon W, Zhang X, Sauteraud R, Robert F and Gottardo R. 2013.
+#' PING 2.0: An R/Bioconductor package for nucleosome positioning using
+#' next-generation sequencing data. Bioinformatics 29 (16): 2049-50.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{PING_nucleosome_ranges}} { the associate
-#'                  genomic ranges dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' \item \code{\link{PING_nucleosome_ranges}} { the associate
+#' genomic ranges dataset.}
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1311,17 +1311,17 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
+#' \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
 #' Accurate nucleosome positioning using a modified Gaussian mixture
 #' model. Bioinformatics 28 (12): 242-49.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{NOrMAL_nucleosome_positions}} { the associate
-#'                  genomic positions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
-#'                  sharing nucleosomes from more than one experiment.}
+#' \item \code{\link{NOrMAL_nucleosome_positions}} { the associate
+#' genomic positions dataset.}
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
 #'
@@ -1395,16 +1395,16 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
-#'     Accurate nucleosome positioning using a modified Gaussian mixture
-#'     model. Bioinformatics 28 (12): 242-49.
+#' \item Polishko A, Ponts N, Le Roch KG and Lonardi S. 2012. NOrMAL:
+#' Accurate nucleosome positioning using a modified Gaussian mixture
+#' model. Bioinformatics 28 (12): 242-49.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{NOrMAL_nucleosome_ranges}} { the associate
+#' \item \code{\link{NOrMAL_nucleosome_ranges}} { the associate
 #' genomic ranges dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
@@ -1482,16 +1482,16 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
+#' \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
 #' Wedemann G. 2013. Modeling nucleosome position distributions from
 #' experimental nucleosome positioning maps. Bioinformatics 29 (19): 2380-86.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{NucPosSimulator_nucleosome_positions}} { the associate
+#' \item \code{\link{NucPosSimulator_nucleosome_positions}} { the associate
 #' genomic positions dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets
@@ -1566,16 +1566,16 @@ NULL
 #'
 #' @references
 #' \itemize{
-#'     \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
+#' \item Sch&ouml;pflin R, Teif VB, M&uuml;ller O, Weinberg C, Rippe K, and
 #' Wedemann G. 2013. Modeling nucleosome position distributions from
 #' experimental nucleosome positioning maps. Bioinformatics 29 (19): 2380-86.
 #' }
 #'
 #' @seealso
 #' \itemize{
-#'     \item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
+#' \item \code{\link{NucPosSimulator_nucleosome_ranges}} { the associate
 #' genomic ranges dataset.}
-#'     \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+#' \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 #' sharing nucleosomes from more than one experiment.}
 #' }
 #' @keywords datasets

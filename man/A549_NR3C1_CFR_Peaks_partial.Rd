@@ -64,15 +64,15 @@ findConsensusPeakRegions(
 }
 \references{
 \itemize{
-    \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
+\item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
 of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 }
 }
 \seealso{
 \itemize{
-    \item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
+\item \code{\link{A549_NR3C1_CFR_NarrowPeaks_partial}} { the associate
 genomic regions dataset.}
-    \item \code{\link{findConsensusPeakRegions}} {for extracting regions
+\item \code{\link{findConsensusPeakRegions}} {for extracting regions
 sharing the same features in more than one experiment.}
 }
 }
