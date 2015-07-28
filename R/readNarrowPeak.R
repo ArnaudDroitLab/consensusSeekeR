@@ -29,9 +29,9 @@
 #' @examples
 #'
 #' ## Set file information
-#' test_path <- system.file("tests", package = "consensusSeeker")
-#' test_narrowPeak <- file.path(test_path,
-#'     "A549_FOSL2_ENCSR000BQO_MZW_part_chr_1_and_12.narrowPeak")
+#'test_narrowPeak <- system.file("extdata",
+#'              "A549_FOSL2_ENCSR000BQO_MZW_part_chr_1_and_12.narrowPeak",
+#'              package = "consensusSeekeR")
 #'
 #' ## Read file to extract peaks and regions
 #' data <- readNarrowPeakFile(test_narrowPeak, extractRegions = TRUE,
