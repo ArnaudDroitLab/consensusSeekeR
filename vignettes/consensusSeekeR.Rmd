@@ -1,5 +1,5 @@
 ---
-title: "Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges"
+title: "Detection of consensus regions inside a group of experiments using genomic positions and genomic ranges"
 author: Astrid Louise Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit 
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
@@ -35,13 +35,13 @@ occupying either a range of
 positions or a single position on the sequence. Genomic related data 
 integration is made possible by treating the data as 
 ranges on the genome, which acts as a common scaffold [@Lawrence2013]. 
-Bioconductor as developed an infrastructure, including packages such as 
+Bioconductor has developed an infrastructure, including packages such as 
 `r Biocpkg("GenomicRanges")`,  `r Biocpkg("IRanges")` and 
 `r Biocpkg("GenomicFeatures")`, which facilitate 
 the integrative statistical analysis of range-based genomic data.
 
-Ranges play a fundamental role in the analysis of diffent experimental genomic 
-data. As 
+Ranges format is a convenient way for the analysis of diffent experimental 
+genomic data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, commonly
 generates narrow peaks outputs. The NarrowPeak format, wich is used by the 
 ENCODE project [@Dunham2012a], 
@@ -51,7 +51,7 @@ data, is based on counting the alignments overlapping exons.  Those exons can
 easily be translated as genomic ranges.
 
 In genomic analysis where feature identification generate a position value 
-surrounded by a genomic range, such as in ChIP-Seq and nucleosome postioning, 
+surrounded by a genomic range, such as ChIP-Seq peaks and nucleosome postions, 
 the replication of an experiment may result in slight differences between 
 predicted values. Conciliation of the results can be difficult, especially 
 when many replicates are done.
@@ -68,8 +68,8 @@ identify consensus
 ranges in a group of experiments which generated feature positions
 surrounded by a genomic ranges. The `r Rpackage("consensusSeekeR")` package 
 is characterized 
-by the use of the features positions, instead of genomic ranges, to 
-identify the consensus regions.
+by the use of the features positions, instead of the most commonly used 
+genomic ranges, to identify the consensus regions.
 
 ## The consensusSeekeR package
 
@@ -91,17 +91,17 @@ feature position. An
 update of the features located inside the window is done and the 
 median feature position is recalculated. This step is repeated up to the 
 moment that 
-the set of features become stable. The final set of features positions is
-used to fix
+the set of features stay the same between two iterations. 
+The final set of features positions is used to fix
 the central position of the consensus region. This final 
 region must respect the minimum number of experiments with at least one 
-feature inside it to be retained as an final consensus region. The minimum 
+feature inside it to be retained as a final consensus region. The minimum 
 number of experiments is set by the user. At last, the consensus region can be
 extended or/and shrinked to fit the regions associated to the position values 
 present inside. If new features positions are added during the consensus 
-region resizing, the iterative steps are not reprocessed. So, it is possible 
+region resizing, the iterative steps are not reprocessed. It is possible 
 that the extension step adds new features in the extended consensus region. 
-However, those new features ranges won't be taked into account during the
+However, those new features ranges won't be taken into account during the
 extension step.
 
 
@@ -121,10 +121,10 @@ The main function of the `r Rpackage("consensusSeekeR")` is
 `findConsensusPeakRegions`. The mains inputs of the `findConsensusPeakRegions` 
 function are:
 
-* a `GRanges` of the feature positions of all experiments. All entry must have
+* a `GRanges` of the feature `positions` of all experiments. All entry must have
 an unique metadata field called `name`. Each row of the `GRanges` must be named
 to identify by the experiment source.
-* a `GRanges` of the feature ranges for all experiments. All entry must have
+* a `GRanges` of the feature `ranges` for all experiments. All entry must have
 an unique metadata field called `name`. Each row of the `GRanges` must be named
 to identify by the experiment source.
 
@@ -293,7 +293,7 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. A exemple of the consensus regions (in green) is shown here using 
+found. An exemple of the consensus regions (in green) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
 TODO ASTRID
@@ -312,9 +312,9 @@ constantly upgrading, a set of standards and guidelines for ChIP experiments
 ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
 DNA sequencing. The
 obtained sequence reads are first mapped to the reference genome of the 
-organism used in the experiments. Bindind sites are them dectected by using
-software specialized in transcript factor binding sites identification, such 
-MACS [@Zhang2008] and PeakRanger [@Feng2011]. Peaks
+organism used in the experiments. Bindind sites are then dectected by using
+software specialized in transcript factor binding sites identification, such as
+MACS2 [@Zhang2008] and PeakRanger [@Feng2011]. Peaks
 are defined as a single base pair position.
 
 ### ChIP-Seq replicates from one experiment
@@ -471,7 +471,7 @@ has to be assigned an experiment name. Beware that NarrowPeak and Peak
 datasets from the same source must be assigned identical names. In this 
 exemple, datasets are coming from different experiments for the same 
 transcription factor. So, the shorten names of each experiment 
-"ENCFF002CFQ", "ENCFF002CFR" ans "ENCFF002CFS" are going to be 
+"ENCFF002CFQ", "ENCFF002CFR" and "ENCFF002CFS" are going to be 
 assigned to each dataset.
 
 ```{r expAssignment}
@@ -563,7 +563,7 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. A exemple of the consensus regions (in green) is shown here using 
+found. A example of the consensus regions (in green) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
 ![alt text](figures/NR3C1_exp.jpg "ChIP-Seq data from multiple experiments")
