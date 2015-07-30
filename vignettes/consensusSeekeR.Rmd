@@ -55,8 +55,9 @@ the replication of an experiment may result in slight differences between
 predicted values. Conciliation of the results can be difficult, especially 
 when many replicates are done.
 
-One current approach used to identify consensus in a group of results consist 
-of extracting the overlapping regions of the genomic ranges. This approach, 
+One current approach used to identify consensus regions in a group of 
+results consist of extracting the overlapping regions of the genomic 
+ranges. This approach, 
 when use on a large number of experiments, can miss, as a side effect, regions 
 when one of the experiment has missing or slightly shift features. On the 
 other hand, the use of the union of the regions can result in wide 
@@ -120,42 +121,50 @@ The main function of the `r Rpackage("consensusSeekeR")` is
 `findConsensusPeakRegions`. The mains inputs of the `findConsensusPeakRegions` 
 function are:
 
-* a `GRanges` of the feature `positions` of all experiments. All entry must have
-an unique metadata field called `name`. Each row of the `GRanges` must be named
-to identify by the experiment source.
-* a `GRanges` of the feature `ranges` for all experiments. All entry must have
-an unique metadata field called `name`. Each row of the `GRanges` must be named
-to identify by the experiment source.
+* a `GRanges` of the feature `positions` of all experiments with a 
+metadata field called `name`. 
+* a `GRanges` of the feature `ranges` for all experimentsw ith a metadata 
+field called `name`. 
 
-Each feature must have one entry in both `GRanges`. The metadata field `name` 
-is used to associate the feature position to its range. 
 
-Each row of both 
-`GRanges` must also be named using tag that allow the differenciation of 
-the experiment sources. This time, all entries from the same experiment must
-assigned the same name.
+Both inputs must satified those conditions:
 
-This is an example of a dataset which metadata field `name` has been removed. 
-As shown bellow, a metadata field `name` can easily be created. Row names can 
-be also easily be assigned.
+* All rows of each `GRanges` must be named by the experiment source. All 
+entries from the same experiment must assigned the same name.
+* Each feature must have one entry in both `GRanges`. The metadata 
+field  `name` is used to associate the feature position to its range. 
 
-```{r input, collapse=TRUE}
+This is an example showing how a metadata field `name` can easily 
+be created. Row names can be also easily be assigned.
+
+```{r input, echo=FALSE}
 ## Load dataset
 data(A549_FOSL2_01_NarrowPeaks_partial)
 
 ## Remove dataset metadata field "name"
 A549_FOSL2_01_NarrowPeaks_partial$name = NULL
+A549_FOSL2_01_NarrowPeaks_partial$score = NULL
+A549_FOSL2_01_NarrowPeaks_partial$qValue = NULL
+A549_FOSL2_01_NarrowPeaks_partial$pValue = NULL
+A549_FOSL2_01_NarrowPeaks_partial$signalValue = NULL
+A549_FOSL2_01_NarrowPeaks_partial$peak = NULL
+```
+
+```{r setName, collapse=TRUE}
+
+## Initial dataset
+head(A549_FOSL2_01_NarrowPeaks_partial, n = 3)
 
 ## Create a new metadata field "name" unique to each entry
-A549_FOSL2_01_NarrowPeaks_partial$name = paste0("A549_FOSL2_01_entry_", 
+A549_FOSL2_01_NarrowPeaks_partial$name = paste0("FOSL2_01_entry_", 
                                 1:length(A549_FOSL2_01_NarrowPeaks_partial))
 
 ## Assing the same row name to each entry
-names(A549_FOSL2_01_NarrowPeaks_partial) = rep("A549_FOSL2", 
+names(A549_FOSL2_01_NarrowPeaks_partial) = rep("FOSL2_01", 
                                 length(A549_FOSL2_01_NarrowPeaks_partial))
 
-## Final result
-head(A549_FOSL2_01_NarrowPeaks_partial, n = 4)
+## Final dataset with metadata field 'name' and row names
+head(A549_FOSL2_01_NarrowPeaks_partial, n = 3)
 ```
 
 ## Case study: nucleosome positioning
@@ -567,8 +576,9 @@ Integrative genomics viewer [@Interests2011]:
 
 ![alt text](figures/NR3C1_exp.jpg "ChIP-Seq data from multiple experiments")
 
+## Parameters
 
-## Effect of the shrinkToFitPeakRegion parameter
+### Effect of the shrinkToFitPeakRegion parameter
 
 The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
 the minimum and maximum regions of the included features when those values are
@@ -583,7 +593,7 @@ genomics viewer [@Interests2011]:
 ![alt text](figures/shrink.jpg "Effect of shrinkToFitPeakRegion parameter")
 
 
-## Effect of the expandToFitPeakRegion parameter
+### Effect of the expandToFitPeakRegion parameter
 
 The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
 the maximum and minimum regions of the included features when those values are
@@ -596,7 +606,7 @@ to `FALSE` (orange color) and to `TRUE` (green color).
 
 ![alt text](figures/extend.jpg "Effect of expandToFitPeakRegion parameter")
 
-## Effect of the extendingSize parameter
+### Effect of the extendingSize parameter
 
 The value of the `extendingSize` parameter can affect the final number of 
 consensus regions. While small `extendingSize` value can miss some regions, 
