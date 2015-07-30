@@ -28,8 +28,7 @@ redistribute this software.
 
 ## Introduction
 
-The genome is commonly represented as a linear sequence, split up in 
-multiple chromosomes. Genome data, such as genes, nucleosomes or 
+Genome data, such as genes, nucleosomes or 
 single-nucleotide polymorphisms (SNPs) are linked to the genome by 
 occupying either a range of 
 positions or a single position on the sequence. Genomic related data 
@@ -159,7 +158,7 @@ names(A549_FOSL2_01_NarrowPeaks_partial) = rep("A549_FOSL2",
 head(A549_FOSL2_01_NarrowPeaks_partial, n = 4)
 ```
 
-## Using consensusSeekeR on nucleosome positions   
+## Case study: nucleosome positioning
 
 Global gene expression patterns are established and maintained by the 
 concerted actions of Transcription Factors (TFs) and the proteins that 
@@ -298,7 +297,7 @@ Integrative genomics viewer [@Interests2011]:
 
 TODO ASTRID
 
-## Using consensusSeekeR on ChIP-Seq data
+## Case study: ChIP-Seq data
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
 (ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
@@ -663,6 +662,10 @@ the `nbrThreads` parameter in the `findConsensusPeakRegions` function.
 However, Windows does not support multicore evaluation.
 
 
+## Acknowledgment
+
+We thank Imène Boudaoud for her advices on the vignette content.
+ 
 ## Session info
 
 Here is the output of `sessionInfo()` on the system on which this document was 
