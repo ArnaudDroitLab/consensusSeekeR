@@ -33,7 +33,7 @@ single-nucleotide polymorphisms (SNPs) are linked to the genome by
 occupying either a range of 
 positions or a single position on the sequence. Genomic related data 
 integration is made possible by treating the data as 
-ranges on the genome, which acts as a common scaffold [@Lawrence2013]. 
+ranges on the genome [@Lawrence2013]. 
 Bioconductor has developed an infrastructure, including packages such as 
 `r Biocpkg("GenomicRanges")`,  `r Biocpkg("IRanges")` and 
 `r Biocpkg("GenomicFeatures")`, which facilitate 
@@ -42,24 +42,22 @@ the integrative statistical analysis of range-based genomic data.
 Ranges format is a convenient way for the analysis of diffent experimental 
 genomic data. As 
 an example, the peak calling step, in the analysis of ChIP-seq data, commonly
-generates narrow peaks outputs. The NarrowPeak format, wich is used by the 
+generates NarrowPeak outputs. The NarrowPeak format, wich is used by the 
 ENCODE project [@Dunham2012a], 
 includes a peak position located inside 
-a genomic range. Even more, the analysis of gene expression, using RNA-seq 
-data, is based on counting the alignments overlapping exons.  Those exons can 
-easily be translated as genomic ranges.
+a genomic range. 
 
 In genomic analysis where feature identification generate a position value 
 surrounded by a genomic range, such as ChIP-Seq peaks and nucleosome postions, 
 the replication of an experiment may result in slight differences between 
 predicted values. Conciliation of the results can be difficult, especially 
-when many replicates are done.
-
-One current approach used to identify consensus regions in a group of 
+when many replicates are done. One current approach used to identify 
+consensus regions in a group of 
 results consist of extracting the overlapping regions of the genomic 
 ranges. This approach, 
-when use on a large number of experiments, can miss, as a side effect, regions 
-when one of the experiment has missing or slightly shift features. On the 
+when used on a large number of experiments, can miss, as a side effect, 
+regions when one of the experiment has missing or slightly shift 
+features. On the 
 other hand, the use of the union of the regions can result in wide 
 consensus ranges.
 
@@ -121,9 +119,9 @@ The main function of the `r Rpackage("consensusSeekeR")` is
 `findConsensusPeakRegions`. The mains inputs of the `findConsensusPeakRegions` 
 function are:
 
-* a `GRanges` of the feature `positions` of all experiments with a 
+1. a `GRanges` of the feature `positions` of all experiments with a 
 metadata field called `name`. 
-* a `GRanges` of the feature `ranges` for all experimentsw ith a metadata 
+2. a `GRanges` of the feature `ranges` for all experimentsw ith a metadata 
 field called `name`. 
 
 
@@ -151,11 +149,10 @@ A549_FOSL2_01_NarrowPeaks_partial$peak = NULL
 ```
 
 ```{r setName, collapse=TRUE}
-
 ## Initial dataset
 head(A549_FOSL2_01_NarrowPeaks_partial, n = 3)
 
-## Create a new metadata field "name" unique to each entry
+## Adding a new metadata field "name" unique to each entry
 A549_FOSL2_01_NarrowPeaks_partial$name = paste0("FOSL2_01_entry_", 
                                 1:length(A549_FOSL2_01_NarrowPeaks_partial))
 
@@ -223,12 +220,11 @@ unique. For the positions and ranges dataset from the same software, the `name`
 field is paired to ensure that each position can be associated to a range.
 
 ```{r datasetNuc, collapse=TRUE}
-## Each entry for the positions dataset has an equivalent "name" entry in the 
-## ranges dataset
+## Each entry in the positions dataset has an equivalent metadata "name" entry in the ranges dataset
 head(NOrMAL_nucleosome_positions, n = 2)
 head(NOrMAL_nucleosome_ranges, n = 2)
 
-## Entries for each software are unique
+## Row names are unique to each software
 head(NOrMAL_nucleosome_positions, n = 2)
 head(PING_nucleosome_positions, n = 2)
 head(NucPosSimulator_nucleosome_positions, n = 2)
