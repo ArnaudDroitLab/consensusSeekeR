@@ -231,8 +231,8 @@ head(NucPosSimulator_nucleosome_positions, n = 2)
 ```
 
 To be able to identify all entries from the same software, each row of the 
-dataset has to be assigned an name. The positions and ranges
-datasets from the same source must be assigned identical row names. In this 
+dataset has to be assigned a name. All positions and ranges
+from the same source must be assigned identical row names. In this 
 exemple, datasets are going to be identified by the name of their source 
 software.
 
