@@ -61,13 +61,22 @@ features. On the
 other hand, the use of the union of the regions can result in wide 
 consensus ranges.
 
+As an example, two ChIP-Seq peaks from [ENCODE](https://www.encodeproject.org) 
+for the FOSL2 transcription 
+factor (DCC accession: ENCFF002CFN). The data have been analyzed using 
+MACS2 [@Zhang2008] 
+with the default parameters and the q-value set to 0.05. The ChIP-Seq peak 
+is a genomic feature 
+that can be defined by a position value (the peak position) and a genome
+range (the enriched region). This example shows that the peak position is not
+necessarily at the center of the enriched region.
+
+![alt text](figures/peak_and_region.jpg "Features positions and ranges")
+
 The `r Rpackage("consensusSeekeR")` package implements a novative way to 
-identify consensus 
-ranges in a group of experiments which generated feature positions
-surrounded by a genomic ranges. The `r Rpackage("consensusSeekeR")` package 
-is characterized 
-by the use of the features positions, instead of the most commonly used 
-genomic ranges, to identify the consensus regions.
+identify consensus which use the features positions, instead of the most 
+commonly used genomic ranges.
+
 
 ## The consensusSeekeR package
 
@@ -89,7 +98,7 @@ feature position. An
 update of the features located inside the window is done and the 
 median feature position is recalculated. This step is repeated up to the 
 moment that 
-the set of features stay the same between two iterations. 
+the set of features remains identical between two iterations. 
 The final set of features positions is used to fix
 the central position of the consensus region. This final 
 region must respect the minimum number of experiments with at least one 
@@ -121,25 +130,25 @@ function are:
 
 1. a `GRanges` of the feature `positions` of all experiments with a 
 metadata field called `name`. 
-2. a `GRanges` of the feature `ranges` for all experimentsw ith a metadata 
+2. a `GRanges` of the feature `ranges` for all experiments with a metadata 
 field called `name`. 
 
 
 Both inputs must satified those conditions:
 
-* All rows of both `GRanges` must be named by the experiment source. All 
+* All rows of each `GRanges` must be named by the experiment source. All 
 entries from the same experiment must be assigned the same name.
 * Each feature must have one entry in both `GRanges`. The metadata 
 field  `name` is used to associate the feature position to its range. 
 
 This is an example showing how a metadata field `name` can easily 
-be created. Row names can be also easily be assigned.
+be created and row names can be assigned:
 
 ```{r input, echo=FALSE}
-## Load dataset
+### Load dataset
 data(A549_FOSL2_01_NarrowPeaks_partial)
 
-## Remove dataset metadata field "name"
+### Remove dataset metadata field "name"
 A549_FOSL2_01_NarrowPeaks_partial$name = NULL
 A549_FOSL2_01_NarrowPeaks_partial$score = NULL
 A549_FOSL2_01_NarrowPeaks_partial$qValue = NULL
@@ -202,15 +211,15 @@ adding $\pm$ 73 bps to the detected positions. (TODO: PASCAL info sur
 le chromosome)
 
 ```{r loadingDatasetsNucl}
-## Loading dataset from NOrMAL
+### Loading dataset from NOrMAL
 data(NOrMAL_nucleosome_positions)
 data(NOrMAL_nucleosome_ranges)
 
-## Loading dataset from PING
+### Loading dataset from PING
 data(PING_nucleosome_positions)
 data(PING_nucleosome_ranges)
 
-## Loading dataset from NucPosSimulator
+### Loading dataset from NucPosSimulator
 data(NucPosSimulator_nucleosome_positions)
 data(NucPosSimulator_nucleosome_ranges)
 ```
@@ -227,7 +236,7 @@ The metadata field `name` is specific to each software and is incremented to be
 unique. 
 
 ```{r rowDemo, collapse=TRUE}
-## Row names are unique to each software
+### Row names are unique to each software
 head(NOrMAL_nucleosome_positions, n = 2)
 head(PING_nucleosome_positions, n = 2)
 head(NucPosSimulator_nucleosome_positions, n = 2)
@@ -240,19 +249,19 @@ exemple, datasets are going to be identified by the name of their source
 software.
 
 ```{r nuclAssignment}
-## Assigning software name "NOrMAL" 
+### Assigning software name "NOrMAL" 
 names(NOrMAL_nucleosome_positions) <- rep("NOrMAL",
                         length(NOrMAL_nucleosome_positions))
 names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
                         length(NOrMAL_nucleosome_ranges))
 
-## Assigning experiment name "PING"
+### Assigning experiment name "PING"
 names(PING_nucleosome_positions) <- rep("PING",
                         length(PING_nucleosome_positions))
 names(PING_nucleosome_ranges) <- rep("PING",
                         length(PING_nucleosome_ranges))
 
-## Assigning experiment name "NucPosSimulator"
+### Assigning experiment name "NucPosSimulator"
 names(NucPosSimulator_nucleosome_positions) <- rep("NucPosSimulator",
                         length(NucPosSimulator_nucleosome_positions))
 names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
@@ -267,10 +276,10 @@ A nucleosome from at least 2 software must be present in a region to be
 retained as a consensus region.
 
 ```{r nuclConsensus, collapse=FALSE}
-## Only choromsome 1 is going to be analysed
+### Only choromsome 1 is going to be analysed
 chrList <- Seqinfo("chr1", 135534747, NA)
 
-## Find consensus regions with both replicates inside it
+### Find consensus regions with both replicates inside it
 results <- findConsensusPeakRegions(
             narrowPeaks = c(NOrMAL_nucleosome_ranges,
                                 PING_nucleosome_ranges,
@@ -292,10 +301,10 @@ matched call while the object `consensusRanges` is a `GRanges` containing the
 consensus regions.
 
 ```{r nuclResults, collapse=TRUE}
-## Print the call 
+### Print the call 
 results$call
 
-## Print the 3 first consensus regions
+### Print the 3 first consensus regions
 head(results$consensusRanges, n = 3)
 ```
 
@@ -308,13 +317,14 @@ TODO ASTRID
 ## Case study: ChIP-Seq data
 
 Next-generation DNA sequencing coupled with chromatin immunoprecipitation 
-(ChIP-seq) has changed the ability to interrogate whole genome protein-DNA 
-interactions by enabeling  genomic localization of histone 
-modifications and transcription-factor binding in living cells [@Mundade2014]. 
+(ChIP-seq) has changed the ability to interrogate the genomic landscape 
+of histone 
+modifications, transcriptional cofactors and 
+transcription-factors binding in living cells [@Mundade2014]. 
 Consortium, 
 such as [ENCODE](https://www.encodeproject.org) have developed, and 
-constantly upgrading, a set of standards and guidelines for ChIP experiments 
-[@Landt2012].
+constantly upgrading, a set of standards and guidelines for ChIP-Seq 
+experiments [@Landt2012].
 
 ChIP-seq combines chromatin immunoprecipitation (ChIP) with massively parallel 
 DNA sequencing. The
@@ -322,7 +332,8 @@ obtained sequence reads are first mapped to the reference genome of the
 organism used in the experiments. Bindind sites are then dectected by using
 software specialized in transcript factor binding sites identification, such as
 MACS2 [@Zhang2008] and PeakRanger [@Feng2011]. Peaks
-are defined as a single base pair position.
+are defined as a single base pair position while statistically 
+enriched regions are defined as genomic ranges.
 
 ### ChIP-Seq replicates from one experiment
 
@@ -334,9 +345,9 @@ data gathered is extensive. Moreover, for some experiments, more than
 one ChIP-Seq replicate is often available.
 
 The software used to identify transcript factor binding sites generally 
-generates a peak position and a narrow region region for each binding site. 
+generates a peak position and an enriched region for each binding site. 
 However, it is quite unlikely that the exact peak position is exactly the same 
-across replicates. Even more, there is not yet a consent on how to analyze 
+across replicates. Even more, there is not yet an unanity on how to analyze 
 multiple-replicate ChIP-seq samples [@Yang2014].
 
 The `r Rpackage("consensusSeekeR")` package can be used to identify consensus 
@@ -346,10 +357,9 @@ are being found by using the peak positions.
 The transcription factor binding for the CTCF transcription factor have been
 analyzed and 2 replicates are available in BAM files format on 
 [ENCODE website](https://www.encodeproject.org) (DCCs: 
-ENCFF000MYJ and ENCFF000MYN). 
-
-(TODO FABIEN : ajouter une courte description 
-sur la methode pour obtenir narrowPeaks). 
+ENCFF000MYJ and ENCFF000MYN). The NarrowPeaks were generated using 
+MACS2 [@Zhang2008] 
+with the default parameters and the q-value set to 0.05.
 
 To simplify this demo, only part of genome hg19, chr1:246000000-249250621 and 
 chr10:10000000-12500000, have been retained in 
@@ -365,7 +375,7 @@ The datasets, which are included in the `r Rpackage("consensusSeekeR")`
 package, have to be loaded.
 
 ```{r loadingDatasets}
-## Loading datasets
+### Loading datasets
 data(A549_CTCF_MYN_NarrowPeaks_partial)
 data(A549_CTCF_MYN_Peaks_partial)
 data(A549_CTCF_MYJ_NarrowPeaks_partial)
@@ -373,19 +383,19 @@ data(A549_CTCF_MYJ_Peaks_partial)
 ```
 
 To be able to identify data from the same source, each row of the dataset
-has to be assigned an source name. Beware that NarrowPeak and Peak 
+has to be assigned an source name. Beware that `NarrowPeak` and `Peak` 
 datasets from the same source must be assigned identical names. In this 
 exemple, datasets are replicates of the same experiment. So, the names 
 "rep01" and "rep02" are going to be assigned to each dataset.
 
 ```{r repAssignment}
-## Assigning experiment name "rep01" to the first replicate
+### Assigning experiment name "rep01" to the first replicate
 names(A549_CTCF_MYJ_NarrowPeaks_partial) <- rep("rep01",
                         length(A549_CTCF_MYJ_NarrowPeaks_partial))
 names(A549_CTCF_MYJ_Peaks_partial) <- rep("rep01",
                         length(A549_CTCF_MYJ_Peaks_partial))
 
-## Assigning experiment name "rep02" to the second replicate
+### Assigning experiment name "rep02" to the second replicate
 names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("rep02",
                         length(A549_CTCF_MYN_NarrowPeaks_partial))
 names(A549_CTCF_MYN_Peaks_partial) <- rep("rep02",
@@ -400,10 +410,10 @@ A peak from both replicates must be present in a region to be retained as a
 consensus region.
 
 ```{r replicateConsensus, collapse=FALSE}
-## Only choromsome 10 is going to be analysed
+### Only choromsome 10 is going to be analysed
 chrList <- Seqinfo("chr10", 135534747, NA)
 
-## Find consensus regions with both replicates inside it
+### Find consensus regions with both replicates inside it
 results <- findConsensusPeakRegions(
             narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
                                 A549_CTCF_MYN_NarrowPeaks_partial),
@@ -423,10 +433,10 @@ matched call while the object `conesensusRanges` is a `GRanges` containing the
 consensus regions.
 
 ```{r replicateResults, collapse=TRUE}
-## Print the call 
+### Print the call 
 results$call
 
-## Print the 3 first consensus regions
+### Print the 3 first consensus regions
 head(results$consensusRanges, n = 3)
 ```
 
@@ -464,7 +474,7 @@ The datasets, which are included in the `r Rpackage("consensusSeekeR")`
 package, have to be loaded.
 
 ```{r loadingDatasetsExp}
-## Loading datasets
+### Loading datasets
 data(A549_NR3C1_CFQ_NarrowPeaks_partial)
 data(A549_NR3C1_CFQ_Peaks_partial)
 data(A549_NR3C1_CFR_NarrowPeaks_partial)
@@ -482,19 +492,19 @@ transcription factor. So, the shorten names of each experiment
 assigned to each dataset.
 
 ```{r expAssignment}
-## Assigning experiment name "ENCFF002CFQ" to the first experiment
+### Assigning experiment name "ENCFF002CFQ" to the first experiment
 names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("ENCFF002CFQ",
                         length(A549_NR3C1_CFQ_NarrowPeaks_partial))
 names(A549_NR3C1_CFQ_Peaks_partial) <- rep("ENCFF002CFQ",
                         length(A549_NR3C1_CFQ_Peaks_partial))
 
-## Assigning experiment name "ENCFF002CFQ" to the second experiment
+### Assigning experiment name "ENCFF002CFQ" to the second experiment
 names(A549_NR3C1_CFR_NarrowPeaks_partial) <- rep("ENCFF002CFR",
                         length(A549_NR3C1_CFR_NarrowPeaks_partial))
 names(A549_NR3C1_CFR_Peaks_partial) <- rep("ENCFF002CFR",
                         length(A549_NR3C1_CFR_Peaks_partial))
 
-## Assigning experiment name "ENCFF002CFQ" to the third experiment
+### Assigning experiment name "ENCFF002CFQ" to the third experiment
 names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS",
                         length(A549_NR3C1_CFS_NarrowPeaks_partial))
 names(A549_NR3C1_CFS_Peaks_partial) <- rep("ENCFF002CFS",
@@ -505,22 +515,22 @@ called `name`. So, to be able to use the `findConsensusPeakRegions` function,
 specific names must manually be added to each entry.
 
 ```{r rowNames}
-## Assigning specific name to each entry of to first experiment
-## NarrowPeak name must fit Peaks name for same experiment
+### Assigning specific name to each entry of to first experiment
+### NarrowPeak name must fit Peaks name for same experiment
 A549_NR3C1_CFQ_NarrowPeaks_partial$name <- paste0("NR3C1_CFQ_region_",
                         1:length(A549_NR3C1_CFQ_NarrowPeaks_partial))
 A549_NR3C1_CFQ_Peaks_partial$name <- paste0("NR3C1_CFQ_region_",
                         1:length(A549_NR3C1_CFQ_NarrowPeaks_partial))
 
-## Assigning specific name to each entry of to second experiment
-## NarrowPeak name must fit Peaks name for same experiment
+### Assigning specific name to each entry of to second experiment
+### NarrowPeak name must fit Peaks name for same experiment
 A549_NR3C1_CFR_NarrowPeaks_partial$name <- paste0("NR3C1_CFR_region_",
                         1:length(A549_NR3C1_CFR_NarrowPeaks_partial))
 A549_NR3C1_CFR_Peaks_partial$name <- paste0("NR3C1_CFR_region_",
                         1:length(A549_NR3C1_CFR_Peaks_partial))
 
-## Assigning specific name to each entry of to third experiment
-## NarrowPeak name must fit Peaks name for same experiment
+### Assigning specific name to each entry of to third experiment
+### NarrowPeak name must fit Peaks name for same experiment
 A549_NR3C1_CFS_NarrowPeaks_partial$name <- paste0("NR3C1_CFS_region_",
                         1:length(A549_NR3C1_CFS_NarrowPeaks_partial))
 A549_NR3C1_CFS_Peaks_partial$name <- paste0("NR3C1_CFS_region_",
@@ -537,10 +547,10 @@ A peak from 2 out 3 experiments must be present in a region to be retained as
 a consensus region.
 
 ```{r experimentConsensus, collapse=FALSE}
-## Only choromsome 2 is going to be analysed
+### Only choromsome 2 is going to be analysed
 chrList <- Seqinfo("chr2", 243199373, NA)
 
-## Find consensus regions with both replicates inside it
+### Find consensus regions with both replicates inside it
 results <- findConsensusPeakRegions(
             narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
                                 A549_NR3C1_CFR_NarrowPeaks_partial,
@@ -562,10 +572,10 @@ matched call while the object `consensusRanges` is a `GRanges` containing the
 consensus regions.
 
 ```{r experimentResults, collapse=TRUE}
-## Print the call 
+### Print the call 
 results$call
 
-## Print the 3 first consensus regions
+### Print the 3 first consensus regions
 head(results$consensusRanges, n = 3)
 ```
 
@@ -616,13 +626,13 @@ As an example, the number of consensus regions obtained with different values
 of `extendingSize` is calculated.
 
 ``` {r sizeEffect, collapse=TRUE}
-## Set different values for the extendingSize parameter
+### Set different values for the extendingSize parameter
 size <- c(1, 10, 50, 100, 300, 500, 750, 1000)
 
-## Only choromsome 10 is going to be analysed
+### Only choromsome 10 is going to be analysed
 chrList <- Seqinfo("chr10", 135534747, NA)
 
-## Find consensus regions using all the size values
+### Find consensus regions using all the size values
 resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
                     narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
                                 A549_CTCF_MYN_NarrowPeaks_partial),
@@ -635,7 +645,7 @@ resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
                     minNbrExp = 2,
                     nbrThreads = 1))
 
-## Extract the number of consensus regions obtained for each extendingSize
+### Extract the number of consensus regions obtained for each extendingSize
 nbrRegions<-mapply(resultsBySize, FUN = function(x) 
                     return(length(x$consensusRanges)))
 
