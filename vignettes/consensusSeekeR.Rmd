@@ -625,7 +625,7 @@ region, from CTCF example with `extendingSize` of 100, when the
 `shrinkToFitPeakRegion` is set 
 to `FALSE` (orange color) and to `TRUE` (green color).
 
-![alt text](figures/extendNew3.jpg "Effect of expandToFitPeakRegion parameter")
+![alt text](figures/extendNew.jpg "Effect of expandToFitPeakRegion parameter")
 
 ### Effect of the extendingSize parameter
 
