@@ -61,7 +61,9 @@ features. On the
 other hand, the use of the union of the regions can result in wide 
 consensus ranges.
 
-As an example, two ChIP-Seq peaks from [ENCODE](https://www.encodeproject.org) 
+As an example, shown using Integrative genomics viewer [@Interests2011], of 
+
+two ChIP-Seq peaks from [ENCODE](https://www.encodeproject.org) 
 for the FOSL2 transcription 
 factor (DCC accession: ENCFF002CFN). The data have been analyzed using 
 MACS2 [@Zhang2008] 
@@ -85,14 +87,18 @@ identify consensus
 ranges in a group of experiments which generated position values
 surrounded by genomic ranges. The `r Rpackage("consensusSeekeR")` package is 
 characterized by its use of the position values, instead of the genomic 
-ranges, to identify the consensus regions.
+ranges, to identify the consensus regions. The positions values have the
+double advantages of being, most of the time, 
+the most important information from features and allowing creation of
+consensius regions of smaller ranges.
 
-Using iterative steps on ordered features position values from all experiments, 
-a window of fixed size (specified by user) with the current feature position 
+Using iterative steps on ordered features position values from all 
+experiments, a window of fixed size (specified by user) with the 
+current feature position 
 as starting point is set. All 
 features which reside inside the window are gathered to calculate a 
-median feature position which is then used to recreate a new window. This time, 
-the 
+median feature position which is then used to recreate a new window. This 
+time, the 
 new window has twice the size fixed by user and its center is the median 
 feature position. An 
 update of the features located inside the window is done and the 
@@ -184,7 +190,7 @@ DNA [@Kornberg1999]. Nucleosome occupancy and positioning have proved to be
 dynamic. It also have a major impact on expression, regulation, and evolution 
 of eukaryotic genes [@Jiang2015].
 
-### Comparing nucleosome positioning results
+### Comparing nucleosome positioning results from different software
 
 With the development of the Next-generation sequencing, nucleosome 
 positioning using MNase-Seq data or MNase- or sonicated- ChIP-Seq data 
@@ -192,7 +198,8 @@ combined with either single-end or paired-end sequencing have evolved as
 popular techniques. Software such as PING [@Woo2013] and NOrMAL
 [@Polishko2012], generates output which contain the position of the
 predicted nucleosomes, which simply are a one pair base position on
-the reference genome. A range of $\pm$ 73 bps is usually superposed to the
+the reference genome. This position represents the center of the
+predicted nucleosome. A range of $\pm$ 73 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
 
 First, the `r Rpackage("consensusSeekeR")` package must be loaded.
@@ -207,8 +214,7 @@ reads distributed following a normal distribution with a variance of
 20 from three different 
 nucleosome positioning software: PING [@Woo2013], NOrMAL [@Polishko2012] and
 NucPosSimulator [@Schopflin2013]. The genomic ranges have been obtained by
-adding $\pm$ 73 bps to the detected positions. (TODO: PASCAL info sur 
-le chromosome)
+adding $\pm$ 73 bps to the detected positions.
 
 ```{r loadingDatasetsNucl}
 ### Loading dataset from NOrMAL
@@ -224,22 +230,20 @@ data(NucPosSimulator_nucleosome_positions)
 data(NucPosSimulator_nucleosome_ranges)
 ```
 
+```{r prepareData, echo=FALSE}
+rownames(NOrMAL_nucleosome_positions) <- NULL
+rownames(NOrMAL_nucleosome_ranges) <- NULL
+```
+
 For the positions and ranges dataset from the same software, the `name`
-field is paired to ensure that each position can be associated to a range.
+field is paired to ensure that each position can be associated to its range.
+The metadata field `name` must be unique to each feature for all datasets.
 
 ```{r datasetNuc, collapse=TRUE}
 ### Each entry in the positions dataset has an equivalent metadata "name" entry in the ranges dataset
 head(NOrMAL_nucleosome_positions, n = 2)
-head(NOrMAL_nucleosome_ranges, n = 2)
-```
-The metadata field `name` is specific to each software and is incremented to be
-unique. 
 
-```{r rowDemo, collapse=TRUE}
-### Row names are unique to each software
-head(NOrMAL_nucleosome_positions, n = 2)
-head(PING_nucleosome_positions, n = 2)
-head(NucPosSimulator_nucleosome_positions, n = 2)
+head(NOrMAL_nucleosome_ranges, n = 2)
 ```
 
 To be able to identify all entries from the same software, each row of the 
@@ -248,7 +252,7 @@ from the same source must be assigned identical row names. In this
 exemple, datasets are going to be identified by the name of their source 
 software.
 
-```{r nuclAssignment}
+```{r nuclAssignment, collapse=TRUE}
 ### Assigning software name "NOrMAL" 
 names(NOrMAL_nucleosome_positions) <- rep("NOrMAL",
                         length(NOrMAL_nucleosome_positions))
@@ -266,14 +270,22 @@ names(NucPosSimulator_nucleosome_positions) <- rep("NucPosSimulator",
                         length(NucPosSimulator_nucleosome_positions))
 names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
                         length(NucPosSimulator_nucleosome_ranges))
+
+### Row names are unique to each software
+head(NOrMAL_nucleosome_positions, n = 2)
+
+head(PING_nucleosome_positions, n = 2)
+
+head(NucPosSimulator_nucleosome_positions, n = 2)
 ```
 
 The consensus regions for chromosome 1 only are calculated 
 with a defaut region size of 50 bases pairs (2 * `extendingSize`)
 The regions are extended to include all nucleosome regions 
 (`expandToFitPeakRegion` = `TRUE` and `shrinkToFitPeakRegion` = `TRUE`).
-A nucleosome from at least 2 software must be present in a region to be 
-retained as a consensus region.
+To be retained as a consensus region, nucleosomes from at least 2 
+software must be present in the region (`minNbrExp` = `2`).
+.
 
 ```{r nuclConsensus, collapse=FALSE}
 ### Only choromsome 1 is going to be analysed
@@ -309,10 +321,11 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. An exemple of the consensus regions (in green) is shown here using 
+found. An exemple of the consensus regions (in dark blue) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
-TODO ASTRID
+![alt text](figures/nucleosomes.jpg "Nucleosome Positioning Results")
+
 
 ## Case study: ChIP-Seq data
 
@@ -444,7 +457,7 @@ A total of `r length(results$consensusRanges)` consensus regions have been
 found. A exemple of the consensus regions (in green) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
-![alt text](figures/ctcf_replicates.jpg "ChIP-Seq replicates from one experiment")
+![alt text](figures/ctcf_consensus.jpg "ChIP-Seq replicates from one experiment")
 
 
 ### ChIP-Seq data from multiple experiments
@@ -537,7 +550,6 @@ A549_NR3C1_CFS_Peaks_partial$name <- paste0("NR3C1_CFS_region_",
                         1:length(A549_NR3C1_CFS_Peaks_partial))
 ```
 
-
 The consensus regions for chromosome 2 only are calculated 
 with a defaut region size of 400 bases pairs (2 * `extendingSize`)
 The regions are not extended to include all peaks regions but are shrinked
@@ -583,7 +595,7 @@ A total of `r length(results$consensusRanges)` consensus regions have been
 found. A example of the consensus regions (in green) is shown here using 
 Integrative genomics viewer [@Interests2011]:
 
-![alt text](figures/NR3C1_exp.jpg "ChIP-Seq data from multiple experiments")
+![alt text](figures/NR3C1_consensus.jpg "ChIP-Seq data from multiple experiments")
 
 ## Parameters
 
@@ -613,7 +625,7 @@ region, from CTCF example with `extendingSize` of 100, when the
 `shrinkToFitPeakRegion` is set 
 to `FALSE` (orange color) and to `TRUE` (green color).
 
-![alt text](figures/extend.jpg "Effect of expandToFitPeakRegion parameter")
+![alt text](figures/extendNew3.jpg "Effect of expandToFitPeakRegion parameter")
 
 ### Effect of the extendingSize parameter
 
