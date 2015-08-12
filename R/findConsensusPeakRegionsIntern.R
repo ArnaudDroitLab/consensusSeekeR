@@ -241,7 +241,7 @@ isInteger <- function(value) {
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges
+#' @importFrom IRanges IRanges median
 #' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
