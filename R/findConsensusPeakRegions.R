@@ -184,26 +184,6 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                         minNbrExp = minNbrExp, chrList = chrInfo),
                         BPPARAM = coreParam)
 
-#     # Check for error
-#     if (!all(bpok(results))) {
-#         # Try to re-run the failed section
-#         results <- bpmapply(findConsensusPeakRegionsForOneChrom,
-#                             chrName = names(selectedPeaksSplit),
-#                             allPeaks = selectedPeaksSplit,
-#                             allNarrowPeaks = selectedNarrowPeaksSplit,
-#                             MoreArgs = c(extendingSize = extendingSize,
-#                                 expandToFitPeakRegion = expandToFitPeakRegion,
-#                                 shrinkToFitPeakRegion = shrinkToFitPeakRegion,
-#                                 minNbrExp = minNbrExp, chrList = chrInfo),
-#                             BPPARAM = coreParam,  BPREDO = results)
-#
-#         if (any(jobsWithError<-!bpok(results))) {
-#             msg <- paste(tail(attr(results[[jobsWithError]], "traceback"), 5),
-#                         sep = "\t")
-#             stop(paste0("bpmapply failed :\n", msg))
-#         }
-#     }
-
     # Creating result list
     z <- list(call = cl,
                 consensusRanges = IRanges::unlist(GRangesList((results)),
