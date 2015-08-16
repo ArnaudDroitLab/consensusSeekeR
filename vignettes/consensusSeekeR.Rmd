@@ -179,6 +179,11 @@ names(A549_FOSL2_01_NarrowPeaks_partial) = rep("FOSL2_01",
 head(A549_FOSL2_01_NarrowPeaks_partial, n = 3)
 ```
 
+```{r inputClean, echo=FALSE}
+### Remove dataset
+rm(A549_FOSL2_01_NarrowPeaks_partial)
+```
+
 ## Case study: nucleosome positioning
 
 Global gene expression patterns are established and maintained by the 
@@ -326,6 +331,19 @@ Integrative genomics viewer [@Interests2011]:
 
 ![alt text](figures/nucleosomes.jpg "Nucleosome Positioning Results")
 
+```{r removeDatasetsNucl, echo=FALSE}
+### Remove dataset from NOrMAL
+rm(NOrMAL_nucleosome_positions)
+rm(NOrMAL_nucleosome_ranges)
+
+### Remove dataset from PING
+rm(PING_nucleosome_positions)
+rm(PING_nucleosome_ranges)
+
+### Remove dataset from NucPosSimulator
+rm(NucPosSimulator_nucleosome_positions)
+rm(NucPosSimulator_nucleosome_ranges)
+```
 
 ## Case study: ChIP-Seq data
 
@@ -459,6 +477,13 @@ Integrative genomics viewer [@Interests2011]:
 
 ![alt text](figures/ctcf_consensus.jpg "ChIP-Seq replicates from one experiment")
 
+```{r rmCurrentDatasets}
+### Remove datasets
+rm(A549_CTCF_MYN_NarrowPeaks_partial)
+rm(A549_CTCF_MYN_Peaks_partial)
+rm(A549_CTCF_MYJ_NarrowPeaks_partial)
+rm(A549_CTCF_MYJ_Peaks_partial)
+```
 
 ### ChIP-Seq data from multiple experiments
 
@@ -597,6 +622,16 @@ Integrative genomics viewer [@Interests2011]:
 
 ![alt text](figures/NR3C1_consensus.jpg "ChIP-Seq data from multiple experiments")
 
+```{r rmDatasetsExp}
+### Remove datasets
+rm(A549_NR3C1_CFQ_NarrowPeaks_partial)
+rm(A549_NR3C1_CFQ_Peaks_partial)
+rm(A549_NR3C1_CFR_NarrowPeaks_partial)
+rm(A549_NR3C1_CFR_Peaks_partial)
+rm(A549_NR3C1_CFS_NarrowPeaks_partial)
+rm(A549_NR3C1_CFS_Peaks_partial)
+```
+
 ## Parameters
 
 ### Effect of the shrinkToFitPeakRegion parameter
@@ -637,7 +672,7 @@ of `extendingSize` parameters can be an option worth considering.
 As an example, the number of consensus regions obtained with different values
 of `extendingSize` is calculated.
 
-``` {r sizeEffect, collapse=TRUE}
+``` {r sizeEffect, collapse=TRUE, eval=FALSE}
 ### Set different values for the extendingSize parameter
 size <- c(1, 10, 50, 100, 300, 500, 750, 1000)
 
@@ -658,16 +693,15 @@ resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
                     nbrThreads = 1))
 
 ### Extract the number of consensus regions obtained for each extendingSize
-nbrRegions<-mapply(resultsBySize, FUN = function(x) 
+nbrRegions <- mapply(resultsBySize, FUN = function(x) 
                     return(length(x$consensusRanges)))
 
-nbrRegions
 ```
 
 A graph can be used to visualize the variation of the number of consensus 
 regions in function of the `extendingSize` parameter.
 
-```{r graphSizeEffect, warning=FALSE}
+```{r graphSizeEffect, warning=FALSE, eval=FALSE}
 
 library(ggplot2)
 
@@ -675,12 +709,16 @@ data <- data.frame(extendingSize = size, nbrRegions = nbrRegions)
 
 ggplot(data, aes(extendingSize, nbrRegions)) + 
         scale_x_log10("Extending size") + 
-        stat_smooth(se = FALSE, method = "loess") +
+        stat_smooth(se = FALSE, method = "loess", size=1.4) +
         ylab("Number of consensus regions") +
         ggtitle(paste0("Number of consensus regions in function \n", 
                         "of the extendingSize"))
     
 ```
+
+
+![alt text](figures/sizeEffect.jpg "Effect of extendingSize parameter")
+
 
 ##  Parallelizing consensusSeekeR
 
@@ -695,7 +733,7 @@ However, Windows does not support multicore evaluation.
 
 ## Acknowledgment
 
-We thank Imène Boudaoud for her advices on the vignette content.
+We thank Im&egrave;ne Boudaoud for her advices on the vignette content.
  
 ## Session info
 
