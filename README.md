@@ -2,6 +2,7 @@ consensusSeekeR : Detection of consensus regions inside a group of experiments u
 =====================
 
 [![Build Status](https://travis-ci.org/adeschen/consensusSeekeR.svg?branch=master)](https://travis-ci.org/adeschen/consensusSeekeR)
+[![codecov.io](http://codecov.io/github/adeschen/consensusSeekeR/coverage.svg?branch=master)](http://codecov.io/github/adeschen/consensusSeekeR?branch=master)
 
 This R package compares multiple narrowPeak data from different experiments to extract common peak regions. 
 The size of the analyzed region is adjustable, as well
