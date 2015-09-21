@@ -11,8 +11,8 @@ potential region as a consensus region. If needed, the consensus regions can be 
 
 ## Authors ##
 
-[Astrid Louise Deschenes](http://ca.linkedin.com/in/astriddeschenes 
-"Astrid Louise Deschenes"), 
+[Astrid Deschenes](http://ca.linkedin.com/in/astriddeschenes 
+"Astrid Deschenes"), 
 [Fabien Claude Lamaze](http://ca.linkedin.com/in/fabienlamaze/en 
 "Fabien Claude Lamaze"), 
 [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau 
