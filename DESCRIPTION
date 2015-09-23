@@ -1,5 +1,5 @@
 Package: consensusSeekeR
-Version: 0.99.0
+Version: 0.99.1
 Date: 2015-05-01
 Title: Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges
 Description: This package compares genomic positions and genomic ranges from
