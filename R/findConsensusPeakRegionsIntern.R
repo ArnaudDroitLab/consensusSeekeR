@@ -259,7 +259,10 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
     chrInfo <- chrList[chrName]
 
     # Variable containing final consensus peak regions
-    regions <- GRanges()
+    maxLength <- 100000
+    regions <- GRanges(seqnames = Rle(chrName, maxLength),
+                       rep(IRanges(1, 1), maxLength))
+    nbrRegions <- 0
 
     if (length(peaks) > 0 && length(narrowPeaks) > 0) {
         # Variables initialization
@@ -353,13 +356,22 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
                     # Validate that maximum position is not superior
                     # to chromosome size
-                    newRegion <- GRanges(seqnames = seq_name,
-                                            IRanges(minPos, maxPos))
-                    regions <- append(regions, newRegion)
+#                     newRegion <- GRanges(seqnames = seq_name,
+#                                             IRanges(minPos, maxPos))
+#                     regions <- append(regions, newRegion)
+                    nbrRegions <- nbrRegions + 1
+                    if (nbrRegions > maxLength) {
+                        regions <- append(regions, GRanges(seqnames =
+                                            Rle(chrName, 100000),
+                                            rep(IRanges(1, 1), 100000)))
+                        maxLength <- maxLength + 100000
+                    }
+                    ranges(regions[nbrRegions])<- IRanges(minPos, maxPos)
 
                     # Update overlapping peaks
-                    overlaps <- findOverlaps(query = newRegion,
+                    overlaps <- findOverlaps(query = regions[nbrRegions],
                                                 subject = peaks)
+
                     setNew <- peaks[subjectHits(overlaps)]
                     if (!(current$name %in% setNew$name)) {
                         # If the current peak is not included in the current
@@ -379,6 +391,13 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             # Stop loop when all peaks are treated
             if (pos >= length(peaks)) break
         }
+    }
+
+    # Adjust size of returned GRanges to the real number of consensus regions
+    if (nbrRegions == 0) {
+        regions <- GRanges()
+    } else {
+        regions <- regions[1:nbrRegions]
     }
 
     return(regions)
