@@ -27,6 +27,7 @@ Imports: GenomeInfoDb,
     stringr,
     S4Vectors
 Suggests: BiocStyle,
+    rtracklayer,
     ggplot2,
     knitr,
     RUnit

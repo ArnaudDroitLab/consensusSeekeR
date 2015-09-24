@@ -218,8 +218,8 @@ ranges(peaks)   <-  IRanges(start = (start(regions) + regions$peak + 1L),
                             width = rep(1, length(regions$peak)))
 
 ### First rows of each GRanges object
-head(regions, head = 3)
-head(peaks, head = 3)
+head(regions, n = 3)
+head(peaks, n = 3)
 ```
 
 # Case study: nucleosome positioning

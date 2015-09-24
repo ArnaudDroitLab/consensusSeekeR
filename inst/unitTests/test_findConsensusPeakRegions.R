@@ -482,6 +482,23 @@ test.findConsensusPeakRegions_list_of_integers_as_minNbrExp <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
+## Test the result when minNbrExp superior to number of experiments
+test.findConsensusPeakRegions_too_big_minNbrExp <- function() {
+    testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
+                                                 A549_FOSL2_01_NarrowPeaks_partial[1:2],
+                                             peaks = A549_FOSL2_01_Peaks_partial[1:2],
+                                             chrInfo = testList,
+                                             minNbrExp = 14), error = conditionMessage)
+    exp <- paste0("minNbrExp must be inferior or equal to the number of ",
+                    "experiments presents in narrowPeaks and peaks. The ",
+                    "number ofexperiments is known by the number of ",
+                    "differents row names in narrowPeaks and peaks.")
+    message <- paste0("test.findConsensusPeakRegions_too_big_minNbrExp",
+                      " - Too big minNbrExp did ",
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
 
 ## Test the result when zero as nbrThreads
 test.findConsensusPeakRegions_zero_as_nbrThreads<- function() {
