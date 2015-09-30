@@ -241,7 +241,7 @@ isInteger <- function(value) {
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges median
+#' @importFrom IRanges IRanges median ranges
 #' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
@@ -258,11 +258,13 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
     chrInfo <- chrList[chrName]
 
-    # Variable containing final consensus peak regions
-    maxLength <- 100000
-    regions <- GRanges(seqnames = Rle(chrName, maxLength),
-                       rep(IRanges(1, 1), maxLength))
-    nbrRegions <- 0
+    # GRanges containing final consensus peak regions
+    maxLength <- 10000
+    increment <- 10000
+    regions   <- GRanges(seqnames = Rle(chrName, maxLength),
+                            rep(IRanges(1, 1), maxLength))
+
+    nbrRegions <- 0L
 
     if (length(peaks) > 0 && length(narrowPeaks) > 0) {
         # Variables initialization
@@ -272,6 +274,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         bad <- FALSE
         pos <- 1
         region_width <- 2 * extendingSize
+
+        tempGRange <- GRanges(seqnames = chrName, IRanges(1, 1))
 
         # All peak are tested.
         # A primary region starting at peak position and of size
@@ -294,11 +298,13 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             repeat {
                 set <- setNew
                 rightBoundary <- rightBoundaryNew
-                # Find peaks that overlaps the region
-                overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
-                                    ranges=c(IRanges(rightBoundary,
-                                    rightBoundary + region_width))),
-                                    subject = peaks)
+
+                # Update GRange to fit the new region
+                ranges(tempGRange) <- IRanges(rightBoundary,
+                                             rightBoundary + region_width)
+
+                # Find peaks that overlap the new region
+                overlaps <- findOverlaps(query = tempGRange, subject = peaks)
                 setNew <- peaks[subjectHits(overlaps)]
                 if (length(setNew) == 0 || !(current$name %in% setNew$name)) {
                     # The current peak is not included in the current region
@@ -327,8 +333,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
 
-                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name
-                                %in% set$name]
+                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
+                                                        set$name]
 
                     minLeft <- min(start(narrowPeaksSet))
                     maxRight <- max(end(narrowPeaksSet))
@@ -354,18 +360,19 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                         maxPos <- seqlengths(chrInfo)
                     }
 
-                    # Validate that maximum position is not superior
-                    # to chromosome size
-#                     newRegion <- GRanges(seqnames = seq_name,
-#                                             IRanges(minPos, maxPos))
-#                     regions <- append(regions, newRegion)
-                    nbrRegions <- nbrRegions + 1
+                    # Update total number of consensus regions
+                    nbrRegions <- nbrRegions + 1L
+
+                    # Adapt size of GRanges containing final results
+                    # when too many regions
                     if (nbrRegions > maxLength) {
-                        regions <- append(regions, GRanges(seqnames =
-                                            Rle(chrName, 100000),
-                                            rep(IRanges(1, 1), 100000)))
-                        maxLength <- maxLength + 100000
+                        regions   <- append(regions, GRanges(seqnames =
+                                            Rle(chrName, increment),
+                                            rep(IRanges(1, 1), increment)))
+                        maxLength <- maxLength + increment
                     }
+
+                    # Update GRanges to contain the value of the new region
                     ranges(regions[nbrRegions])<- IRanges(minPos, maxPos)
 
                     # Update overlapping peaks
