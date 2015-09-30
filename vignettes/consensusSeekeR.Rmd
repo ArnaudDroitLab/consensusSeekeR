@@ -214,7 +214,7 @@ regions <- import(file_narrowPeak, format = "BED", extraCols = extraCols)
 
 ### Create genomic ranges for the peaks
 peaks           <-  regions
-ranges(peaks)   <-  IRanges(start = (start(regions) + regions$peak + 1L), 
+ranges(peaks)   <-  IRanges(start = (start(regions) + regions$peak), 
                             width = rep(1, length(regions$peak)))
 
 ### First rows of each GRanges object
