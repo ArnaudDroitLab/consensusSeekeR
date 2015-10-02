@@ -258,37 +258,6 @@ test.findConsensusPeakRegions_with_missing_length_in_chrList <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
-## Test the result when chrList with a non existing chromosome
-test.findConsensusPeakRegions_with_absent_chr_as_chrList <- function() {
-    chrList <- Seqinfo(paste0("chr", c(1,40)), c(249250621, 135534747), NA)
-    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-                        A549_FOSL2_01_NarrowPeaks_partial[1:2],
-                        peaks = A549_FOSL2_01_Peaks_partial[1:2],
-                        chrInfo = chrList), warning = conditionMessage)
-    exp <- paste0("At least one chromosome name present in chrList is ",
-            "not present in peak : chr40")
-    message <- paste0(" findConsensusPeakRegions_with_absent_chr_as_chrList",
-            " - Absent chromosome in chrList did not generated ",
-            "expected error.")
-    checkEquals(obs, exp, msg = message)
-}
-
-## Test the result when chrList with 2 non existing chromosomes
-test.findConsensusPeakRegions_with_two_absent_chr_as_chrList <- function() {
-    chrList <- Seqinfo(paste0("chr", c(32,1,40)),
-                        c(135534747, 249250621, 135534747), NA)
-    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-                        A549_FOSL2_01_NarrowPeaks_partial[1:2],
-                        peaks = A549_FOSL2_01_Peaks_partial[1:2],
-                        chrInfo = chrList), warning = conditionMessage)
-    exp <- paste0("At least one chromosome name present in chrList is ",
-                  "not present in peak : chr32, chr40")
-    message <- paste0(" findConsensusPeakRegions_with_two_absent_chr_as",
-                    "_chrList - Absent chromosomes in chrList did ",
-                    "not generated expected error.")
-    checkEquals(obs, exp, msg = message)
-}
-
 ## Test the result when chrList with all non existing chromosomes
 test.findConsensusPeakRegions_with_all_absent_chr_as_chrList <- function() {
     chrList <- Seqinfo(paste0("chr", c(32,101,40)),
@@ -297,8 +266,7 @@ test.findConsensusPeakRegions_with_all_absent_chr_as_chrList <- function() {
                         A549_FOSL2_01_NarrowPeaks_partial[1:2],
                         peaks = A549_FOSL2_01_Peaks_partial[1:2],
                         chrInfo = chrList), error = conditionMessage)
-    exp <- paste0("None of chromosome names present in chrList is ",
-                    "not present in peak")
+    exp <- paste0("No chromosome name from chrList is present in peak")
     message <- paste0(" findConsensusPeakRegions_with_all_absent_chr_as",
                       "_chrList - All absent chromosomes in chrList did ",
                       "not generated expected error.")

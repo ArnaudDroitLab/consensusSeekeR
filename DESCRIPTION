@@ -20,8 +20,8 @@ Author@R: c(person("Astrid Louise", "Deschenes",
     email="arnaud.droit@crchuq.ulaval.ca", role=c("aut")))
 Depends: R (>= 2.10),
     BiocGenerics,
-    GenomicRanges,
     IRanges,
+    GenomicRanges,
     BiocParallel
 Imports: GenomeInfoDb,
     rtracklayer,

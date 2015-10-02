@@ -126,13 +126,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
     if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
         not_present <- names(chrList)[!(names(chrList)
                                             %in% names(seqinfo(peaks)))]
-        if (length(not_present) < length(names(chrList))) {
-            warning(paste0("At least one chromosome name present in chrList ",
-                "is not present in peak : ", paste0(not_present,
-                collapse = ", ")))
-        } else {
-            stop("None of chromosome names present in chrList ",
-                "is not present in peak")
+        if (length(not_present) == length(names(chrList))) {
+            stop("No chromosome name from chrList is present in peak")
         }
     }
 
