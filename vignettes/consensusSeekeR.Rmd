@@ -190,7 +190,7 @@ The NarrowPeak format is often used to provide called peaks of signal
 enrichment based on pooled, normalized data. The `r Biocpkg("rtracklayer")`
 package has functions which faciliate the loading of the NarrowPeak files.
 
-Since the main function of the `r Rpackage("consensusSeekeR")` needs 2 
+Since the main function of the `r Rpackage("consensusSeekeR")` package needs 2 
 `GRanges` objects, some manipulations are needed to create one `GRanges` for 
 the regions and one `GRanges` for the peaks.
 
@@ -218,8 +218,38 @@ ranges(peaks)   <-  IRanges(start = (start(regions) + regions$peak),
                             width = rep(1, length(regions$peak)))
 
 ### First rows of each GRanges object
-head(regions, n = 3)
-head(peaks, n = 3)
+head(regions, n = 2)
+head(peaks, n = 2)
+```
+
+```{r secretRM, echo=FALSE, collapse=TRUE}
+rm(peaks)
+rm(regions)
+```
+
+A simpler way is to use the `readNarrowPeakFile` function of the 
+`r Rpackage("consensusSeekeR")` package which generate both
+the peaks and the narrowPeak `GRanges`.
+
+```{r readNarrowPeak_1, collapse=TRUE}
+library(consensusSeekeR)
+
+### Demo file contain inside the consensusSeekeR package
+file_narrowPeak <- system.file("extdata",
+        "A549_FOSL2_ENCSR000BQO_MZW_part_chr_1_and_12.narrowPeak", 
+        package = "consensusSeekeR")
+
+### Create genomic ranges for both the regions and the peaks
+result <- readNarrowPeakFile(file_narrowPeak, extractRegions = TRUE, 
+                                    extractPeaks = TRUE)
+
+### First rows of each GRanges object
+head(result$narrowPeak, n = 2)
+head(result$peak, n = 2)
+```
+
+```{r secretRM_02, echo=FALSE, collapse=TRUE}
+rm(result)
 ```
 
 # Case study: nucleosome positioning
