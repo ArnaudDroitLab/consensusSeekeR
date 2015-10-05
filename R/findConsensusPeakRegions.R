@@ -88,7 +88,7 @@
 #' @importFrom IRanges IRanges unlist
 #' @importFrom GenomicRanges GRanges GRangesList .__T__split:base
 #' @importFrom BiocParallel bplapply MulticoreParam SerialParam
-#' multicoreWorkers bpmapply bpok
+#' multicoreWorkers bpmapply
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 
 #'
