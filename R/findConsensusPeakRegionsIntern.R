@@ -259,9 +259,11 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
     regions   <- GRanges(seqnames = Rle(chrName, maxLength),
                             rep(IRanges(1, 1), maxLength))
 
+
+    nbrPeaks   <- length(peaks)
     nbrRegions <- 0L
 
-    if (length(peaks) > 0 && length(narrowPeaks) > 0) {
+    if (nbrPeaks > 0 && length(narrowPeaks) > 0) {
         # Variables initialization
         current <- NULL
         rightBoundary <- NULL
@@ -281,7 +283,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         # calcule the median of the peaks. The iteration goes on as long as
         # the set of peaks is not stable and the inital peak is not part
         # of the region.
-        # When a region is fixed, TODO.
+        # When a region is fixed, use narrowPeak information to ajust
+        # boundaries if needed.
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
@@ -391,7 +394,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             }
 
             # Stop loop when all peaks are treated
-            if (pos >= length(peaks)) break
+            if (pos >= nbrPeaks) break
         }
     }
 
