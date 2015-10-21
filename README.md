@@ -11,8 +11,8 @@ potential region as a consensus region. If needed, the consensus regions can be 
 
 ## Authors ##
 
-[Astrid Deschenes](http://ca.linkedin.com/in/astriddeschenes 
-"Astrid Deschenes"), 
+[Astrid Desch&ecirc;nes](http://ca.linkedin.com/in/astriddeschenes 
+"Astrid Desch&ecirc;nes"), 
 [Fabien Claude Lamaze](http://ca.linkedin.com/in/fabienlamaze/en 
 "Fabien Claude Lamaze"), 
 [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau 
@@ -23,6 +23,11 @@ and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud
 See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/ 
 "Arnaud Droit Lab") website.
 
+## Maintainer ##
+
+[Astrid Desch&ecirc;nes](http://ca.linkedin.com/in/astriddeschenes 
+"Astrid Desch&ecirc;nes")
+
 ## License ##
 
 This package and the underlying consensusSeekeR code are distributed under the 
@@ -31,3 +36,7 @@ Artistic license 2.0. You are free to use and redistribute this software.
 For more information on Artistic 2.0 License see
 [http://opensource.org/licenses/Artistic-2.0](http://opensource.org/licenses/Artistic-2.0)
 
+## Bugs/Feature requests ##
+
+If you have any bugs or feature requests,
+[let us know](https://github.com/adeschen/consensusSeekeR/issues). Thanks!
