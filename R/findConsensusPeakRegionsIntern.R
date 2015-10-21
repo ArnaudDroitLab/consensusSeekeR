@@ -236,8 +236,8 @@ isInteger <- function(value) {
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges median ranges
-#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
+#' @importFrom IRanges IRanges median ranges "ranges<-"
+#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,

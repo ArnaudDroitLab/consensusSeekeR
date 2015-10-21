@@ -45,10 +45,10 @@
 #'
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
-#' @importFrom IRanges IRanges ranges
+#' @importFrom IRanges IRanges ranges "ranges<-"
 #' @importFrom GenomicRanges GRanges ranges
 #' @importFrom S4Vectors Rle
-#' @importFrom rtracklayer import ranges
+#' @importFrom rtracklayer import
 #' @export
 readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
                                 extractPeaks = TRUE) {
