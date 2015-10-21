@@ -46,9 +46,9 @@
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom IRanges IRanges ranges
-#' @importFrom GenomicRanges GRanges
+#' @importFrom GenomicRanges GRanges ranges
 #' @importFrom S4Vectors Rle
-#' @importFrom rtracklayer import
+#' @importFrom rtracklayer import ranges
 #' @export
 readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
                                 extractPeaks = TRUE) {
@@ -115,7 +115,7 @@ readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
     # Create GRanges for the peaks when specified
     if (extractPeaks) {
         peakResult          <- regionResult
-        ranges(peakResult)   <- IRanges(start = (start(regionResult) +
+        ranges(peakResult)  <- IRanges(start = (start(regionResult) +
                                     regionResult$peak),
                                     width = rep(1, length(regionResult$peak)))
     }
