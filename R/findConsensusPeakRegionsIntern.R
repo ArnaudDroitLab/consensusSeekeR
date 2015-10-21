@@ -267,7 +267,6 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         # Variables initialization
         current <- NULL
         rightBoundary <- NULL
-        namesVec <- vector()
         bad <- FALSE
         pos <- 1
         region_width <- 2 * extendingSize
@@ -288,7 +287,6 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
-            seq_name <- as.character(seqnames(current))
             rightBoundary <- NULL
             set <- NULL
             setNew <- NULL
