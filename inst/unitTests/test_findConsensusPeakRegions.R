@@ -36,8 +36,11 @@ names(A549_FOSL2_01_NarrowPeaks_partial) <-
 
 ## Test the result when a numerical is passed as narrowPeaks parameter
 test.findConsensusPeakRegions_with_narrowPeaks_numerical <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = 444,
-            peaks = GRanges()), error = conditionMessage)
+            peaks = A549_FOXA1_01_Peaks_partial, chrInfo = seqinfo,
+            expandToFitPeakRegion = TRUE),
+            error = conditionMessage)
     exp <- "narrowPeaks must be a GRanges object"
     message <- paste0("findConsensusPeakRegions_with_narrowPeaks_numerical() ",
             "- A numerical as narrowPeaks parameter did not generated ",
@@ -47,8 +50,10 @@ test.findConsensusPeakRegions_with_narrowPeaks_numerical <- function() {
 
 ## Test the result when a integer is passed as peaks parameter
 test.findConsensusPeakRegions_with_peaks_integer <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = GRanges(),
-            peaks = 444), error = conditionMessage)
+            peaks = 444, chrInfo = seqinfo, expandToFitPeakRegion = TRUE),
+            error = conditionMessage)
     exp <- "peaks must be a GRanges object"
     message <- paste0("findConsensusPeakRegions_with_peaks_integer() ",
             "- A integer as peaks parameter did not generated expected error.")
@@ -66,9 +71,12 @@ test.findConsensusPeakRegions_with_peaks_list <- function() {
 }
 
 ## Test the result when a empty GRanges is passed as narrowPeaks parameter
+## and narrowPeaks needed
 test.findConsensusPeakRegions_with_narrowPeaks_empty_GRanges <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = GRanges(),
-            peaks = GRanges()), error = conditionMessage)
+            peaks = A549_FOSL2_01_Peaks_partial, chrInfo = seqinfo,
+            expandToFitPeakRegion = TRUE), error = conditionMessage)
     exp <- "narrowPeaks must be a GRanges object with at least one entry"
     message <- paste0("findConsensusPeakRegions_with_narrowPeaks_empty_GRanges",
             "s() - A empty GRanges as narrowPeaks parameter did not ",
@@ -78,8 +86,9 @@ test.findConsensusPeakRegions_with_narrowPeaks_empty_GRanges <- function() {
 
 ## Test the result when a empty GRanges is passed as peaks parameter
 test.findConsensusPeakRegions_with_peaks_empty_GRanges <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-            A549_FOSL2_01_NarrowPeaks_partial, peaks = GRanges()),
+            A549_FOSL2_01_NarrowPeaks_partial, peaks = GRanges(), chrInfo = seqinfo),
             error = conditionMessage)
     exp <- "peaks must be a GRanges object with at least one entry"
     message <- paste0(" findConsensusPeakRegions_with_peaks_empty_GRanges",
@@ -89,11 +98,12 @@ test.findConsensusPeakRegions_with_peaks_empty_GRanges <- function() {
 }
 
 ## Test the result when two GRanges of different lengths are passed as
-## parameters
+## parameters and narrowPeaks needed
 test.findConsensusPeakRegions_with_diff_length_GRanges <- function() {
+    seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-            A549_FOSL2_01_NarrowPeaks_partial[1:3],
-            peaks = A549_FOSL2_01_Peaks_partial[1:5]),
+            A549_FOSL2_01_NarrowPeaks_partial[1:3], chrInfo = seqinfo,
+            peaks = A549_FOSL2_01_Peaks_partial[1:5], expandToFitPeakRegion = TRUE),
             error = conditionMessage)
     exp <- "narrowPeaks and peaks must have the same number of elements"
     message <- paste0(" findConsensusPeakRegions_with_diff_length_GRanges",
@@ -112,8 +122,8 @@ test.findConsensusPeakRegions_narrowPeaks_with_no_name_GRanges <- function() {
                 score = 1:2, GC = seq(1, 0, length=2),
                 seqinfo=seqinfo)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = gr,
-                    peaks = A549_FOSL2_01_Peaks_partial[2:3]),
-                    error = conditionMessage)
+                    peaks = A549_FOSL2_01_Peaks_partial[2:3], chrInfo = seqinfo,
+                    expandToFitPeakRegion = TRUE), error = conditionMessage)
     exp <- paste0("narrowPeaks and peaks must have defined metadata name so ",
                   "that each narrowPeaks entry can be associated to a ",
                   "peaks entry")
@@ -133,7 +143,8 @@ test.findConsensusPeakRegions_narrowPeaks_with_no_row_name_GRanges <- function()
                 score = 1:2, GC = seq(1, 0, length=2), seqinfo=seqinfo)
     gr$name = paste0("peak", 1:2)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks = gr,
-            peaks = A549_FOSL2_01_Peaks_partial[2:3]),
+            peaks = A549_FOSL2_01_Peaks_partial[2:3], chrInfo = seqinfo,
+            expandToFitPeakRegion = TRUE),
             error = conditionMessage)
     exp <- paste0("narrowPeaks and peaks must have defined row names ",
                   "so that each entry can be associated to an ",
@@ -154,7 +165,8 @@ test.findConsensusPeakRegions_peaks_with_no_name_GRanges <- function() {
                   strand = Rle(strand(c("-", "+")), c(1, 1)),
                   score = 10:11, GC = seq(1, 0, length=2), seqinfo=seqinfo)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-                    A549_FOSL2_01_Peaks_partial[2:3],
+                    A549_FOSL2_01_Peaks_partial[2:3], expandToFitPeakRegion = TRUE,
+                    chrInfo = seqinfo,
                     peaks = gr), error = conditionMessage)
     exp <- paste0("narrowPeaks and peaks must have defined metadata name ",
             "so that each narrowPeaks entry can be associated to ",
@@ -176,6 +188,8 @@ test.findConsensusPeakRegions_peaks_with_no_row_name_GRanges <- function() {
     gr$name <- paste0("peak", 1:2)
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
                             A549_FOSL2_01_Peaks_partial[2:3],
+                            expandToFitPeakRegion = TRUE,
+                            chrInfo = seqinfo,
                             peaks = gr), error = conditionMessage)
     exp <- paste0("narrowPeaks and peaks must have defined row names ",
                   "so that each entry can be associated to ",
@@ -192,8 +206,8 @@ test.findConsensusPeakRegions_with_diff_names_GRanges <- function() {
     seqinfo <- Seqinfo(paste0("chr", 1:2), c(1000, 2000), NA, "mock1")
     obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
             A549_FOSL2_01_NarrowPeaks_partial[3:5],
-            peaks = A549_FOSL2_01_Peaks_partial[2:4]), chrInfo = seqinfo,
-            error = conditionMessage)
+            peaks = A549_FOSL2_01_Peaks_partial[2:4], chrInfo = seqinfo,
+            expandToFitPeakRegion = TRUE), error = conditionMessage)
     exp <- paste0("All narrowPeaks entry must have an equivalent peaks ",
         "entry recognizable by both an identical metadata name and an ",
         "identical row name")
@@ -459,9 +473,9 @@ test.findConsensusPeakRegions_too_big_minNbrExp <- function() {
                                              chrInfo = testList,
                                              minNbrExp = 14), error = conditionMessage)
     exp <- paste0("minNbrExp must be inferior or equal to the number of ",
-                    "experiments presents in narrowPeaks and peaks. The ",
+                    "experiments presents in peaks. The ",
                     "number ofexperiments is known by the number of ",
-                    "differents row names in narrowPeaks and peaks.")
+                    "differents row names in peaks.")
     message <- paste0("test.findConsensusPeakRegions_too_big_minNbrExp",
                       " - Too big minNbrExp did ",
                       "not generated expected error.")
@@ -677,6 +691,33 @@ test.findConsensusPeakRegions_ALL_with_size_50_minNbrExp_two_no_expending <- fun
                 rep(100L, 6), msg = message)
     checkEquals(obs$consensusRanges, exp, msg = message)
 }
+
+## Test the result when ALL as chrList and 2 as minNbrExp and no expending region
+## when no datat for narrowPeaks parameters
+test.findConsensusPeakRegions_ALL_with_size_50_minNbrExp_two_no_expending_no_narrowPeaks <- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
+    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(4,2)),
+                   ranges = IRanges(start = c(249123274, 249167414, 249168009,
+                                              249200168,    179574,    343255),
+                                    end = c(249123374, 249167514, 249168109,
+                                            249200268,    179674,    343355)),
+                   seqinfo = seqinfo)
+    chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- findConsensusPeakRegions(peaks = c(A549_FOSL2_01_Peaks_partial,
+                                              A549_FOXA1_01_Peaks_partial),
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 50,
+                                    expandToFitPeakRegion = FALSE,
+                                    shrinkToFitPeakRegion = FALSE)
+    message <- paste0("findConsensusPeakRegions_ALL_with_size_50_minNbrExp_",
+                      "two_no_expending_no_narrowPeaks - When \"ALL\" as chrList, two as ",
+                      "minNbrExp, size of 50, no narrowPeaks and no expending region did ",
+                      "not generated expected results.")
+    checkEquals(end(obs$consensusRanges)-start(obs$consensusRanges),
+                rep(100L, 6), msg = message)
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
+
 
 ## Test that left boundary inferior to zero is set to zero
 test.findConsensusPeakRegions_ALL_with_one_as_left_boundary <- function() {

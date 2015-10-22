@@ -157,21 +157,30 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
         coreParam <- MulticoreParam(workers = nbrThreads)
     }
 
-    # Preparing data
-    narrowPeaksSplit <- GenomicRanges::split(narrowPeaks,
-                                                    seqnames(narrowPeaks))
-    rm(narrowPeaks)
+    # Detect if narrowPeaks are needed or not
+    areNarrowPeaksUsed <- expandToFitPeakRegion | shrinkToFitPeakRegion
 
-    selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit) %in%
-                                                    seqnames(chrInfo)]
-    rm(narrowPeaksSplit)
-
+    # Preparing peak data
     peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
     rm(peaks)
 
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in%
-                                                    seqnames(chrInfo)]
+                                         seqnames(chrInfo)]
     rm(peaksSplit)
+
+    # Preparing narrow peaks data
+    if (areNarrowPeaksUsed) {
+        narrowPeaksSplit <- GenomicRanges::split(narrowPeaks,
+                                                    seqnames(narrowPeaks))
+        rm(narrowPeaks)
+
+        selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit)
+                                                    %in% seqnames(chrInfo)]
+        rm(narrowPeaksSplit)
+    } else {
+        selectedNarrowPeaksSplit <- selectedPeaksSplit
+        rm(narrowPeaks)
+    }
 
     # Running each chromosome on a separate thread
     results <- bpmapply(findConsensusPeakRegionsForOneChrom,
