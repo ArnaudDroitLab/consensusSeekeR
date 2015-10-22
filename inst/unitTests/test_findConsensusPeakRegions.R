@@ -258,37 +258,6 @@ test.findConsensusPeakRegions_with_missing_length_in_chrList <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
-## Test the result when chrList with a non existing chromosome
-test.findConsensusPeakRegions_with_absent_chr_as_chrList <- function() {
-    chrList <- Seqinfo(paste0("chr", c(1,40)), c(249250621, 135534747), NA)
-    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-                        A549_FOSL2_01_NarrowPeaks_partial[1:2],
-                        peaks = A549_FOSL2_01_Peaks_partial[1:2],
-                        chrInfo = chrList), warning = conditionMessage)
-    exp <- paste0("At least one chromosome name present in chrList is ",
-            "not present in peak : chr40")
-    message <- paste0(" findConsensusPeakRegions_with_absent_chr_as_chrList",
-            " - Absent chromosome in chrList did not generated ",
-            "expected error.")
-    checkEquals(obs, exp, msg = message)
-}
-
-## Test the result when chrList with 2 non existing chromosomes
-test.findConsensusPeakRegions_with_two_absent_chr_as_chrList <- function() {
-    chrList <- Seqinfo(paste0("chr", c(32,1,40)),
-                        c(135534747, 249250621, 135534747), NA)
-    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
-                        A549_FOSL2_01_NarrowPeaks_partial[1:2],
-                        peaks = A549_FOSL2_01_Peaks_partial[1:2],
-                        chrInfo = chrList), warning = conditionMessage)
-    exp <- paste0("At least one chromosome name present in chrList is ",
-                  "not present in peak : chr32, chr40")
-    message <- paste0(" findConsensusPeakRegions_with_two_absent_chr_as",
-                    "_chrList - Absent chromosomes in chrList did ",
-                    "not generated expected error.")
-    checkEquals(obs, exp, msg = message)
-}
-
 ## Test the result when chrList with all non existing chromosomes
 test.findConsensusPeakRegions_with_all_absent_chr_as_chrList <- function() {
     chrList <- Seqinfo(paste0("chr", c(32,101,40)),
@@ -297,8 +266,7 @@ test.findConsensusPeakRegions_with_all_absent_chr_as_chrList <- function() {
                         A549_FOSL2_01_NarrowPeaks_partial[1:2],
                         peaks = A549_FOSL2_01_Peaks_partial[1:2],
                         chrInfo = chrList), error = conditionMessage)
-    exp <- paste0("None of chromosome names present in chrList is ",
-                    "not present in peak")
+    exp <- paste0("No chromosome name from chrList is present in peak")
     message <- paste0(" findConsensusPeakRegions_with_all_absent_chr_as",
                       "_chrList - All absent chromosomes in chrList did ",
                       "not generated expected error.")
@@ -482,6 +450,23 @@ test.findConsensusPeakRegions_list_of_integers_as_minNbrExp <- function() {
     checkEquals(obs, exp, msg = message)
 }
 
+## Test the result when minNbrExp superior to number of experiments
+test.findConsensusPeakRegions_too_big_minNbrExp <- function() {
+    testList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- tryCatch(findConsensusPeakRegions(narrowPeaks =
+                                                 A549_FOSL2_01_NarrowPeaks_partial[1:2],
+                                             peaks = A549_FOSL2_01_Peaks_partial[1:2],
+                                             chrInfo = testList,
+                                             minNbrExp = 14), error = conditionMessage)
+    exp <- paste0("minNbrExp must be inferior or equal to the number of ",
+                    "experiments presents in narrowPeaks and peaks. The ",
+                    "number ofexperiments is known by the number of ",
+                    "differents row names in narrowPeaks and peaks.")
+    message <- paste0("test.findConsensusPeakRegions_too_big_minNbrExp",
+                      " - Too big minNbrExp did ",
+                      "not generated expected error.")
+    checkEquals(obs, exp, msg = message)
+}
 
 ## Test the result when zero as nbrThreads
 test.findConsensusPeakRegions_zero_as_nbrThreads<- function() {
@@ -820,6 +805,49 @@ test.findConsensusPeakRegions_when_shrinkToFitPeakRegion_TRUE<- function() {
                    seqinfo = seqinfo)
     message <- paste0(" findConsensusPeakRegions_when_",
                       "shrinkToFitPeakRegion_TRUE",
+                      " - When shrinkToFitPeakRegion set to TRUE, ",
+                      "the observed results don't fit with ",
+                      "the expected results.")
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
+
+## Test that consensus regions empty
+test.findConsensusPeakRegions_when_empty <- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
+    exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249250617, 135534737),
+                                         end = c(249250617, 135534737)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp1Peak)<-rep("exp1", 2)
+    exp1NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(249250600, 135534733),
+                                               end = c(249250618, 135534739)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp1NarrowPeak)<-rep("exp1", 2)
+    exp2Peak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                        ranges = IRanges(start = c(249, 136),
+                                         end = c(249, 136)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp2Peak)<-rep("exp2", 2)
+    exp2NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(1,1)),
+                              ranges = IRanges(start = c(240, 130),
+                                               end = c(280, 190)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp2NarrowPeak)<-rep("exp2", 2)
+    chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
+    obs <- findConsensusPeakRegions(narrowPeaks =
+                                        c(exp1NarrowPeak, exp2NarrowPeak),
+                                    peaks = c(exp1Peak, exp2Peak),
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 200,
+                                    expandToFitPeakRegion = FALSE,
+                                    shrinkToFitPeakRegion = TRUE)
+    exp <- GRanges()
+    message <- paste0(" test.findConsensusPeakRegions_when_empty() ",
                       " - When shrinkToFitPeakRegion set to TRUE, ",
                       "the observed results don't fit with ",
                       "the expected results.")

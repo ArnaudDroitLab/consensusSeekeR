@@ -126,13 +126,8 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
     if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
         not_present <- names(chrList)[!(names(chrList)
                                             %in% names(seqinfo(peaks)))]
-        if (length(not_present) < length(names(chrList))) {
-            warning(paste0("At least one chromosome name present in chrList ",
-                "is not present in peak : ", paste0(not_present,
-                collapse = ", ")))
-        } else {
-            stop("None of chromosome names present in chrList ",
-                "is not present in peak")
+        if (length(not_present) == length(names(chrList))) {
+            stop("No chromosome name from chrList is present in peak")
         }
     }
 
@@ -241,8 +236,8 @@ isInteger <- function(value) {
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges median
-#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits
+#' @importFrom IRanges IRanges median ranges "ranges<-"
+#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
@@ -258,17 +253,25 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
     chrInfo <- chrList[chrName]
 
-    # Variable containing final consensus peak regions
-    regions <- GRanges()
+    # GRanges containing final consensus peak regions
+    maxLength <- 10000
+    increment <- 10000
+    regions   <- GRanges(seqnames = Rle(chrName, maxLength),
+                            rep(IRanges(1, 1), maxLength))
 
-    if (length(peaks) > 0 && length(narrowPeaks) > 0) {
+
+    nbrPeaks   <- length(peaks)
+    nbrRegions <- 0L
+
+    if (nbrPeaks > 0 && length(narrowPeaks) > 0) {
         # Variables initialization
         current <- NULL
         rightBoundary <- NULL
-        namesVec <- vector()
         bad <- FALSE
         pos <- 1
         region_width <- 2 * extendingSize
+
+        tempGRange <- GRanges(seqnames = chrName, IRanges(1, 1))
 
         # All peak are tested.
         # A primary region starting at peak position and of size
@@ -279,11 +282,11 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         # calcule the median of the peaks. The iteration goes on as long as
         # the set of peaks is not stable and the inital peak is not part
         # of the region.
-        # When a region is fixed, TODO.
+        # When a region is fixed, use narrowPeak information to ajust
+        # boundaries if needed.
         repeat  {
             current <- peaks[pos]
             rightBoundaryNew <- start(current)
-            seq_name <- as.character(seqnames(current))
             rightBoundary <- NULL
             set <- NULL
             setNew <- NULL
@@ -291,11 +294,13 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             repeat {
                 set <- setNew
                 rightBoundary <- rightBoundaryNew
-                # Find peaks that overlaps the region
-                overlaps <- findOverlaps(query = GRanges(seqnames = seq_name,
-                                    ranges=c(IRanges(rightBoundary,
-                                    rightBoundary + region_width))),
-                                    subject = peaks)
+
+                # Update GRange to fit the new region
+                ranges(tempGRange) <- IRanges(rightBoundary,
+                                             rightBoundary + region_width)
+
+                # Find peaks that overlap the new region
+                overlaps <- findOverlaps(query = tempGRange, subject = peaks)
                 setNew <- peaks[subjectHits(overlaps)]
                 if (length(setNew) == 0 || !(current$name %in% setNew$name)) {
                     # The current peak is not included in the current region
@@ -324,8 +329,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
 
-                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name
-                                %in% set$name]
+                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
+                                                        set$name]
 
                     minLeft <- min(start(narrowPeaksSet))
                     maxRight <- max(end(narrowPeaksSet))
@@ -351,15 +356,25 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                         maxPos <- seqlengths(chrInfo)
                     }
 
-                    # Validate that maximum position is not superior
-                    # to chromosome size
-                    newRegion <- GRanges(seqnames = seq_name,
-                                            IRanges(minPos, maxPos))
-                    regions <- append(regions, newRegion)
+                    # Update total number of consensus regions
+                    nbrRegions <- nbrRegions + 1L
+
+                    # Adapt size of GRanges containing final results
+                    # when too many regions
+                    if (nbrRegions > maxLength) {
+                        regions   <- append(regions, GRanges(seqnames =
+                                            Rle(chrName, increment),
+                                            rep(IRanges(1, 1), increment)))
+                        maxLength <- maxLength + increment
+                    }
+
+                    # Update GRanges to contain the value of the new region
+                    ranges(regions[nbrRegions])<- IRanges(minPos, maxPos)
 
                     # Update overlapping peaks
-                    overlaps <- findOverlaps(query = newRegion,
+                    overlaps <- findOverlaps(query = regions[nbrRegions],
                                                 subject = peaks)
+
                     setNew <- peaks[subjectHits(overlaps)]
                     if (!(current$name %in% setNew$name)) {
                         # If the current peak is not included in the current
@@ -377,8 +392,15 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             }
 
             # Stop loop when all peaks are treated
-            if (pos >= length(peaks)) break
+            if (pos >= nbrPeaks) break
         }
+    }
+
+    # Adjust size of returned GRanges to the real number of consensus regions
+    if (nbrRegions == 0) {
+        regions <- GRanges()
+    } else {
+        regions <- regions[1:nbrRegions]
     }
 
     return(regions)

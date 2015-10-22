@@ -45,9 +45,10 @@
 #'
 #' @author Astrid Louise Deschenes
 #' @importFrom BiocGenerics start end
-#' @importFrom IRanges IRanges
-#' @importFrom GenomicRanges GRanges
+#' @importFrom IRanges IRanges ranges "ranges<-"
+#' @importFrom GenomicRanges GRanges ranges
 #' @importFrom S4Vectors Rle
+#' @importFrom rtracklayer import
 #' @export
 readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
                                 extractPeaks = TRUE) {
@@ -68,71 +69,60 @@ readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
         stop("extractPeaks and extractRegions cannot be both FALSE")
     }
 
-    # The file can have one or many lines of comments as header
-    # Find the first line which respect the UCSC format
-    data_size <- 250
-    data <- scan(file_path, what = "character", nmax = data_size,
-                    strip.white = TRUE, sep = "\n", quiet = TRUE)
+    ### Specify informations about the extr columns
+    extraCols <- c(signalValue = "numeric", pValue = "numeric",
+                   qValue = "numeric", peak = "integer")
 
-    grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
-                        "(\\s+[0-9\\.-]+){3}\\s+\\d+"), data)
+    ### Extract GRanges for narrowPeak regions from files
+    regionResult <- import(file_path, format = "BED", extraCols = extraCols)
 
-    if (length(grepRes) == 0) {
-        stop("No valid chromosome detected within first ", data_size,
-                " lines of BED file \"", file_path , "\"")
-    }
+#     # The file can have one or many lines of comments as header
+#     # Find the first line which respect the UCSC format
+#     data_size <- 250
+#     data <- scan(file_path, what = "character", nmax = data_size,
+#                     strip.white = TRUE, sep = "\n", quiet = TRUE)
+#
+#     grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
+#                         "(\\s+[0-9\\.-]+){3}\\s+\\d+"), data)
+#
+#     if (length(grepRes) == 0) {
+#         stop("No valid chromosome detected within first ", data_size,
+#                 " lines of BED file \"", file_path , "\"")
+#     }
+#
+#     skip_lines <- min(grepRes) - 1
+#
+#     # Extract info from file and load it into a table
+#     peaks <- read.table(file_path, header = FALSE, skip = skip_lines)
+#     peaks <- peaks[,1:10]
+#     names(peaks) <- c("chrom","start", "end", "name", "score", "strand",
+#                         "signalValue", "pValue", "qValue", "peak")
+#
+#     # Validate that all start and end positions are positive values
+#     if (any(peaks$start < 0) || any(peaks$end < 0)) {
+#         stop("start and end positions of peaks should all be >= 0.")
+#     }
+#
+#     # When a dot is used, it has to be changed for an asterisk
+#     # to be accepted as a GRanges
+#     if (any(levels(peaks$strand) == ".")) {
+#         levels(peaks$strand)[levels(peaks$strand) == "."] <- "*"
+#     }
 
-    skip_lines <- min(grepRes) - 1
-
-    # Extract info from file and load it into a table
-    peaks <- read.table(file_path, header = FALSE, skip = skip_lines)
-    peaks <- peaks[,1:10]
-    names(peaks) <- c("chrom","start", "end", "name", "score", "strand",
-                        "signalValue", "pValue", "qValue", "peak")
-
-    # Validate that all start and end positions are positive values
-    if (any(peaks$start < 0) || any(peaks$end < 0)) {
-        stop("start and end positions of peaks should all be >= 0.")
-    }
-
-    # When a dot is used, it has to be changed for an asterisk
-    # to be accepted as a GRanges
-    if (any(levels(peaks$strand) == ".")) {
-        levels(peaks$strand)[levels(peaks$strand) == "."] <- "*"
-    }
-
-    regionResult <- NULL
+#     regionResult <- NULL
     peakResult <- NULL
-
-    # Create GRanges for the narrow regions when specified
-    if (extractRegions) {
-        regionResult <- GRanges(seqnames = as.character(peaks$chrom),
-                            IRanges(start=(peaks$start + 1L),
-                            end=peaks$end),
-                            name = as.character(peaks$name),
-                            score = as.integer(peaks$score),
-                            signalValue = as.numeric(peaks$signalValue),
-                            strand = Rle(as.character(peaks$strand)),
-                            pValue = as.numeric(peaks$pValue),
-                            qValue = as.numeric(peaks$qValue),
-                            peak = as.integer(peaks$peak)
-                            )
-    }
 
     # Create GRanges for the peaks when specified
     if (extractPeaks) {
-        peakResult <- GRanges(seqnames = as.character(peaks$chrom),
-                            IRanges(start=(peaks$start + 1L +
-                            peaks$peak), end=(peaks$start + 1L +
-                            peaks$peak)),
-                            name = as.character(peaks$name),
-                            score = as.integer(peaks$score),
-                            signalValue = as.numeric(peaks$signalValue),
-                            strand = Rle(as.character(peaks$strand)),
-                            pValue = as.numeric(peaks$pValue),
-                            qValue = as.numeric(peaks$qValue),
-                            peak = as.integer(peaks$peak)
-                            )
+        peakResult          <- regionResult
+        ranges(peakResult)  <- IRanges(start = (start(regionResult) +
+                                    regionResult$peak),
+                                    width = rep(1, length(regionResult$peak)))
+    }
+
+    # Create GRanges for the narrow regions when specified
+    if (! extractRegions) {
+        regionResult <- NULL
     }
 
     return(list(narrowPeak = regionResult, peak = peakResult))
