@@ -58,7 +58,7 @@ consensus region is specified by user, as well as the size of
 mining regions.
 }
 \author{
-Astrid Louise Deschenes
+Astrid Deschenes
 }
 \keyword{internal}
 

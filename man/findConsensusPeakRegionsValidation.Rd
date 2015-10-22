@@ -84,7 +84,7 @@ consensusSeekeR:::findConsensusPeakRegionsValidation(
     nbrThreads = 1)
 }
 \author{
-Astrid Louise Deschenes
+Astrid Deschenes
 }
 \keyword{internal}
 

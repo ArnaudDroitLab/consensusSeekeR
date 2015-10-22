@@ -82,7 +82,7 @@
 #' consensus regions.
 #' }
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges unlist

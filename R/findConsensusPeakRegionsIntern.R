@@ -74,7 +74,7 @@
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
@@ -178,7 +178,7 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 #'
 #' @return \code{TRUE} is the parameter is a integer; otherwise \code{FALSE}
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @keywords internal
 isInteger <- function(value) {
     return((is.integer(value) && length(value) == 1) || (is.numeric(value) &&
@@ -233,7 +233,7 @@ isInteger <- function(value) {
 #'
 #' @return an object of \code{class} "commonFeatures".
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges median ranges "ranges<-"
