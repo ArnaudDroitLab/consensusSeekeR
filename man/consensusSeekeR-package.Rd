@@ -13,13 +13,13 @@ as well as the number of experiments in which a peak must be detected
 to mark a potential region as a consensus peak region.
 }
 \author{
-Astrid Louise Deschenes,
+Astrid Deschenes,
 Fabien Claude Lamaze,
 Pascal Belleau and
 Arnaud Droit
 
 Maintainer:
-Astrid Louise Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
+Astrid Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
 }
 \seealso{
 \itemize{

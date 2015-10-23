@@ -132,6 +132,6 @@ results <- findConsensusPeakRegions(
 head(results$consensusRanges, 2)
 }
 \author{
-Astrid Louise Deschenes
+Astrid Deschenes
 }
 

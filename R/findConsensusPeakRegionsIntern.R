@@ -74,70 +74,12 @@
 #'     minNbrExp = 2,
 #'     nbrThreads = 1)
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion,
             minNbrExp, nbrThreads) {
-
-    if (!is(narrowPeaks, "GRanges")) {
-        stop("narrowPeaks must be a GRanges object")
-    }
-
-    if (!is(peaks, "GRanges")) {
-        stop("peaks must be a GRanges object")
-    }
-
-    if (length(narrowPeaks) < 1) {
-        stop("narrowPeaks must be a GRanges object with at least one entry")
-    }
-
-    if (length(peaks) < 1) {
-        stop("peaks must be a GRanges object with at least one entry")
-    }
-
-    if(length(narrowPeaks) != length(peaks)) {
-        stop("narrowPeaks and peaks must have the same number of elements")
-    }
-
-    if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
-        stop(paste0("narrowPeaks and peaks must have defined metadata name ",
-            "so that each narrowPeaks entry can be associated to ",
-            "a peaks entry"))
-    }
-
-    if(is.null(names(narrowPeaks)) || is.null(names(peaks))) {
-        stop(paste0("narrowPeaks and peaks must have defined row names ",
-                    "so that each entry can be associated to an experiment"))
-    }
-
-    if (!all(sort(narrowPeaks$name) == sort(peaks$name)) ||
-        !all(sort(names(narrowPeaks)) == sort(names(peaks)))) {
-        stop(paste0("All narrowPeaks entry must have an equivalent peaks ",
-            "entry recognizable by both an identical metadata name and an ",
-            "identical row name"))
-    }
-
-    if (!is(chrList, "Seqinfo")) {
-        stop("chrList must be a Seqinfo object")
-    }
-
-    if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
-        not_present <- names(chrList)[!(names(chrList)
-                                            %in% names(seqinfo(peaks)))]
-        if (length(not_present) == length(names(chrList))) {
-            stop("No chromosome name from chrList is present in peak")
-        }
-    }
-
-    if (any(is.na(seqlengths(chrList)))) {
-        stop("At least one chromosome length is missing in chrList")
-    }
-
-    if (!isInteger(extendingSize) || extendingSize < 1 ) {
-        stop("extendingSize must be a non-negative integer")
-    }
 
     if (!is.logical(expandToFitPeakRegion)) {
         stop("expandToFitPeakRegion must be a logical value")
@@ -147,15 +89,76 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
         stop("shrinkToFitPeakRegion must be a logical value")
     }
 
+    if (!is(peaks, "GRanges")) {
+        stop("peaks must be a GRanges object")
+    }
+
+    if (length(peaks) < 1) {
+        stop("peaks must be a GRanges object with at least one entry")
+    }
+
+    if (!is(chrList, "Seqinfo")) {
+        stop("chrList must be a Seqinfo object")
+    }
+
+    if (expandToFitPeakRegion | shrinkToFitPeakRegion) {
+        ## narrowPeaks is only validated when used by code
+        if (!is(narrowPeaks, "GRanges")) {
+            stop("narrowPeaks must be a GRanges object")
+        }
+
+        if (length(narrowPeaks) < 1) {
+            stop("narrowPeaks must be a GRanges object with at least one entry")
+        }
+
+        if(length(narrowPeaks) != length(peaks)) {
+            stop("narrowPeaks and peaks must have the same number of elements")
+        }
+
+        if(is.null(narrowPeaks$name) || is.null(peaks$name)) {
+            stop(paste0("narrowPeaks and peaks must have defined metadata name ",
+                        "so that each narrowPeaks entry can be associated to ",
+                        "a peaks entry"))
+        }
+
+        if(is.null(names(narrowPeaks)) || is.null(names(peaks))) {
+            stop(paste0("narrowPeaks and peaks must have defined row names ",
+                        "so that each entry can be associated to an experiment"))
+        }
+
+        if (!all(sort(narrowPeaks$name) == sort(peaks$name)) ||
+                !all(sort(names(narrowPeaks)) == sort(names(peaks)))) {
+            stop(paste0("All narrowPeaks entry must have an equivalent peaks ",
+                        "entry recognizable by both an identical metadata name and an ",
+                        "identical row name"))
+        }
+    }
+
+    if (any(is.na(seqlengths(chrList)))) {
+        stop("At least one chromosome length is missing in chrList")
+    }
+
+    if (!all(names(chrList) %in% names(seqinfo(peaks)))) {
+        not_present <- names(chrList)[!(names(chrList)
+                                        %in% names(seqinfo(peaks)))]
+        if (length(not_present) == length(names(chrList))) {
+            stop("No chromosome name from chrList is present in peak")
+        }
+    }
+
+    if (!isInteger(extendingSize) || extendingSize < 1 ) {
+        stop("extendingSize must be a non-negative integer")
+    }
+
     if (!isInteger(minNbrExp) || minNbrExp < 1) {
         stop("minNbrExp must be a non-negative integer")
     }
 
-    if (minNbrExp > length(unique(names(narrowPeaks)))) {
+    if (minNbrExp > length(unique(names(peaks)))) {
         stop(paste0("minNbrExp must be inferior or equal to the number ",
-            "of experiments presents in narrowPeaks and peaks. The number of",
-            "experiments is known by the number of differents row names ",
-            "in narrowPeaks and peaks."))
+                    "of experiments presents in peaks. The number of",
+                    "experiments is known by the number of differents row names ",
+                    "in peaks."))
     }
 
     if (!isInteger(nbrThreads) || nbrThreads < 1 ) {
@@ -178,7 +181,7 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 #'
 #' @return \code{TRUE} is the parameter is a integer; otherwise \code{FALSE}
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @keywords internal
 isInteger <- function(value) {
     return((is.integer(value) && length(value) == 1) || (is.numeric(value) &&
@@ -233,7 +236,7 @@ isInteger <- function(value) {
 #'
 #' @return an object of \code{class} "commonFeatures".
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges median ranges "ranges<-"
@@ -245,12 +248,22 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                 shrinkToFitPeakRegion,
                 minNbrExp, chrList) {
 
-    # Subset peaks and narrow peaks using the specified chromosome name
+    # Detect if narrowPeaks are needed or not
+    areNarrowPeaksUsed <- expandToFitPeakRegion | shrinkToFitPeakRegion
+
+    # Subset peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks,
                         as.character(seqnames(allPeaks)) == chrName))
-    narrowPeaks <- sort(subset(allNarrowPeaks,
-                        as.character(seqnames(allNarrowPeaks)) == chrName))
 
+    # Subset narrow peaks using the spcified chromosome name when necessary
+    if (areNarrowPeaksUsed) {
+        narrowPeaks <- sort(subset(allNarrowPeaks,
+                        as.character(seqnames(allNarrowPeaks)) == chrName))
+    } else {
+        narrowPeaks <- GRanges()
+    }
+
+    # Get info for the specific chromosome
     chrInfo <- chrList[chrName]
 
     # GRanges containing final consensus peak regions
@@ -263,7 +276,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
     nbrPeaks   <- length(peaks)
     nbrRegions <- 0L
 
-    if (nbrPeaks > 0 && length(narrowPeaks) > 0) {
+    if (nbrPeaks > 0) {
         # Variables initialization
         current <- NULL
         rightBoundary <- NULL
@@ -329,20 +342,24 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     minPos <- rightBoundaryNew
                     maxPos <- minPos + region_width
 
-                    narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
-                                                        set$name]
+                    if (areNarrowPeaksUsed) {
+                        narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
+                                                          set$name]
 
-                    minLeft <- min(start(narrowPeaksSet))
-                    maxRight <- max(end(narrowPeaksSet))
+                        minLeft <- min(start(narrowPeaksSet))
+                        maxRight <- max(end(narrowPeaksSet))
 
-                    if (expandToFitPeakRegion) {
-                        minPos <- ifelse(minLeft < minPos, minLeft, minPos)
-                        maxPos <- ifelse(maxRight > maxPos, maxRight, maxPos)
-                    }
+                        if (expandToFitPeakRegion) {
+                            minPos <- ifelse(minLeft < minPos, minLeft, minPos)
+                            maxPos <- ifelse(maxRight > maxPos,
+                                                maxRight, maxPos)
+                        }
 
-                    if (shrinkToFitPeakRegion) {
-                        minPos <- ifelse(minLeft > minPos, minLeft, minPos)
-                        maxPos <- ifelse(maxRight < maxPos, maxRight, maxPos)
+                        if (shrinkToFitPeakRegion) {
+                            minPos <- ifelse(minLeft > minPos, minLeft, minPos)
+                            maxPos <- ifelse(maxRight < maxPos,
+                                                maxRight, maxPos)
+                        }
                     }
 
                     # Validate that minimum position is not negative

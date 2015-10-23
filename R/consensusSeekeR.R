@@ -12,13 +12,13 @@
 #'
 #' @aliases consensusSeekeR-package consensusSeekeR
 #'
-#' @author  Astrid Louise Deschenes,
+#' @author  Astrid Deschenes,
 #' Fabien Claude Lamaze,
 #' Pascal Belleau and
 #' Arnaud Droit
 #'
 #' Maintainer:
-#' Astrid Louise Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
+#' Astrid Deschenes <astrid-louise.deschenes@@crchudequebec.ulaval.ca>
 #'
 #' @seealso
 #' \itemize{

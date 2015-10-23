@@ -21,7 +21,7 @@ once casted to a \code{integer}.  A \code{vector} of
 integers will returned \code{FALSE}.
 }
 \author{
-Astrid Louise Deschenes
+Astrid Deschenes
 }
 \keyword{internal}
 

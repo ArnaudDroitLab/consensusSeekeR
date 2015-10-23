@@ -54,6 +54,6 @@ head(data$peak)
 head(data$narrowPeak)
 }
 \author{
-Astrid Louise Deschenes
+Astrid Deschenes
 }
 

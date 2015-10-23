@@ -43,7 +43,7 @@
 #' ## To access region data (GRanges format)
 #' head(data$narrowPeak)
 #'
-#' @author Astrid Louise Deschenes
+#' @author Astrid Deschenes
 #' @importFrom BiocGenerics start end
 #' @importFrom IRanges IRanges ranges "ranges<-"
 #' @importFrom GenomicRanges GRanges ranges
