@@ -553,11 +553,13 @@ test.findConsensusPeakRegions_for_one_chromosome_one_experiment <- function() {
                   ranges = IRanges(start = c(249119914, 249120334, 249123074,
                                             249132040, 249133011, 249152098,
                                             249152823, 249153205, 249157198,
-                                            249167214, 249167809, 249199968),
+                                            249167214, 249167809, 249199968,
+                                            249218870),
                                    end = c(249120424, 249121174, 249123574,
                                            249132673, 249133517, 249152644,
                                            249153397, 249153705, 249157698,
-                                           249167714, 249168802, 249200468)),
+                                           249167714, 249168802, 249200468,
+                                           249219370)),
                   seqinfo=seqinfo)
     testList <- Seqinfo(c("chr1"), c(249250621), NA)
     obs <- findConsensusPeakRegions(narrowPeaks =
@@ -565,6 +567,7 @@ test.findConsensusPeakRegions_for_one_chromosome_one_experiment <- function() {
                 A549_FOXA1_01_NarrowPeaks_partial),
                 peaks = c(A549_FOSL2_01_Peaks_partial,
                 A549_FOXA1_01_Peaks_partial), chrInfo = testList,
+                minNbrExp = 1, extendingSize = 250,
                 expandToFitPeakRegion = TRUE, shrinkToFitPeakRegion = FALSE)
     message <- paste0(" findConsensusPeakRegions_for_one_chromosome_one",
                     "_experiment - When only one chromosome and one ",
@@ -575,27 +578,30 @@ test.findConsensusPeakRegions_for_one_chromosome_one_experiment <- function() {
 ## Test the result when ALL as chrList
 test.findConsensusPeakRegions_when_ALL <- function() {
     seqinfo <- Seqinfo(paste0("chr", c(1,10)), NA, NA, NA)
-    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(12,7)),
+    exp <- GRanges(seqnames = Rle(c("chr1", "chr10"),c(13,8)),
                    ranges = IRanges(start = c(249119914, 249120334, 249123074,
                                               249132040, 249133011, 249152098,
                                               249152823, 249153205, 249157198,
                                               249167214, 249167809, 249199968,
+                                              249218870,
                                               179374,    182194,    183469,
                                               285046,    312979,    343055,
-                                              348698),
+                                              348698, 369849),
                                     end = c(249120424, 249121174, 249123574,
                                             249132673, 249133517, 249152644,
                                             249153397, 249153705, 249157698,
                                             249167714, 249168802, 249200468,
+                                            249219370,
                                             179874,    182694,    183969,
                                             285546,    313479,    343555,
-                                            349198)), seqinfo = seqinfo)
+                                            349198, 370377)), seqinfo = seqinfo)
     chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
     obs <- findConsensusPeakRegions(narrowPeaks =
                     c(A549_FOSL2_01_NarrowPeaks_partial,
                     A549_FOXA1_01_NarrowPeaks_partial),
                     peaks = c(A549_FOSL2_01_Peaks_partial,
                     A549_FOXA1_01_Peaks_partial), chrInfo = chrList,
+                    minNbrExp = 1,
                     expandToFitPeakRegion = TRUE,
                     shrinkToFitPeakRegion = FALSE)
     message <- paste0("findConsensusPeakRegions_for_one_chromosome ",
