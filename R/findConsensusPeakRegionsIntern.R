@@ -322,15 +322,21 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                         maxRight <- max(end(narrowPeaksSet))
 
                         if (expandToFitPeakRegion) {
-                            minPos <- ifelse(minLeft < minPos, minLeft, minPos)
-                            maxPos <- ifelse(maxRight > maxPos,
-                                             maxRight, maxPos)
+                            if (minLeft < minPos) {
+                                minPos <- minLeft
+                            }
+                            if (maxRight > maxPos) {
+                                maxPos <- maxRight
+                            }
                         }
 
                         if (shrinkToFitPeakRegion) {
-                            minPos <- ifelse(minLeft > minPos, minLeft, minPos)
-                            maxPos <- ifelse(maxRight < maxPos,
-                                             maxRight, maxPos)
+                            if (minLeft > minPos) {
+                                minPos <- minLeft
+                            }
+                            if (maxRight < maxPos) {
+                                maxPos <- maxRight
+                            }
                         }
                     }
 
