@@ -79,7 +79,7 @@ have at least on peak in a region so that it is retained as a
 consensus region is specified by user, as well as the size of
 mining regions. Only the chromosomes specified by the user are treated.
 The function can be parallized by specifying a number of threads superior
-to 1. However, Windows does not support multicore evaluation.
+to 1.
 
 When the padding is small, the detected regions are smaller than
 the one that could be obtained by doing an overlap of the narrow

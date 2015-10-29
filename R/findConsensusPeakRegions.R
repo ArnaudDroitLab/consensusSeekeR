@@ -9,7 +9,7 @@
 #' consensus region is specified by user, as well as the size of
 #' mining regions. Only the chromosomes specified by the user are treated.
 #' The function can be parallized by specifying a number of threads superior
-#' to 1. However, Windows does not support multicore evaluation.
+#' to 1.
 #'
 #' When the padding is small, the detected regions are smaller than
 #' the one that could be obtained by doing an overlap of the narrow
@@ -87,7 +87,7 @@
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges unlist
 #' @importFrom GenomicRanges GRanges GRangesList .__T__split:base
-#' @importFrom BiocParallel bplapply MulticoreParam SerialParam
+#' @importFrom BiocParallel bplapply SnowParam SerialParam
 #' multicoreWorkers bpmapply
 #' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 
@@ -154,7 +154,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     } else {
-        coreParam <- MulticoreParam(workers = nbrThreads)
+        coreParam <- SnowParam(workers = nbrThreads)
     }
 
     # Detect if narrowPeaks are needed or not
