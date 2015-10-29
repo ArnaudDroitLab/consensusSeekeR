@@ -1,7 +1,7 @@
 consensusSeekeR : Detection of consensus regions inside a group of experiments using genomic positions and genomic ranges
 =====================
 
-[![Build Status](https://travis-ci.org/adeschen/consensusSeekeR.svg?branch=master)](https://travis-ci.org/adeschen/consensusSeekeR)
+[![Build Status](https://travis-ci.org/ArnaudDroitLab/consensusSeekeR.svg?branch=master)](https://travis-ci.org/ArnaudDroitLab/consensusSeekeR)
 [![codecov.io](http://codecov.io/github/adeschen/consensusSeekeR/coverage.svg?branch=master)](http://codecov.io/github/adeschen/consensusSeekeR?branch=master)
 
 This R package compares multiple narrowPeak data from different experiments to extract common peak regions. 
