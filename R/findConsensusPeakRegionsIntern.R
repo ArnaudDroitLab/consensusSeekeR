@@ -188,6 +188,7 @@ isInteger <- function(value) {
                 as.integer(value) == value) && length(value) == 1)
 }
 
+
 #' @title Extract regions sharing features in more than one experiment for
 #' one specific chromosome.
 #'
@@ -244,7 +245,8 @@ isInteger <- function(value) {
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
-                                                allNarrowPeaks, extendingSize, expandToFitPeakRegion,
+                                                allNarrowPeaks, extendingSize,
+                                                expandToFitPeakRegion,
                                                 shrinkToFitPeakRegion,
                                                 minNbrExp, chrList) {
 
@@ -253,7 +255,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
     # Subset peaks using the specified chromosome name
     peaks <- sort(subset(allPeaks,
-                         as.character(seqnames(allPeaks)) == chrName))
+                        as.character(seqnames(allPeaks)) == chrName))
 
     # Subset narrow peaks using the spcified chromosome name when necessary
     if (areNarrowPeaksUsed) {
@@ -272,19 +274,29 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         maxLength <- 10000
         increment <- 10000
         regions   <- GRanges(seqnames = Rle(chrName, maxLength),
-                             rep(IRanges(1, 1), maxLength))
+                                rep(IRanges(1, 1), maxLength))
 
+        # The total number of consensus regions
         nbrRegions   <- 0L
 
+        # The width of a consensus region
         region_width <- 2 * extendingSize
 
+        # A default region is associated to each peak
+        # The peak position is used as the starting position of the region
+        # while the region width correspond to twice the extendingSize parameter
         peaksDefaultRanges <- GRanges(seqnames = rep(chrName, length(peaks)),
-                              IRanges(start=start(peaks), width = rep(region_width, length(peaks))))
+                              IRanges(start=start(peaks),
+                                    width = rep(region_width, length(peaks))))
 
+        # Identify peaks that overlap each default region
         overlaps <- findOverlaps(query = peaksDefaultRanges, subject = peaks)
 
+        # GRange used to contain information about the current region
+        # Instead of create a new GRange each time, the same one is reused
         tempGRange <- GRanges(seqnames = chrName, IRanges(1, 1))
 
+        # The current position of the last peak present in a selected region
         maxUsedPosition <- 0L
 
         for (pos in 1:length(peaks)) {
@@ -296,9 +308,12 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
             # Extract peaks present in the default range
             # range : start(currentPeak) + 2 * extending_size
-            setPeaks <- peaks[subjectHits(overlaps[which(queryHits(overlaps) == pos)])]
+            setPeaks <- peaks[subjectHits(overlaps[which(queryHits(overlaps)
+                                                            == pos)])]
 
-            results <- refineRegion(peaks, setPeaks, extendingSize, region_width, tempGRange, currentPeak)
+            # Go through an iterative process to refine the selected range
+            results <- refineRegion(peaks, setPeaks, extendingSize,
+                                        region_width, tempGRange, currentPeak)
 
             # Process only when a region is found
             if (results$hasFoundRegion) {
@@ -316,7 +331,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 
                     if (areNarrowPeaksUsed) {
                         narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
-                                                          peaksInRegion$name]
+                                                            peaksInRegion$name]
 
                         minLeft <- min(start(narrowPeaksSet))
                         maxRight <- max(end(narrowPeaksSet))
@@ -389,6 +404,48 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 }
 
 
+#' @title Refine the selected region by using an iterative process.
+#'
+#' @description Find regions sharing the same features for a minimum number of
+#' experiments using called peaks of signal enrichment based on
+#' pooled, normalized data (mainly coming from narrowPeak files). Tje
+#' analysis is limited to one chromosome.
+#' The peaks and narrow peaks are used to identify
+#' the consensus regions. The minimum number of experiments that must
+#' have at least on peak in a region so that it is retained as a
+#' consensus region is specified by user, as well as the size of
+#' mining regions.
+#'
+#' @param peaks a \code{GRanges} containing all peaks from the current analysis
+#' sorted by position.
+#'
+#' @param setPeaks a \code{GRanges} containing the peaks present in the current
+#' selected region.
+#'
+#' @param extendingSize a \code{numeric} value indicating the size of padding
+#' at each side of the peaks median position to create the consensus
+#' region. The minimum size of the consensu region will be equal to
+#' twice the value of the \code{extendingSize} parameter. The size of
+#' the \code{extendingSize} must be a positive integer.
+#'
+#' @param region_width a \code{numeric} value indicating the size of the
+#' region which is equivalent to twice the \code{extendingSize}.
+#'
+#' @param tempGRange a \code{GRanges} of 1 range containing the current
+#' selected region. The starting point of the current selected region should be
+#' the starting position of the \code{currentPeak}. The \code{tempGRange}
+#' will be updated to contain the final selected region.
+#'
+#' @param currentPeak a \code{GRanges} with 1 range containing the information
+#' about the current peak used as the starting point for the selected region.
+#'
+#' @return an object of \code{class} "commonFeatures".
+#'
+#' @author Astrid Deschenes
+#' @importFrom BiocGenerics start
+#' @importFrom IRanges IRanges median ranges "ranges<-"
+#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges
+#' @keywords internal
 refineRegion <- function(peaks, setPeaks, extendingSize,
                                 region_width, tempGRange, currentPeak) {
 
@@ -398,29 +455,39 @@ refineRegion <- function(peaks, setPeaks, extendingSize,
     maxPosition <- NULL
 
     repeat {
-
+        # Fix the current set of peaks using the previous obtained value
         setCurrentPeaks <- setNewPeaks
 
-        # The new region is centered on the median position of the peaks
+        # The updated region is centered on the median position of the peaks
         rightBoundary <- median(start(setCurrentPeaks)) - extendingSize
 
-        # Update GRange to fit the new region
+        # Update GRange to fit the updated region
         ranges(tempGRange) <- IRanges(rightBoundary,
                                   rightBoundary + region_width)
 
+        # Get peaks present in the updated region
         overlaps <- findOverlaps(query = tempGRange, subject = peaks)
         setNewPeaks <- peaks[subjectHits(overlaps)]
 
-        if (length(setNewPeaks) == 0 || !(currentPeak$name %in% setNewPeaks$name)) {
+        # The peak used to select the region should always be present in the
+        # updated region
+        if (length(setNewPeaks) == 0 ||
+                    !(currentPeak$name %in% setNewPeaks$name)) {
             # The current peak is not included in the region
-            # The region will not be selected
+            # The region will not be selected and the iterative loop should be
+            # stop
             hasFoundRegion <- FALSE
             break
         }
 
+        # Get the position of the righer most peak to ensure that
+        # peaks won't be treated twice in the main iteration
         maxPosition <- max(subjectHits(overlaps))
 
-        if ((length(setNewPeaks) == length(setCurrentPeaks)) && all(setCurrentPeaks == setNewPeaks)) break
+        # Break out of the loop when the peaks presents in the regions are
+        # stable
+        if ((length(setNewPeaks) == length(setCurrentPeaks)) &&
+                all(setCurrentPeaks == setNewPeaks)) break
     }
 
     return(list(hasFoundRegion = hasFoundRegion, peaksInRegion = setNewPeaks,
