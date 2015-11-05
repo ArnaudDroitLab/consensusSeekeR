@@ -4,8 +4,7 @@
 \alias{refineRegion}
 \title{Refine the selected region by using an iterative process.}
 \usage{
-refineRegion(peaks, setPeaks, extendingSize, region_width, tempGRange,
-  currentPeak)
+refineRegion(peaks, setPeaks, extendingSize, region_width, currentPeak)
 }
 \arguments{
 \item{peaks}{a \code{GRanges} containing all peaks from the current analysis
@@ -22,11 +21,6 @@ the \code{extendingSize} must be a positive integer.}
 
 \item{region_width}{a \code{numeric} value indicating the size of the
 region which is equivalent to twice the \code{extendingSize}.}
-
-\item{tempGRange}{a \code{GRanges} of 1 range containing the current
-selected region. The starting point of the current selected region should be
-the starting position of the \code{currentPeak}. The \code{tempGRange}
-will be updated to contain the final selected region.}
 
 \item{currentPeak}{a \code{GRanges} with 1 range containing the information
 about the current peak used as the starting point for the selected region.}
