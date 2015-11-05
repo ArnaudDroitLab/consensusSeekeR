@@ -293,7 +293,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         # The peak position is used as the starting position of the region
         # while the region width correspond to twice the extendingSize parameter
         peaksDefaultRanges <- IRanges(start=start(peaks),
-                                    width = rep(region_width, length(peaks)))
+                                width = rep(region_width + 1, length(peaks)))
 
         # Identify peaks that overlap each default region
         overlaps <- findOverlaps(query = peaksDefaultRanges, subject = peaks)
