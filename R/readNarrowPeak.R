@@ -29,13 +29,13 @@
 #' @examples
 #'
 #' ## Set file information
-#'test_narrowPeak <- system.file("extdata",
-#'              "A549_FOSL2_ENCSR000BQO_MZW_part_chr_1_and_12.narrowPeak",
-#'              package = "consensusSeekeR")
+#' test_narrowPeak <- system.file("extdata",
+#'             "A549_FOSL2_ENCSR000BQO_MZW_part_chr_1_and_12.narrowPeak",
+#'             package = "consensusSeekeR")
 #'
 #' ## Read file to extract peaks and regions
 #' data <- readNarrowPeakFile(test_narrowPeak, extractRegions = TRUE,
-#'     extractPeaks = TRUE)
+#'             extractPeaks = TRUE)
 #'
 #' ## To access peak data (GRanges format)
 #' head(data$peak)
@@ -76,40 +76,6 @@ readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
     ### Extract GRanges for narrowPeak regions from files
     regionResult <- import(file_path, format = "BED", extraCols = extraCols)
 
-#     # The file can have one or many lines of comments as header
-#     # Find the first line which respect the UCSC format
-#     data_size <- 250
-#     data <- scan(file_path, what = "character", nmax = data_size,
-#                     strip.white = TRUE, sep = "\n", quiet = TRUE)
-#
-#     grepRes <- grep(paste0("^\\S+(\\s+\\d+){2}\\s+\\S+\\s+\\d+\\s+[-\\+*\\.]",
-#                         "(\\s+[0-9\\.-]+){3}\\s+\\d+"), data)
-#
-#     if (length(grepRes) == 0) {
-#         stop("No valid chromosome detected within first ", data_size,
-#                 " lines of BED file \"", file_path , "\"")
-#     }
-#
-#     skip_lines <- min(grepRes) - 1
-#
-#     # Extract info from file and load it into a table
-#     peaks <- read.table(file_path, header = FALSE, skip = skip_lines)
-#     peaks <- peaks[,1:10]
-#     names(peaks) <- c("chrom","start", "end", "name", "score", "strand",
-#                         "signalValue", "pValue", "qValue", "peak")
-#
-#     # Validate that all start and end positions are positive values
-#     if (any(peaks$start < 0) || any(peaks$end < 0)) {
-#         stop("start and end positions of peaks should all be >= 0.")
-#     }
-#
-#     # When a dot is used, it has to be changed for an asterisk
-#     # to be accepted as a GRanges
-#     if (any(levels(peaks$strand) == ".")) {
-#         levels(peaks$strand)[levels(peaks$strand) == "."] <- "*"
-#     }
-
-#     regionResult <- NULL
     peakResult <- NULL
 
     # Create GRanges for the peaks when specified
