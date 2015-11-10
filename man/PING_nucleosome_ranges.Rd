@@ -31,17 +31,17 @@ data(NucPosSimulator_nucleosome_ranges)
 ## Position and range datasets from the same sofware must
 ## have identical names.
 names(PING_nucleosome_positions) <- rep("PING",
-                              length(PING_nucleosome_positions))
+                            length(PING_nucleosome_positions))
 names(PING_nucleosome_ranges) <- rep("PING",
-                              length(PING_nucleosome_ranges))
+                            length(PING_nucleosome_ranges))
 names(NOrMAL_nucleosome_positions) <-rep("NOrMAL",
-                              length(NOrMAL_nucleosome_positions))
+                            length(NOrMAL_nucleosome_positions))
 names(NOrMAL_nucleosome_ranges) <- rep("NOrMAL",
-                              length(NOrMAL_nucleosome_ranges))
+                            length(NOrMAL_nucleosome_ranges))
 names(NucPosSimulator_nucleosome_positions) <-rep("NucPosSimulator",
-                              length(NucPosSimulator_nucleosome_positions))
+                            length(NucPosSimulator_nucleosome_positions))
 names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
-                              length(NucPosSimulator_nucleosome_ranges))
+                            length(NucPosSimulator_nucleosome_ranges))
 
 ## Calculating consensus regions for chromosome 1
 ## with a default region size of 20 bp (2 * extendingSize).
@@ -53,11 +53,11 @@ names(NucPosSimulator_nucleosome_ranges) <- rep("NucPosSimulator",
 chrList <- Seqinfo(c("chr1"), c(249250621), NA)
 findConsensusPeakRegions(
     narrowPeaks = c(PING_nucleosome_ranges,
-                        NOrMAL_nucleosome_ranges,
-                        NucPosSimulator_nucleosome_ranges),
+                            NOrMAL_nucleosome_ranges,
+                            NucPosSimulator_nucleosome_ranges),
     peaks = c(PING_nucleosome_positions,
-                        NOrMAL_nucleosome_positions,
-                        NucPosSimulator_nucleosome_positions),
+                            NOrMAL_nucleosome_positions,
+                            NucPosSimulator_nucleosome_positions),
     chrInfo = chrList,
     extendingSize = 10,
     expandToFitPeakRegion = FALSE,

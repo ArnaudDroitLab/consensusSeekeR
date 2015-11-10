@@ -27,13 +27,13 @@ data(A549_CTCF_MYN_Peaks_partial)
 ## NarrowPeak and Peak datasets from the same experiment must
 ## have identical names.
 names(A549_CTCF_MYJ_Peaks_partial) <- rep("CTCF_MYJ",
-                              length(A549_CTCF_MYJ_Peaks_partial))
+                            length(A549_CTCF_MYJ_Peaks_partial))
 names(A549_CTCF_MYJ_NarrowPeaks_partial) <- rep("CTCF_MYJ",
-                              length(A549_CTCF_MYJ_NarrowPeaks_partial))
+                            length(A549_CTCF_MYJ_NarrowPeaks_partial))
 names(A549_CTCF_MYN_Peaks_partial) <-rep("CTCF_MYN",
-                              length(A549_CTCF_MYN_Peaks_partial))
+                            length(A549_CTCF_MYN_Peaks_partial))
 names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("CTCF_MYN",
-                              length(A549_CTCF_MYN_NarrowPeaks_partial))
+                            length(A549_CTCF_MYN_NarrowPeaks_partial))
 
 ## Calculating consensus regions for chromosome 10
 ## with a default region size of 100 bp (2 * extendingSize)
@@ -45,9 +45,9 @@ names(A549_CTCF_MYN_NarrowPeaks_partial) <- rep("CTCF_MYN",
 chrList <- Seqinfo(c("chr10"), c(135534747), NA)
 findConsensusPeakRegions(
     narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial,
-                        A549_CTCF_MYN_NarrowPeaks_partial),
+                            A549_CTCF_MYN_NarrowPeaks_partial),
     peaks = c(A549_CTCF_MYJ_Peaks_partial,
-                        A549_CTCF_MYN_Peaks_partial),
+                            A549_CTCF_MYN_Peaks_partial),
     chrInfo = chrList,
     extendingSize = 50,
     expandToFitPeakRegion = TRUE,
@@ -67,7 +67,7 @@ of DNA elements in the human genome. Nature. 2012 Sep 6;489(7414):57-74.
 genomic peaks dataset.}
 \item \code{\link{findConsensusPeakRegions}} {for extracting regions
 sharing the same features in more than one experiment.}
-}
+}A549_CTCF_MYJ_NarrowPeaks_partial
 }
 \keyword{datasets}
 

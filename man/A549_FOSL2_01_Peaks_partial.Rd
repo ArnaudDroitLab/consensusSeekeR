@@ -45,9 +45,9 @@ names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
 chrList <- Seqinfo("chr1", 249250621, NA)
 findConsensusPeakRegions(
     narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
-                        A549_FOSL2_01_NarrowPeaks_partial),
+                            A549_FOSL2_01_NarrowPeaks_partial),
     peaks = c(A549_FOXA1_01_Peaks_partial,
-                        A549_FOSL2_01_Peaks_partial),
+                            A549_FOSL2_01_Peaks_partial),
     chrInfo = chrList,
     extendingSize = 200,
     expandToFitPeakRegion = TRUE,

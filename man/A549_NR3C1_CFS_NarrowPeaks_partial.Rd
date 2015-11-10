@@ -34,13 +34,13 @@ data(A549_NR3C1_CFS_Peaks_partial)
 ## NarrowPeak and Peak datasets from the same experiment must
 ## have identical names.
 names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("NR3C1_CFQ",
-                              length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+                            length(A549_NR3C1_CFQ_NarrowPeaks_partial))
 names(A549_NR3C1_CFQ_Peaks_partial) <- rep("NR3C1_CFQ",
-                              length(A549_NR3C1_CFQ_Peaks_partial))
+                            length(A549_NR3C1_CFQ_Peaks_partial))
 names(A549_NR3C1_CFS_NarrowPeaks_partial) <-rep("NR3C1_CFS",
-                              length(A549_NR3C1_CFS_NarrowPeaks_partial))
+                            length(A549_NR3C1_CFS_NarrowPeaks_partial))
 names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
-                              length(A549_NR3C1_CFS_Peaks_partial))
+                            length(A549_NR3C1_CFS_Peaks_partial))
 
 ## Calculating consensus regions for chromosome 2
 ## with a default region size of 400 bp (2 * extendingSize).
@@ -50,9 +50,9 @@ names(A549_NR3C1_CFS_Peaks_partial) <- rep("NR3C1_CFS",
 chrList <- Seqinfo(c("chr2"), c(243199373), NA)
 findConsensusPeakRegions(
     narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial,
-                        A549_NR3C1_CFS_NarrowPeaks_partial),
+                            A549_NR3C1_CFS_NarrowPeaks_partial),
     peaks = c(A549_NR3C1_CFQ_Peaks_partial,
-                        A549_NR3C1_CFS_Peaks_partial),
+                            A549_NR3C1_CFS_Peaks_partial),
     chrInfo = chrList,
     extendingSize = 200,
     expandToFitPeakRegion = FALSE,
