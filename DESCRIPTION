@@ -31,7 +31,7 @@ Suggests: BiocStyle,
     ggplot2,
     knitr,
     RUnit
-License: Artistic-2.0 | file LICENSE
+License: Artistic-2.0
 URL: https://github.com/adeschen/consensusSeekeR
 BugReports: https://github.com/adeschen/consensusSeekeR/issues
 VignetteBuilder: knitr
