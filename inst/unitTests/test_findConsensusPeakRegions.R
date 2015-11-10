@@ -900,3 +900,50 @@ test.findConsensusPeakRegions_when_empty <- function() {
                       "the expected results.")
     checkEquals(obs$consensusRanges, exp, msg = message)
 }
+
+
+## Test that consensus regions not found
+test.findConsensusPeakRegions_when_not_found_region_for_a_peak <- function() {
+    seqinfo <- Seqinfo(paste0("chr", c(1)), NA, NA, NA)
+    exp1Peak <- GRanges(seqnames = Rle(c("chr1", "chr1"),c(1,1)),
+                        ranges = IRanges(start = c(10, 109),
+                                         end = c(10, 109)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp1Peak)<-rep("exp1", 2)
+    exp1NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr1"),c(1,1)),
+                              ranges = IRanges(start = c(1, 100),
+                                               end = c(20, 121)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp1NarrowPeak)<-rep("exp1", 2)
+    exp2Peak <- GRanges(seqnames = Rle(c("chr1", "chr1"),c(1,1)),
+                        ranges = IRanges(start = c(108, 120),
+                                         end = c(108, 120)),
+                        name=c("peak1", "peak2"),
+                        seqinfo = seqinfo)
+    names(exp2Peak)<-rep("exp2", 2)
+    exp2NarrowPeak <- GRanges(seqnames = Rle(c("chr1", "chr1"),c(1,1)),
+                              ranges = IRanges(start = c(100, 100),
+                                               end = c(120, 140)),
+                              name=c("peak1", "peak2"),
+                              seqinfo = seqinfo)
+    names(exp2NarrowPeak)<-rep("exp2", 2)
+    chrList <- Seqinfo(paste0("chr", c(1)), c(249250621), NA)
+    obs <- findConsensusPeakRegions(narrowPeaks =
+                                        c(exp1NarrowPeak, exp2NarrowPeak),
+                                    peaks = c(exp1Peak, exp2Peak),
+                                    chrInfo = chrList,
+                                    minNbrExp = 2, extendingSize = 90,
+                                    expandToFitPeakRegion = FALSE,
+                                    shrinkToFitPeakRegion = TRUE)
+    exp <- GRanges(seqnames = Rle(c("chr1"),c(1)),
+                   ranges = IRanges(start = c(19),
+                                    end = c(140)),
+                   seqinfo = seqinfo)
+    message <- paste0(" test.findConsensusPeakRegions_when_not_found_region_for_a_peak() ",
+                      " - When shrinkToFitPeakRegion set to TRUE, ",
+                      "the observed results don't fit with ",
+                      "the expected results.")
+    checkEquals(obs$consensusRanges, exp, msg = message)
+}
