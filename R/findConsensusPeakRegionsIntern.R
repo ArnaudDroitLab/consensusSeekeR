@@ -242,7 +242,8 @@ isInteger <- function(value) {
 #' @importFrom BiocGenerics start end
 #' @importFrom stringr str_split
 #' @importFrom IRanges IRanges median ranges "ranges<-"
-#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges queryHits match
+#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges
+#' queryHits match
 #' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
@@ -295,6 +296,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
         peaksDefaultRanges <- IRanges(start=start(peaks),
                                 width = rep(region_width + 1, length(peaks)))
 
+
         # Identify peaks that overlap each default region
         overlaps <- findOverlaps(query = peaksDefaultRanges, subject = peaks)
 
@@ -311,7 +313,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             # Extract peaks present in the default range
             # range : start(currentPeak) + 2 * extending_size
             setPeaks <- peaks[subjectHits(overlaps[which(queryHits(overlaps)
-                                                            == pos)])]
+                                                           == pos)])]
 
             # Go through an iterative process to refine the selected range
             results <- refineRegion(peaks, setPeaks, extendingSize,
@@ -334,7 +336,8 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                     if (areNarrowPeaksUsed) {
                         peakMatch <- IRanges::match(peaks, peaksInRegion,
                                                         nomatch = 0)
-                        peaksGRangesInRegion <- peaksGRanges[as.logical(peakMatch)]
+                        peaksGRangesInRegion <-
+                                        peaksGRanges[as.logical(peakMatch)]
 
                         narrowPeaksSet <- narrowPeaks[narrowPeaks$name %in%
                                                     peaksGRangesInRegion$name]
@@ -464,8 +467,8 @@ refineRegion <- function(peaks, setPeaks, extendingSize,
         rightBoundary <- median(start(setCurrentPeaks)) - extendingSize
 
         # Create range to fit the updated region
-        tempRange <- IRanges(rightBoundary,
-                                  rightBoundary + region_width)
+        tempRange <- IRanges(start = rightBoundary,
+                                    end = rightBoundary + region_width)
 
         # Get peaks present in the updated region
         overlaps <- findOverlaps(query = tempRange, subject = peaks)
