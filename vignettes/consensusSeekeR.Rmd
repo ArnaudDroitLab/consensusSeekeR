@@ -142,7 +142,7 @@ metadata field called `name`.
 2. a `GRanges` of the feature `ranges` for all experiments with a metadata 
 field called `name`. 
 
-The `GRanges` of the feature `ranges` is only mandatory the 
+Beware that thee `GRanges` of the feature `ranges` is only mandatory the 
 `expandToFitPeakRegion` parameter and/or the `shrinkToFitPeakRegion` parameter
 are set to `TRUE`.
 
@@ -717,8 +717,8 @@ rm(A549_NR3C1_CFS_Peaks_partial)
 
 ## Effect of the shrinkToFitPeakRegion parameter
 
-The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
-the minimum and maximum regions of the included features when those values are
+The `shrinkToFitPeakRegion` allows the resizing of the consensus region to fit 
+the minimum regions of the included features when those values are
 included inside the initial consensus region. When the 
 `extendingSize` parameter is large, the effect can be quite visible on the 
 final consensus regions. As exemple, the following figure shows the same 
@@ -733,7 +733,7 @@ genomics viewer [@Interests2011]:
 ## Effect of the expandToFitPeakRegion parameter
 
 The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
-the maximum and minimum regions of the included features when those values are
+the maximum     of the included features when those values are
 outside the initial consensus region. When the 
 `extendingSize` parameter is small, the effect can be quite visible on the 
 final consensus regions. As exemple, the following figure shows the same 
@@ -805,7 +805,7 @@ processors and reduce the total execution time. This number of threads
 used can be set with
 the `nbrThreads` parameter in the `findConsensusPeakRegions` function. 
 
-```{r parallelExample, collapse=TRUE}
+```{r parallelExample, eval=FALSE, collapse=TRUE}
 ### Load data
 data(A549_FOSL2_01_NarrowPeaks_partial) ; data(A549_FOSL2_01_Peaks_partial)
 data(A549_FOXA1_01_NarrowPeaks_partial) ; data(A549_FOXA1_01_Peaks_partial)
@@ -827,10 +827,7 @@ results <- findConsensusPeakRegions(
             peaks = c(A549_FOSL2_01_Peaks_partial, A549_FOXA1_01_NarrowPeaks_partial),
             chrInfo = chrList, extendingSize = 200, minNbrExp = 2, 
             expandToFitPeakRegion = FALSE, shrinkToFitPeakRegion = FALSE,
-            nbrThreads = 2)
-
-### Results from both chromosomes are present
-results$consensusRanges[9:10]
+            nbrThreads = 4)
 ```
 
 # Acknowledgment
