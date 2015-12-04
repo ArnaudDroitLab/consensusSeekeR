@@ -9,6 +9,10 @@ For demonstration purpose.}
 \format{A \code{GRanges} containing one entry per site. The ranges are
 surronding the peaks present in the dataset
 \code{A549_NR3C1_CFR_Peaks_partial}.}
+\source{
+The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+ENCFF002CFR)
+}
 \usage{
 data(A549_NR3C1_CFR_NarrowPeaks_partial)
 }
