@@ -1,10 +1,10 @@
 #' consensusSeekeR: Detection of consensus peak regions inside a group of
 #' experiments using narrowPeak files
 #'
-#' This package compares narrowPeak data from multiple experiments to extract
-#' common consensus peak regions. The size of the analyzed region is adjustable
-#' as well as the number of experiments in which a peak must be detected
-#' to mark a potential region as a consensus peak region.
+#' This package compares positions and ranges data from multiple experiments
+#' to extract common consensus regions. The size of the analyzed region is
+#' adjustable as well as the number of experiments in which a peak must be
+#' detected to mark a potential region as a consensus peak region.
 #'
 #' @docType package
 #'
@@ -35,7 +35,7 @@ NULL
 #' for the FOSL2 transcription factor (for demonstration purpose)
 #'
 #' Genomic regions representing the greatest evidence of enrichment for
-#' the FOSL2 transcription factor (DCC accession: ENCFF002CFN)
+#' the FOSL2 transcription factor (DCC accession: ENCFF000MZT)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
@@ -50,7 +50,7 @@ NULL
 #' of \code{GRanges} has a name which represent the name of the experiment.
 #'
 #' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
-#' ENCFF002CFN)
+#' ENCFF000MZT)
 #'
 #' @references
 #' \itemize{
@@ -114,7 +114,7 @@ NULL
 #' for the FOSL2 transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the FOSL2 transcription factor (DCC accession: ENCFF002CFN)
+#' the FOSL2 transcription factor (DCC accession: ENCFF000MZT)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
 #' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -127,6 +127,9 @@ NULL
 #' of the experiment.
 #'
 #' @usage data(A549_FOSL2_01_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000MZT)
 #'
 #' @references
 #' \itemize{
@@ -188,7 +191,7 @@ NULL
 #' for the FOXA1 transcription factor (for demonstration purpose)
 #'
 #' Genomic regions representing the greatest evidence of enrichment for
-#' the FOXA1 transcription factor (DCC accession: TODO)
+#' the FOXA1 transcription factor (DCC accession: ENCFF000NAH)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
 #' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -200,6 +203,9 @@ NULL
 #' of \code{GRanges} has a name which represent the name of the experiment.
 #'
 #' @usage data(A549_FOXA1_01_NarrowPeaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000NAH)
 #'
 #' @references
 #' \itemize{
@@ -260,7 +266,7 @@ NULL
 #' for the FOXA1 transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the FOXA1 transcription factor (DCC accession: TODO)
+#' the FOXA1 transcription factor (DCC accession: ENCFF000NAH)
 #' for regions chr1:249120200-249250621 and chr10:1-370100
 #' from the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
 #'
@@ -273,6 +279,9 @@ NULL
 #' the experiment.
 #'
 #' @usage data(A549_FOXA1_01_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000NAH)
 #'
 #' @references
 #' \itemize{
@@ -335,7 +344,7 @@ NULL
 #' for the CTCF transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the CTCF transcription factor (DCC accession: TODO)
+#' the CTCF transcription factor (DCC accession: ENCFF000MYJ)
 #' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
@@ -347,6 +356,9 @@ NULL
 #' @format A \code{GRanges} containing one entry per site.
 #'
 #' @usage data(A549_CTCF_MYJ_NarrowPeaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000MYJ)
 #'
 #' @references
 #' \itemize{
@@ -410,7 +422,7 @@ NULL
 #' for the CTCF transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the CTCF transcription factor (DCC accession: TODO)
+#' the CTCF transcription factor (DCC accession: ENCFF000MYJ)
 #' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
@@ -422,6 +434,9 @@ NULL
 #' @format A \code{GRanges} containing one entry per site.
 #'
 #' @usage data(A549_CTCF_MYJ_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000MYJ)
 #'
 #' @references
 #' \itemize{
@@ -485,7 +500,7 @@ NULL
 #' for the CTCF transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the CTCF transcription factor (DCC accession: TODO)
+#' the CTCF transcription factor (DCC accession: ENCFF000MYN)
 #' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
@@ -497,6 +512,9 @@ NULL
 #' @format A \code{GRanges} containing one entry per site.
 #'
 #' @usage data(A549_CTCF_MYN_NarrowPeaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000MYN)
 #'
 #' @references
 #' \itemize{
@@ -560,7 +578,7 @@ NULL
 #' for the CTCF transcription factor (for demonstration purpose)
 #'
 #' Sites representing the greatest evidence of enrichment for
-#' the CTCF transcription factor (DCC accession: TODO)
+#' the CTCF transcription factor (DCC accession: ENCFF000MYN)
 #' for regions chr1:246000000-249250621 and chr10:10000000-12500000
 #' from
 #' the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
@@ -572,6 +590,9 @@ NULL
 #' @format A \code{GRanges} containing one entry per site.
 #'
 #' @usage data(A549_CTCF_MYN_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF000MYN)
 #'
 #' @references
 #' \itemize{
@@ -653,6 +674,9 @@ NULL
 #' \code{A549_NR3C1_CFQ_NarrowPeaks_partial}.
 #'
 #' @usage data(A549_NR3C1_CFQ_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF002CFQ)
 #'
 #' @references
 #' \itemize{
@@ -743,6 +767,9 @@ NULL
 #'
 #' @usage data(A549_NR3C1_CFQ_NarrowPeaks_partial)
 #'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF002CFQ)
+#'
 #' @references
 #' \itemize{
 #' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
@@ -823,6 +850,9 @@ NULL
 #' \code{A549_NR3C1_CFR_NarrowPeaks_partial}.
 #'
 #' @usage data(A549_NR3C1_CFR_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF002CFR)
 #'
 #' @references
 #' \itemize{
@@ -905,6 +935,9 @@ NULL
 #'
 #' @usage data(A549_NR3C1_CFR_NarrowPeaks_partial)
 #'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF002CFR)
+#'
 #' @references
 #' \itemize{
 #' \item Dunham I, Kundaje A, Aldred SF, et al. An integrated encyclopedia
@@ -984,6 +1017,9 @@ NULL
 #' \code{A549_NR3C1_CFS_NarrowPeaks_partial}.
 #'
 #' @usage data(A549_NR3C1_CFS_Peaks_partial)
+#'
+#' @source The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+#' ENCFF002CFS)
 #'
 #' @references
 #' \itemize{

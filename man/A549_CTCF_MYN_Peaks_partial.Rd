@@ -6,12 +6,16 @@
 \title{Sites with the greatest evidence of transcription factor binding
 for the CTCF transcription factor (for demonstration purpose)}
 \format{A \code{GRanges} containing one entry per site.}
+\source{
+The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
+ENCFF000MYN)
+}
 \usage{
 data(A549_CTCF_MYN_Peaks_partial)
 }
 \description{
 Sites representing the greatest evidence of enrichment for
-the CTCF transcription factor (DCC accession: TODO)
+the CTCF transcription factor (DCC accession: ENCFF000MYN)
 for regions chr1:246000000-249250621 and chr10:10000000-12500000
 from
 the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).
