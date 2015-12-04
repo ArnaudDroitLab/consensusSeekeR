@@ -9,14 +9,14 @@ for the FOSL2 transcription factor (for demonstration purpose)}
 of \code{GRanges} has a name which represent the name of the experiment.}
 \source{
 The Encyclopedia of DNA Elements (ENCODE) (DCC accession:
-ENCFF002CFN)
+ENCFF000MZT)
 }
 \usage{
 data(A549_FOSL2_01_NarrowPeaks_partial)
 }
 \description{
 Genomic regions representing the greatest evidence of enrichment for
-the FOSL2 transcription factor (DCC accession: ENCFF002CFN)
+the FOSL2 transcription factor (DCC accession: ENCFF000MZT)
 for regions chr1:249120200-249250621 and chr10:1-370100
 from
 the Encyclopedia of DNA Elements (ENCODE) data (Dunham I et al. 2012).

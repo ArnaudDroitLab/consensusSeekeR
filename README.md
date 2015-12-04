@@ -23,6 +23,13 @@ and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud
 See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/ 
 "Arnaud Droit Lab") website.
 
+## Bioconductor Package ##
+
+[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/consensusSeekeR.svg)](http://bioconductor.org/packages/devel/bioc/html/consensusSeekeR.html "Bioconductor status")
+
+consensusSeekeR is now an official package of [Bioconductor](http://bioconductor.org/). The current development release can be directly downloaded from their website:
+[Current devel release](http://bioconductor.org/packages/devel/bioc/html/consensusSeekeR.html )
+
 ## Maintainer ##
 
 [Astrid Desch&ecirc;nes](http://ca.linkedin.com/in/astriddeschenes 
@@ -40,3 +47,4 @@ For more information on Artistic 2.0 License see
 
 If you have any bugs or feature requests,
 [let us know](https://github.com/ArnaudDroitLab/consensusSeekeR/issues). Thanks!
+
