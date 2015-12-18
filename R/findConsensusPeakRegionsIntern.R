@@ -75,7 +75,7 @@
 #'     nbrThreads = 1)
 #'
 #' @author Astrid Deschenes
-#' @importFrom GenomeInfoDb Seqinfo seqinfo seqlengths
+#' @import GenomeInfoDb
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion,
@@ -239,12 +239,8 @@ isInteger <- function(value) {
 #' @return an object of \code{class} "commonFeatures".
 #'
 #' @author Astrid Deschenes
-#' @importFrom BiocGenerics start end
+#' @import BiocGenerics IRanges GenomeInfoDb GenomicRanges
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges median ranges "ranges<-"
-#' @importFrom GenomicRanges GRanges findOverlaps seqnames subjectHits ranges
-#' queryHits match
-#' @importFrom GenomeInfoDb Seqinfo
 #' @keywords internal
 findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
                                                 allNarrowPeaks, extendingSize,
@@ -447,9 +443,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
 #' @return an object of \code{class} "commonFeatures".
 #'
 #' @author Astrid Deschenes
-#' @importFrom BiocGenerics start
-#' @importFrom IRanges IRanges median ranges "ranges<-"
-#' @importFrom GenomicRanges findOverlaps subjectHits ranges
+#' @import BiocGenerics IRanges GenomicRanges
 #' @keywords internal
 refineRegion <- function(peaks, setPeaks, extendingSize,
                                 region_width, currentPeak) {

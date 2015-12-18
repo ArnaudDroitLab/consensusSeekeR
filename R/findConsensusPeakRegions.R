@@ -83,13 +83,10 @@
 #' }
 #'
 #' @author Astrid Deschenes
-#' @importFrom BiocGenerics start end
+#' @import BiocGenerics IRanges GenomeInfoDb GenomicRanges
 #' @importFrom stringr str_split
-#' @importFrom IRanges IRanges unlist
-#' @importFrom GenomicRanges GRanges GRangesList .__T__split:base
 #' @importFrom BiocParallel bplapply SnowParam SerialParam
 #' multicoreWorkers bpmapply
-#' @importFrom GenomeInfoDb Seqinfo seqinfo seqnames
 
 #'
 #' @examples
