@@ -87,7 +87,6 @@
 #' @importFrom stringr str_split
 #' @importFrom BiocParallel bplapply SnowParam SerialParam
 #' multicoreWorkers bpmapply
-
 #'
 #' @examples
 #'
@@ -128,7 +127,7 @@
 #' ## Print 2 first consensus regions
 #' head(results$consensusRanges, 2)
 #'
-#'  @export
+#' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                 extendingSize = 250,
                                 expandToFitPeakRegion = FALSE,
