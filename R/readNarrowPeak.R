@@ -44,10 +44,7 @@
 #' head(data$narrowPeak)
 #'
 #' @author Astrid Deschenes
-#' @importFrom BiocGenerics start end
-#' @importFrom IRanges IRanges ranges "ranges<-"
-#' @importFrom GenomicRanges GRanges ranges
-#' @importFrom S4Vectors Rle
+#' @import BiocGenerics S4Vectors IRanges GenomicRanges
 #' @importFrom rtracklayer import
 #' @export
 readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
