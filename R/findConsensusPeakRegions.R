@@ -127,6 +127,7 @@
 #' ## Print 2 first consensus regions
 #' head(results$consensusRanges, 2)
 #'
+#' @importFrom GenomicRanges split
 #' @export
 findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
                                 extendingSize = 250,
@@ -157,7 +158,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     areNarrowPeaksUsed <- expandToFitPeakRegion | shrinkToFitPeakRegion
 
     # Preparing peak data
-    peaksSplit <- GenomicRanges::split(peaks, seqnames(peaks))
+    peaksSplit <- split(peaks, seqnames(peaks))
     rm(peaks)
 
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in%
@@ -166,8 +167,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Preparing narrow peaks data
     if (areNarrowPeaksUsed) {
-        narrowPeaksSplit <- GenomicRanges::split(narrowPeaks,
-                                                    seqnames(narrowPeaks))
+        narrowPeaksSplit <- split(narrowPeaks, seqnames(narrowPeaks))
         rm(narrowPeaks)
 
         selectedNarrowPeaksSplit <- narrowPeaksSplit[names(narrowPeaksSplit)
@@ -191,7 +191,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
 
     # Creating result list
     z <- list(call = cl,
-                consensusRanges = IRanges::unlist(GRangesList((results)),
+                consensusRanges = unlist(GRangesList((results)),
                 recursive = TRUE,
                 use.names = FALSE))
 
