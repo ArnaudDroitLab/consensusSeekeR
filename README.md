@@ -28,7 +28,7 @@ See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/
 [![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/consensusSeekeR.svg)](http://bioconductor.org/packages/devel/bioc/html/consensusSeekeR.html "Bioconductor status")
 
 consensusSeekeR is now an official package of [Bioconductor](http://bioconductor.org/). The current development release can be directly downloaded from their website:
-[Current devel release](http://bioconductor.org/packages/devel/bioc/html/consensusSeekeR.html )
+[Current devel release](http://bioconductor.org/packages/consensusSeekeR)
 
 ## Maintainer ##
 
