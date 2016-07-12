@@ -12,6 +12,7 @@ r_binary_packages:
   - RUnit
   - stringr
   - knitr
+  - rmarkdown
 
 # Package dependencies from Bioconductor
 bioc_packages:
