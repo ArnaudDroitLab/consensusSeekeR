@@ -1,6 +1,8 @@
 language: r
 sudo: required
 
+cache: packages
+
 # Packages from Bioconductor needed
 bioc_required: true
 
