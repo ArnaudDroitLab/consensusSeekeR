@@ -20,15 +20,5 @@ r_binary_packages:
   - rmarkdown
   - covr
 
-# Package dependencies from Bioconductor
-bioc_packages:
-  - GenomicRanges
-  - BiocGenerics
-  - IRanges
-  - BiocParallel
-  - GenomeInfoDb
-  - BiocStyle
-  - S4Vectors
-
 after_success:
   - Rscript -e 'library(covr);codecov()'
