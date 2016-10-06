@@ -16,6 +16,7 @@ r_binary_packages:
   - stringr
   - knitr
   - rmarkdown
+  - covr
 
 # Package dependencies from Bioconductor
 bioc_packages:
@@ -26,10 +27,6 @@ bioc_packages:
   - GenomeInfoDb
   - BiocStyle
   - S4Vectors
-
-# Package dependencies for codecov
-r_github_packages:
-  - jimhester/covr
 
 after_success:
   - Rscript -e 'library(covr);codecov()'
