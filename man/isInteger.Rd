@@ -24,4 +24,3 @@ integers will returned \code{FALSE}.
 Astrid Deschenes
 }
 \keyword{internal}
-
