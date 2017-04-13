@@ -76,6 +76,7 @@
 #'
 #' @author Astrid Deschenes
 #' @import GenomeInfoDb
+#' @importFrom methods is
 #' @keywords internal
 findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
             extendingSize, expandToFitPeakRegion, shrinkToFitPeakRegion,
