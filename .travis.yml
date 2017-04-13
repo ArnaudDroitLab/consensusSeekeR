@@ -16,6 +16,10 @@ warnings_are_errors: true
 r_build_args: "--no-manual --no-resave-data"
 r_check_args: "--no-build-vignettes --no-manual --timings"
 
+# Packages from Github
+r_github_packages:
+- Bioconductor-mirror/BiocStyle
+
 # Package dependencies from CRAN
 r_binary_packages:
   - covr

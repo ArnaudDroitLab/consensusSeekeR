@@ -13,11 +13,11 @@ potential region as a consensus region. If needed, the consensus regions can be 
 
 ## Bioconductor Package ##
 
-[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/consensusSeekeR.svg)](http://bioconductor.org/packages/devel/bioc/html/consensusSeekeR.html "Bioconductor status")
+[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/consensusSeekeR.svg)](http://bioconductor.org/packages/release/bioc/html/consensusSeekeR.html "Bioconductor status")
 
 consensusSeekeR is now an official package of [Bioconductor](http://bioconductor.org/). 
 The current release can be directly downloaded from their website:
-[Current devel release](http://bioconductor.org/packages/consensusSeekeR)
+[Current release](http://bioconductor.org/packages/consensusSeekeR/)
 
 
 ## Citing ##
