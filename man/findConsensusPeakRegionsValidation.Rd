@@ -89,4 +89,3 @@ consensusSeekeR:::findConsensusPeakRegionsValidation(
 Astrid Deschenes
 }
 \keyword{internal}
-

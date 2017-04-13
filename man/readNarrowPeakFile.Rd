@@ -58,4 +58,3 @@ head(data$narrowPeak)
 \author{
 Astrid Deschenes
 }
-

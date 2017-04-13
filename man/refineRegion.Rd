@@ -43,4 +43,3 @@ mining regions.
 Astrid Deschenes
 }
 \keyword{internal}
-
