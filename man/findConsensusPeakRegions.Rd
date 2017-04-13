@@ -136,4 +136,3 @@ head(results$consensusRanges, 2)
 \author{
 Astrid Deschenes
 }
-

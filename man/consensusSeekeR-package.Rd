@@ -2,8 +2,8 @@
 % Please edit documentation in R/consensusSeekeR.R
 \docType{package}
 \name{consensusSeekeR-package}
-\alias{consensusSeekeR}
 \alias{consensusSeekeR-package}
+\alias{consensusSeekeR}
 \title{consensusSeekeR: Detection of consensus peak regions inside a group of
 experiments using narrowPeak files}
 \description{
@@ -11,6 +11,14 @@ This package compares positions and ranges data from multiple experiments
 to extract common consensus regions. The size of the analyzed region is
 adjustable as well as the number of experiments in which a peak must be
 detected to mark a potential region as a consensus peak region.
+}
+\seealso{
+\itemize{
+\item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
+from a narrowPeak file.}
+\item \code{\link{findConsensusPeakRegions}} { for extracting regions
+sharing the same features in more than one experiment. }
+}
 }
 \author{
 Astrid Deschenes,
@@ -21,13 +29,4 @@ Arnaud Droit
 Maintainer:
 Astrid Deschenes <astrid-louise.deschenes@crchudequebec.ulaval.ca>
 }
-\seealso{
-\itemize{
-\item \code{\link{readNarrowPeakFile}} {for extracting regions and peaks
-from a narrowPeak file.}
-\item \code{\link{findConsensusPeakRegions}} { for extracting regions
-sharing the same features in more than one experiment. }
-}
-}
 \keyword{package}
-
