@@ -310,7 +310,7 @@ findConsensusPeakRegionsForOneChrom <- function(chrName, allPeaks,
             # Extract peaks present in the default range
             # range : start(currentPeak) + 2 * extending_size
             setPeaks <- peaks[subjectHits(overlaps[which(queryHits(overlaps)
-                                                           == pos)])]
+                                                            == pos)])]
 
             # Go through an iterative process to refine the selected range
             results <- refineRegion(peaks, setPeaks, extendingSize,

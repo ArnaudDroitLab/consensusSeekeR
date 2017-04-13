@@ -162,7 +162,7 @@ findConsensusPeakRegions <- function(narrowPeaks, peaks, chrInfo,
     rm(peaks)
 
     selectedPeaksSplit <- peaksSplit[names(peaksSplit) %in%
-                                         seqnames(chrInfo)]
+                                            seqnames(chrInfo)]
     rm(peaksSplit)
 
     # Preparing narrow peaks data

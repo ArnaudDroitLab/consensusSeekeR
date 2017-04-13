@@ -68,7 +68,7 @@ readNarrowPeakFile<- function(file_path, extractRegions = TRUE,
 
     ### Specify informations about the extr columns
     extraCols <- c(signalValue = "numeric", pValue = "numeric",
-                   qValue = "numeric", peak = "integer")
+                    qValue = "numeric", peak = "integer")
 
     ### Extract GRanges for narrowPeak regions from files
     regionResult <- import(file_path, format = "BED", extraCols = extraCols)
