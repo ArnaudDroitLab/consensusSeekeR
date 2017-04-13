@@ -9,10 +9,10 @@ Description: This package compares genomic positions and genomic ranges from
     present in a potential region to tag this region as a consensus region.
 Author: Astrid Deschenes [cre, aut], Fabien Claude Lamaze [ctb], Pascal Belleau
     [aut], Arnaud Droit [aut]
-Author@R: c(person("Astrid", "Deschenes", email="Astrid-
-    Louise.Deschenes@crchudequebec.ulaval.ca", role=c("cre","aut")), person("Fabien
-    Claude", "Lamaze", email="fabien.lamaze.1@ulaval.ca", role=c("ctb")),
-    person("Pascal", "Belleau", email="pascal.belleau@crchuq.ulaval.ca",
+Author@R: c(person("Astrid", "Deschenes", email="adeschen@hotmail.com", 
+    role=c("cre","aut")), person("Fabien Claude", "Lamaze", 
+    email="fabien.lamaze.1@ulaval.ca", role=c("ctb")),
+    person("Pascal", "Belleau", email="pascal_belleau@hotmail.com",
     role=c("aut")), person("Arnaud", "Droit", email="arnaud.droit@crchuq.ulaval.ca",
     role=c("aut")))
 Depends:
@@ -40,5 +40,5 @@ VignetteBuilder: knitr
 NeedsCompilation: no
 biocViews: BiologicalQuestion, ChIPSeq, Genetics, MultipleComparison,
     Transcription, PeakDetection, Sequencing, Coverage
-Maintainer: Astrid Louise Deschenes <Astrid-Louise.Deschenes@crchudequebec.ulaval.ca>
+Maintainer: Astrid Deschenes <adeschen@hotmail.com>
 RoxygenNote: 6.0.1
