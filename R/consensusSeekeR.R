@@ -250,15 +250,15 @@ NULL
 #' ## be retained as a consensus region.
 #' chrList <- Seqinfo(c("chr1", "chr10"), c(249250621, 135534747), NA)
 #' findConsensusPeakRegions(
-#'      narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
+#'     narrowPeaks = c(A549_FOXA1_01_NarrowPeaks_partial,
 #'                             A549_FOSL2_01_NarrowPeaks_partial),
-#'      peaks = c(A549_FOXA1_01_Peaks_partial,
+#'     peaks = c(A549_FOXA1_01_Peaks_partial,
 #'                             A549_FOSL2_01_Peaks_partial),
-#'      chrInfo = chrList,
-#'      extendingSize = 150,
-#'      expandToFitPeakRegion = FALSE,
-#'      minNbrExp = 2,
-#'      nbrThreads = 1)
+#'     chrInfo = chrList,
+#'     extendingSize = 150,
+#'     expandToFitPeakRegion = FALSE,
+#'     minNbrExp = 2,
+#'     nbrThreads = 1)
 #'
 NULL
 
