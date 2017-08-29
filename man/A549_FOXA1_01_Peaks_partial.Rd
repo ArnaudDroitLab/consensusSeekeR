@@ -33,13 +33,13 @@ data(A549_FOXA1_01_Peaks_partial)
 ## NarrowPeak and Peak datasets from the same experiment must
 ## have identical names.
 names(A549_FOXA1_01_Peaks_partial) <- rep("FOXA1_01",
-                              length(A549_FOXA1_01_Peaks_partial))
+        length(A549_FOXA1_01_Peaks_partial))
 names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1_01",
-                              length(A549_FOXA1_01_NarrowPeaks_partial))
+        length(A549_FOXA1_01_NarrowPeaks_partial))
 names(A549_FOSL2_01_Peaks_partial) <-rep("FOSL2_01",
-                              length(A549_FOSL2_01_Peaks_partial))
+        length(A549_FOSL2_01_Peaks_partial))
 names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2_01",
-                              length(A549_FOSL2_01_NarrowPeaks_partial))
+        length(A549_FOSL2_01_NarrowPeaks_partial))
 
 ## Calculating consensus regions for both chromosomes 1 and 10
 ## with a default region size of 100 bp (2 * extendingSize)
