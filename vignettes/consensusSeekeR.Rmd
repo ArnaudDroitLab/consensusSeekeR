@@ -1,6 +1,8 @@
 ---
-title: "Detection of consensus regions inside a group of experiments using genomic positions and genomic ranges"
+title: "Detection of consensus regions inside a group of experiments"
 author: Astrid Deschenes, Fabien Claude Lamaze, Pascal Belleau and Arnaud Droit 
+abstract: The consensusSeekeR package is designed to detect consensus regions inside a group of experiments using genomic positions and genomic ranges.
+package: consensusSeekeR
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
   BiocStyle::html_document:
@@ -9,13 +11,12 @@ bibliography: consensusSeekeR.bibtex
 vignette: >
   %\VignetteIndexEntry{Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignettePackage{consensusSeekeR}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r style, echo = FALSE, results = 'asis', message=FALSE}
-BiocStyle::markdown()
-library(knitr)
+#BiocStyle::markdown()
+#library(knitr)
 ```
 
 <br />
@@ -67,10 +68,9 @@ features. On the
 other hand, the use of the union of the regions can result in wide 
 consensus ranges.
 
-As an example, shown using Integrative genomics viewer [@Interests2011], of 
-
-two ChIP-Seq peaks from [ENCODE](https://www.encodeproject.org) 
-for the FOSL2 transcription 
+As an example, the Figure \@ref(fig:peakRegion) shows, using Integrative 
+genomics viewer [@Interests2011],  two ChIP-Seq peaks from 
+[ENCODE](https://www.encodeproject.org) for the FOSL2 transcription 
 factor (DCC accession: ENCFF002CFN). The data have been analyzed using 
 MACS2 [@Zhang2008] 
 with the default parameters and the q-value set to 0.05. The ChIP-Seq peak 
@@ -79,7 +79,9 @@ that can be defined by a position value (the peak position) and a genome
 range (the enriched region). This example shows that the peak position is not
 necessarily at the center of the enriched region.
 
-![alt text](figures/peak_and_region.jpg "Features positions and ranges")
+```{r peakRegion, fig.cap = "Two ChIP-Seq peaks. A ChIP-seq peak is defined by a enriched region an a peak position.", echo = FALSE}
+knitr::include_graphics('figures/peak_and_region.jpg')
+```
 
 The `r Rpackage("consensusSeekeR")` package implements a novative way to 
 identify consensus which use the features positions, instead of the most 
