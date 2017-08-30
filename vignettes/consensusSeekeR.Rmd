@@ -539,8 +539,8 @@ The consensus regions for chromosome 10 only are calculated
 with a defaut region size of 200 bases pairs (2 * `extendingSize`)
 The regions are extended to include all peaks regions 
 (`expandToFitPeakRegion` = `TRUE` and `shrinkToFitPeakRegion` = `TRUE`).
-A peak from both replicates must be present withinin a region for it to be retained as a 
-consensus region.
+A peak from both replicates must be present withinin a region for it to be 
+retained as a consensus region.
 
 ```{r replicateConsensus, collapse=FALSE}
 ### Only choromsome 10 is going to be analyzed
@@ -625,8 +625,8 @@ has to be assigned an experiment name. Beware that NarrowPeak and Peak
 datasets from the same source must be assigned identical names. In this 
 exemple, datasets are coming from different experiments for the same 
 transcription factor. So, the short name of each experiment 
-"ENCFF002CFQ", "ENCFF002CFR" and "ENCFF002CFS" is going to be 
-assigned to each dataset.
+"ENCFF002CFQ", "ENCFF002CFR" and "ENCFF002CFS" is going to be assigned to 
+each dataset.
 
 ```{r expAssignment}
 ### Assign experiment name "ENCFF002CFQ" to the first experiment
@@ -641,6 +641,7 @@ names(A549_NR3C1_CFR_Peaks_partial)       <- rep("ENCFF002CFR", length(A549_NR3C
 names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS", length(A549_NR3C1_CFS_NarrowPeaks_partial))
 names(A549_NR3C1_CFS_Peaks_partial)       <- rep("ENCFF002CFS", length(A549_NR3C1_CFS_Peaks_partial))
 ```
+
 In ENCODE bed narrowPeak format, entries don't have a specific metadata field 
 called `name`. So, to be able to use the `findConsensusPeakRegions` function, 
 specific names must manually be added to each entry.
@@ -673,8 +674,8 @@ with a defaut region size of 400 bases pairs (2 * `extendingSize`)
 The regions are not extended to include all peaks regions but are shrinked
 when exceeding peaks regions
 (`expandToFitPeakRegion` = `FALSE` and `shrinkToFitPeakRegion` = `TRUE`).
-A peak from 2 out of 3 experiments must be present in a region for it to be retained as 
-a consensus region.
+A peak from 2 out of 3 experiments must be present in a region for it to be 
+retained as a consensus region.
 
 ```{r experimentConsensus, collapse=FALSE}
 ### Only choromsome 2 is going to be analyzed
@@ -682,10 +683,12 @@ chrList <- Seqinfo("chr2", 243199373, NA)
 
 ### Find consensus regions with both replicates inside it
 results <- findConsensusPeakRegions(
-            narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial, A549_NR3C1_CFR_NarrowPeaks_partial,
-                                A549_NR3C1_CFS_NarrowPeaks_partial),
-            peaks = c(A549_NR3C1_CFQ_Peaks_partial, A549_NR3C1_CFR_Peaks_partial,
-                                A549_NR3C1_CFS_Peaks_partial),
+            narrowPeaks = c(A549_NR3C1_CFQ_NarrowPeaks_partial, 
+                        A549_NR3C1_CFR_NarrowPeaks_partial,
+                        A549_NR3C1_CFS_NarrowPeaks_partial),
+            peaks = c(A549_NR3C1_CFQ_Peaks_partial, 
+                        A549_NR3C1_CFR_Peaks_partial,
+                        A549_NR3C1_CFS_Peaks_partial),
             chrInfo = chrList,
             extendingSize = 200,
             expandToFitPeakRegion = FALSE,
@@ -708,10 +711,12 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. A example of the consensus regions (in green) is shown here using 
-Integrative genomics viewer [@Interests2011]:
+found. A example of the consensus regions (in green) is shown in Figure
+\@ref(fig:NR3C1) using Integrative genomics viewer [@Interests2011].
 
-![alt text](figures/NR3C1_consensus.jpg "ChIP-Seq data from multiple experiments")
+```{r NR3C1, echo=FALSE, fig.cap = "Consensus regions. The consensus regions obtained for peaks called for 3 NR2C1 ChIP-Seq experiments."}
+knitr::include_graphics('figures/NR3C1_consensus.jpg')
+```
 
 ```{r rmDatasetsExp, echo=FALSE, message=FALSE}
 ### Remove datasets
@@ -772,8 +777,10 @@ chrList <- Seqinfo("chr10", 135534747, NA)
 
 ### Find consensus regions using all the size values
 resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
-                    narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial, A549_CTCF_MYN_NarrowPeaks_partial),
-                    peaks = c(A549_CTCF_MYJ_Peaks_partial, A549_CTCF_MYN_Peaks_partial),
+                    narrowPeaks = c(A549_CTCF_MYJ_NarrowPeaks_partial, 
+                                    A549_CTCF_MYN_NarrowPeaks_partial),
+                    peaks = c(A549_CTCF_MYJ_Peaks_partial, 
+                                    A549_CTCF_MYN_Peaks_partial),
                     chrInfo = chrList,
                     extendingSize = size,
                     expandToFitPeakRegion = TRUE,
@@ -782,7 +789,8 @@ resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
                     nbrThreads = 1))
 
 ### Extract the number of consensus regions obtained for each extendingSize
-nbrRegions <- mapply(resultsBySize, FUN = function(x) return(length(x$consensusRanges)))
+nbrRegions <- mapply(resultsBySize, 
+                FUN = function(x) return(length(x$consensusRanges)))
 
 ```
 
@@ -821,20 +829,26 @@ data(A549_FOSL2_01_NarrowPeaks_partial) ; data(A549_FOSL2_01_Peaks_partial)
 data(A549_FOXA1_01_NarrowPeaks_partial) ; data(A549_FOXA1_01_Peaks_partial)
 
 ### Assigning name "FOSL2" 
-names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2", length(A549_FOSL2_01_NarrowPeaks_partial))
-names(A549_FOSL2_01_Peaks_partial)        <- rep("FOSL2", length(A549_FOSL2_01_Peaks_partial))
+names(A549_FOSL2_01_NarrowPeaks_partial) <- rep("FOSL2", 
+                                    length(A549_FOSL2_01_NarrowPeaks_partial))
+names(A549_FOSL2_01_Peaks_partial)       <- rep("FOSL2", 
+                                    length(A549_FOSL2_01_Peaks_partial))
 
 ### Assigning name "FOXA1"
-names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1", length(A549_FOXA1_01_NarrowPeaks_partial))
-names(A549_FOXA1_01_Peaks_partial)        <- rep("FOXA1", length(A549_FOXA1_01_Peaks_partial))
+names(A549_FOXA1_01_NarrowPeaks_partial) <- rep("FOXA1", 
+                                    length(A549_FOXA1_01_NarrowPeaks_partial))
+names(A549_FOXA1_01_Peaks_partial)       <- rep("FOXA1", 
+                                    length(A549_FOXA1_01_Peaks_partial))
 
 ### Two chromosomes to analyse
 chrList <- Seqinfo(paste0("chr", c(1,10)), c(249250621, 135534747), NA)
 
 ### Find consensus regions using 2 threads
 results <- findConsensusPeakRegions(
-            narrowPeaks = c(A549_FOSL2_01_NarrowPeaks_partial, A549_FOXA1_01_Peaks_partial),
-            peaks = c(A549_FOSL2_01_Peaks_partial, A549_FOXA1_01_NarrowPeaks_partial),
+            narrowPeaks = c(A549_FOSL2_01_NarrowPeaks_partial, 
+                            A549_FOXA1_01_Peaks_partial),
+            peaks = c(A549_FOSL2_01_Peaks_partial, 
+                            A549_FOXA1_01_NarrowPeaks_partial),
             chrInfo = chrList, extendingSize = 200, minNbrExp = 2, 
             expandToFitPeakRegion = FALSE, shrinkToFitPeakRegion = FALSE,
             nbrThreads = 4)
