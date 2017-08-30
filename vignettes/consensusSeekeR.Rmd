@@ -224,8 +224,8 @@ specific to the analyzed genome.
 ```{r newGenome, collapse=FALSE}
 ### Create an Seqinfo Object
 chrInfo <- Seqinfo(seqnames=c("chr1", "chr2", "chr3"),
-             seqlengths=c(1000, 2000, 1500), isCircular=c(FALSE, FALSE, FALSE),
-             genome="BioconductorAlien")
+            seqlengths=c(1000, 2000, 1500), isCircular=c(FALSE, FALSE, FALSE),
+            genome="BioconductorAlien")
 ```
 
 ```{r deleteChr, echo=FALSE, message=FALSE}
@@ -736,13 +736,14 @@ The `shrinkToFitPeakRegion` allows the resizing of the consensus region to fit
 the minimum regions of the included features when those values are
 included inside the initial consensus region. When the 
 `extendingSize` parameter is large, the effect can be quite visible on the 
-final consensus regions. For exemple, the following figure shows the same 
-region, from the NR3C1 example  with `extendingSize` of 200, when the 
+final consensus regions. For exemple, Figure \@ref(fig:shrink) shows the 
+same region, from the NR3C1 example  with `extendingSize` of 200, when the 
 `shrinkToFitPeakRegion` is set to `TRUE` (green color) and to `FALSE` 
-(orange color) using Integrative 
-genomics viewer [@Interests2011]:
+(orange color) using Integrative genomics viewer [@Interests2011].
 
-![alt text](figures/shrink.jpg "Effect of shrinkToFitPeakRegion parameter")
+```{r shrink, echo=FALSE, fig.cap = "Effect of the shrinkToFitPeakRegion parameter."}
+knitr::include_graphics('figures/shrink.jpg')
+```
 
 
 ## Effect of the expandToFitPeakRegion parameter
