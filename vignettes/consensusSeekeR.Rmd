@@ -9,21 +9,21 @@ output:
     toc: true
 bibliography: consensusSeekeR.bibtex
 vignette: >
-  %\VignetteIndexEntry{Detection of consensus regions inside a group of experiences using genomic positions and genomic ranges}
+  %\VignetteIndexEntry{Detection of consensus regions inside a group of experiments}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r style, echo = FALSE, results = 'asis', message=FALSE}
-#BiocStyle::markdown()
-#library(knitr)
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+library(knitr)
 ```
 
 <br />
 
 # Licensing and citing
 
-This package and the underlying `r Rpackage("consensusSeekeR")` code are 
+This package and the underlying `r Biocpkg("consensusSeekeR")` code are 
 distributed under the Artistic license 2.0. You are free to use and 
 redistribute this software.
 
@@ -79,21 +79,21 @@ that can be defined by a position value (the peak position) and a genome
 range (the enriched region). This example shows that the peak position is not
 necessarily at the center of the enriched region.
 
-```{r peakRegion, fig.cap = "Two ChIP-Seq peaks. A ChIP-seq peak is defined by a enriched region an a peak position.", echo = FALSE}
+```{r peakRegion, echo=FALSE, fig.cap = "Two ChIP-Seq peaks. A ChIP-seq peak is defined by a enriched region an a peak position."}
 knitr::include_graphics('figures/peak_and_region.jpg')
 ```
 
-The `r Rpackage("consensusSeekeR")` package implements a novative way to 
+The `r Biocpkg("consensusSeekeR")` package implements a novative way to 
 identify consensus which use the features positions, instead of the most 
 commonly used genomic ranges.
 
 
 # The consensusSeekeR package
 
-The `r Rpackage("consensusSeekeR")` package implements a novative way to 
+The `r Biocpkg("consensusSeekeR")` package implements a novative way to 
 identify consensus 
 ranges in a group of experiments which generated position values
-surrounded by genomic ranges. The `r Rpackage("consensusSeekeR")` package is 
+surrounded by genomic ranges. The `r Biocpkg("consensusSeekeR")` package is 
 characterized by its use of the position values, instead of the genomic 
 ranges, to identify the consensus regions. The positions values have the
 double advantages of being, most of the time, 
@@ -106,13 +106,11 @@ current feature position
 as starting point is set. All 
 features which reside inside the window are gathered to calculate a 
 median feature position which is then used to recreate a new window. This 
-time, the 
-new window has twice the size fixed by user and its center is the median 
-feature position. An 
+time, the new window has twice the size fixed by user and its center is the 
+median feature position. An 
 update of the features located inside the window is done and the 
 median feature position is recalculated. This step is repeated up to the 
-moment that 
-the set of features remains identical between two iterations. 
+moment that the set of features remains identical between two iterations. 
 The final set of features positions is used to fix
 the central position of the consensus region. This final 
 region must respect the minimum number of experiments with at least one 
@@ -128,7 +126,7 @@ extension step.
 
 # Loading consensusSeekeR package
 
-As with any R package, the `r Rpackage("consensusSeekeR")` package should 
+As with any R package, the `r Biocpkg("consensusSeekeR")` package should 
 first be loaded with the following command:
 
 ```{r loadingPackage, warning=FALSE, message=FALSE}
@@ -140,7 +138,7 @@ library(consensusSeekeR)
 
 ## Positions and Ranges
 
-The main function of the `r Rpackage("consensusSeekeR")` is 
+The main function of the `r Biocpkg("consensusSeekeR")` is 
 `findConsensusPeakRegions`. The mains inputs of the `findConsensusPeakRegions` 
 function are:
 
@@ -242,7 +240,7 @@ The NarrowPeak format is often used to provide called peaks of signal
 enrichment based on pooled, normalized data. The `r Biocpkg("rtracklayer")`
 package has functions which faciliates the loading of NarrowPeak files.
 
-Since the main function of the `r Rpackage("consensusSeekeR")` package needs 2 
+Since the main function of the `r Biocpkg("consensusSeekeR")` package needs 2 
 `GRanges` objects, some manipulations are needed to create one `GRanges` for 
 the regions and one `GRanges` for the peaks.
 
@@ -277,7 +275,7 @@ rm(regions)
 ```
 
 A simpler way is to use the `readNarrowPeakFile` function of the 
-`r Rpackage("consensusSeekeR")` package which generates both
+`r Biocpkg("consensusSeekeR")` package which generates both
 the peaks and the narrowPeak `GRanges`.
 
 ```{r readNarrowPeak_1, collapse=TRUE}
@@ -322,13 +320,13 @@ the reference genome. This position represents the center of the
 predicted nucleosome. A range of $\pm$ 73 bps is usually superposed to the
 predicted nucleosome to repesent the nucleosome occupancy.
 
-First, the `r Rpackage("consensusSeekeR")` package must be loaded.
+First, the `r Biocpkg("consensusSeekeR")` package must be loaded.
 
 ```{r libraryLoadNucl, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+The datasets, which are included in the `r Biocpkg("consensusSeekeR")` 
 package, have to be loaded. Those include results obtained using syntethic 
 reads distributed following a normal distribution with a variance of 
 20 from three different 
@@ -433,10 +431,13 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. An exemple of the consensus regions (in dark blue) is shown here using 
+found. An exemple of the consensus regions (in dark blue) is shown in 
+Figure \@ref(fig:nucleosomes) using 
 Integrative genomics viewer [@Interests2011]:
 
-![alt text](figures/nucleosomes.jpg "Nucleosome Positioning Results")
+```{r nucleosomes, echo=FALSE, fig.cap = "Consensus regions. The consensus regions obtained for peaks called from three software on the same dataset."}
+knitr::include_graphics('figures/nucleosomes.jpg')
+```
 
 ```{r removeDatasetsNucl, echo=FALSE}
 ### Remove dataset from NOrMAL
@@ -488,7 +489,7 @@ However, it is quite unlikely that the exact peak position is exactly the same
 across replicates. Even more, there is not yet a consensus on how to analyze 
 multiple-replicate ChIP-seq samples [@Yang2014].
 
-The `r Rpackage("consensusSeekeR")` package can be used to identify consensus 
+The `r Biocpkg("consensusSeekeR")` package can be used to identify consensus 
 regions for two or more replicates ChIP-Seq samples. The consensus regions 
 are being found by using the peak positions.
 
@@ -503,13 +504,13 @@ To simplify this demo, only part of genome hg19, chr1:246000000-249250621 and
 chr10:10000000-12500000, have been retained in 
 the datasets. 
 
-First, the `r Rpackage("consensusSeekeR")` package must be loaded.
+First, the `r Biocpkg("consensusSeekeR")` package must be loaded.
 
 ```{r libraryLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+The datasets, which are included in the `r Biocpkg("consensusSeekeR")` 
 package, have to be loaded.
 
 ```{r loadingDatasets}
@@ -571,10 +572,12 @@ head(results$consensusRanges, n = 3)
 ```
 
 A total of `r length(results$consensusRanges)` consensus regions have been 
-found. An example of the consensus regions (in green) is shown here using 
-Integrative genomics viewer [@Interests2011]:
+found. An example of the consensus regions (in green) is shown in 
+Figure \@ref(fig:ctcf), using Integrative genomics viewer [@Interests2011].
 
-![alt text](figures/ctcf_consensus.jpg "ChIP-Seq replicates from one experiment")
+```{r ctcf, echo=FALSE, fig.cap = "One consensus region for 2 ChIP-Seq replicates."}
+knitr::include_graphics('figures/ctcf_consensus.jpg')
+```
 
 ```{r rmCurrentDatasets, echo=FALSE, message=FALSE}
 ### Remove datasets
@@ -586,7 +589,7 @@ rm(A549_CTCF_MYJ_Peaks_partial)
 
 ## ChIP-Seq data from multiple experiments
 
-The `r Rpackage("consensusSeekeR")` package can also be used to identify 
+The `r Biocpkg("consensusSeekeR")` package can also be used to identify 
 consensus regions for two or more ChIP-Seq samples from multiple experiments. 
 The peak positions are the feature used to identify the consensus regions.
 
@@ -601,13 +604,13 @@ To simplify this demo, only part of genome hg19, chr2:40000000-50000000  and
 chr3:10000000-13000000, have been retained in 
 the datasets. 
 
-First, the `r Rpackage("consensusSeekeR")` package must be loaded.
+First, the `r Biocpkg("consensusSeekeR")` package must be loaded.
 
 ```{r libLoad, warning=FALSE, message=FALSE}
 library(consensusSeekeR)
 ```
 
-The datasets, which are included in the `r Rpackage("consensusSeekeR")` 
+The datasets, which are included in the `r Biocpkg("consensusSeekeR")` 
 package, have to be loaded.
 
 ```{r loadingDatasetsExp}
