@@ -630,16 +630,22 @@ each dataset.
 
 ```{r expAssignment}
 ### Assign experiment name "ENCFF002CFQ" to the first experiment
-names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("ENCFF002CFQ", length(A549_NR3C1_CFQ_NarrowPeaks_partial))
-names(A549_NR3C1_CFQ_Peaks_partial) <- rep("ENCFF002CFQ", length(A549_NR3C1_CFQ_Peaks_partial))
+names(A549_NR3C1_CFQ_NarrowPeaks_partial) <- rep("ENCFF002CFQ", 
+                                length(A549_NR3C1_CFQ_NarrowPeaks_partial))
+names(A549_NR3C1_CFQ_Peaks_partial) <- rep("ENCFF002CFQ", 
+                                length(A549_NR3C1_CFQ_Peaks_partial))
 
 ### Assign experiment name "ENCFF002CFQ" to the second experiment
-names(A549_NR3C1_CFR_NarrowPeaks_partial) <- rep("ENCFF002CFR", length(A549_NR3C1_CFR_NarrowPeaks_partial))
-names(A549_NR3C1_CFR_Peaks_partial)       <- rep("ENCFF002CFR", length(A549_NR3C1_CFR_Peaks_partial))
+names(A549_NR3C1_CFR_NarrowPeaks_partial) <- rep("ENCFF002CFR", 
+                                length(A549_NR3C1_CFR_NarrowPeaks_partial))
+names(A549_NR3C1_CFR_Peaks_partial)       <- rep("ENCFF002CFR", 
+                                length(A549_NR3C1_CFR_Peaks_partial))
 
 ### Assign experiment name "ENCFF002CFQ" to the third experiment
-names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS", length(A549_NR3C1_CFS_NarrowPeaks_partial))
-names(A549_NR3C1_CFS_Peaks_partial)       <- rep("ENCFF002CFS", length(A549_NR3C1_CFS_Peaks_partial))
+names(A549_NR3C1_CFS_NarrowPeaks_partial) <- rep("ENCFF002CFS", 
+                                length(A549_NR3C1_CFS_NarrowPeaks_partial))
+names(A549_NR3C1_CFS_Peaks_partial)       <- rep("ENCFF002CFS", 
+                                length(A549_NR3C1_CFS_Peaks_partial))
 ```
 
 In ENCODE bed narrowPeak format, entries don't have a specific metadata field 
@@ -757,7 +763,10 @@ region, from the CTCF example with `extendingSize` of 100, when the
 `shrinkToFitPeakRegion` is set 
 to `FALSE` (orange color) and to `TRUE` (green color).
 
-![alt text](figures/extendNew.jpg "Effect of expandToFitPeakRegion parameter")
+```{r extend, echo=FALSE, fig.cap = "Effect of the expandToFitPeakRegion parameter."}
+knitr::include_graphics('figures/extendNew.jpg')
+```
+
 
 ## Effect of the extendingSize parameter
 
