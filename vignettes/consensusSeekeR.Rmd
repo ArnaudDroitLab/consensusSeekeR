@@ -205,7 +205,7 @@ The chromosomes information is contained inside a `Seqinfo` object. The
 information from some UCSC genomes can be fetched automatically using
 the `r Biocpkg("GenomeInfoDb")` package. 
 
-```{r knownGenome, collapse=TRUE}
+```{r knownGenome, collapse=TRUE, eval=FALSE}
 ### Import library
 library(GenomeInfoDb)
 
@@ -214,12 +214,10 @@ hg19Info <- Seqinfo(genome="hg19")
 
 ### Subset the object to keep only the analyzed chromosomes
 hg19Subset <- hg19Info[c("chr1", "chr10", "chrX")]
-
 ```
 
 A `Seqinfo` object can also be created using the chromosomes information 
 specific to the analyzed genome.
-
 
 ```{r newGenome, collapse=FALSE}
 ### Create an Seqinfo Object
@@ -229,9 +227,9 @@ chrInfo <- Seqinfo(seqnames=c("chr1", "chr2", "chr3"),
 ```
 
 ```{r deleteChr, echo=FALSE, message=FALSE}
-rm(chrInfo)
-rm(hg19Subset)
-rm(hg19Info)
+if (exists("chrInfo", inherits = FALSE)) rm(chrInfo)
+if (exists("hg19Subset", inherits = FALSE)) rm(hg19Subset)
+if (exists("hg19Info", inherits = FALSE)) rm(hg19Info)
 ```
 
 # Read NarrowPeak files
@@ -755,13 +753,13 @@ knitr::include_graphics('figures/shrink.jpg')
 ## Effect of the expandToFitPeakRegion parameter
 
 The `expandToFitPeakRegion` allows the resizing of the consensus region to fit 
-the maximum     of the included features when those values are
+the maximum of the included features when those values are
 outside the initial consensus region. When the 
 `extendingSize` parameter is small, the effect can be quite visible on the 
 final consensus regions. For exemple, the following figure shows the same 
 region, from the CTCF example with `extendingSize` of 100, when the 
-`shrinkToFitPeakRegion` is set 
-to `FALSE` (orange color) and to `TRUE` (green color).
+`shrinkToFitPeakRegion` is set to `FALSE` (orange color) and 
+to `TRUE` (green color).
 
 ```{r extend, echo=FALSE, fig.cap = "Effect of the expandToFitPeakRegion parameter."}
 knitr::include_graphics('figures/extendNew.jpg')
@@ -801,11 +799,11 @@ resultsBySize <- lapply(size, FUN = function(size) findConsensusPeakRegions(
 ### Extract the number of consensus regions obtained for each extendingSize
 nbrRegions <- mapply(resultsBySize, 
                 FUN = function(x) return(length(x$consensusRanges)))
-
 ```
 
 A graph can be used to visualize the variation of the number of consensus 
-regions in function of the `extendingSize` parameter.
+regions in function of the `extendingSize` 
+parameter (see Figure \@ref(fig:sizeEffectG)).
 
 ```{r graphSizeEffect, warning=FALSE, eval=FALSE}
 
@@ -817,11 +815,11 @@ ggplot(data, aes(extendingSize, nbrRegions)) + scale_x_log10("Extending size") +
         stat_smooth(se = FALSE, method = "loess", size=1.4) +
         ylab("Number of consensus regions") +
         ggtitle(paste0("Number of consensus regions in function of the extendingSize"))
-    
 ```
 
-
-![alt text](figures/sizeEffect.jpg "Effect of extendingSize parameter")
+```{r sizeEffectG, echo=FALSE, fig.cap = "Effect of the extendingSize parameter."}
+knitr::include_graphics('figures/sizeEffect.jpg')
+```
 
 
 #  Parallelizing consensusSeekeR
@@ -864,9 +862,11 @@ results <- findConsensusPeakRegions(
             nbrThreads = 4)
 ```
 
+
 # Acknowledgment
 
 We thank Im&egrave;ne Boudaoud for her advice on the vignette content.
+ 
  
 # Session info
 
