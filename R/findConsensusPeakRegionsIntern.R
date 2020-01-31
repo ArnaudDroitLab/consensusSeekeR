@@ -186,8 +186,13 @@ findConsensusPeakRegionsValidation <- function(narrowPeaks, peaks, chrList,
 #' @author Astrid Deschenes
 #' @keywords internal
 isInteger <- function(value) {
-    return((is.integer(value) && length(value) == 1) || (is.numeric(value) &&
-                as.integer(value) == value) && length(value) == 1)
+    result <- length(value) == 1
+
+    if (result) {
+        result <- (is.numeric(value)) && (as.integer(value) == value)
+    }
+
+    return(result)
 }
 
 
